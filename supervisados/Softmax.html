@@ -478,8 +478,8 @@ Comprobamos que su suma es 1
 <div class="math notranslate nohighlight">
 \[\frac{\partial En(\hat{y},y)}{\partial w_{k}}=-\left(I_{\{y=k\}}-P(y=k|x)\right)x_{k}=-\left(I_{\{y=k\}}-\frac{e^{w_{k}^{t}x}}{\sum_{j=1}^{n}e^{w_{j}^{t}z}}\right)x_{k}\]</div>
 <p>La función softmax, tiene una importancia muy elevada en el mundo de las redes neuronales, cuando se quiere resolver algún tipo de problemas de clasificación, ya que en estos casos, Softmax se implementa a través de una capa de red neuronal justo antes de la capa de salida. La capa Softmax debe tener el mismo número de nodos que la capa de salida. Este esquema lo podemos ver en la siguiente figura:</p>
-<p><img alt="RNN2.PNG" src="supervisados/attachment:RNN2.PNG" /></p>
-<p>Para resolver de manera práctica estos problemas, también se utiliza la clase <em><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_classification.html">Logistidregression</a></em> de Scikip Learn, pero en este caso debemos utilizar el parámetro <em>multi_class = “multinomial”</em>. Veamos a continuación un ejemplo práctico.</p>
+<p><img alt="RNN2.PNG" src="../_images/RNN2.PNG" /></p>
+<p>Para resolver de manera práctica estos problemas, también se utiliza la clase <em><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">LogisticRegression</a></em> de <code class="docutils literal notranslate"><span class="pre">scikit-Learn</span></code>, pero en este caso debemos utilizar el parámetro <em>multi_class = “multinomial”</em>. Veamos a continuación un ejemplo práctico.</p>
 <p>El primer ejemplo que se va a exponer es en base a una serie de datos creados con la función  <em>make_classification()</em> que se suele utilizar para generar un determinado número de filas y columnas con determinado número de clases. A continuación se muestra cómo trabajar con esta función.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -503,19 +503,9 @@ Counter({0: 670, 2: 668, 1: 662})
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># definimos el modelo de regresión ligística</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="c1"># definimos el modelo de regresión ligística</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s1">&#39;multinomial&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># definimos el modelo de regresión ligística</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s1">&#39;multinomial&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;LogisticRegression&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -533,7 +523,12 @@ Counter({0: 670, 2: 668, 1: 662})
 <span class="c1"># procedemos a evaluar el modelo</span>
 <span class="n">n_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># Sacamos el dato el ajuste obtenido</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acuracidad media: </span><span class="si">%.3f</span><span class="s1"> (</span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">n_scores</span><span class="p">),</span> <span class="n">std</span><span class="p">(</span><span class="n">n_scores</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy promedio: </span><span class="si">%.3f</span><span class="s1"> (</span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">n_scores</span><span class="p">),</span> <span class="n">std</span><span class="p">(</span><span class="n">n_scores</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy promedio: 0.642 (0.031)
 </pre></div>
 </div>
 </div>
@@ -674,6 +669,11 @@ Counter({0: 670, 2: 668, 1: 662})
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([5, 6, 7, 4, 8, 3], dtype=int64)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Vamos a definir tres tipos de categorías sobre las que hacer la inferencia. Para ello, la categoria 1 agrupa los valores 3,4 y 5 de quality; la categoria 2 se corresponde con el valor 6 de quality y la categria 3 para el resto de valores.</p>
 <div class="cell docutils container">
@@ -687,6 +687,14 @@ Counter({0: 670, 2: 668, 1: 662})
         <span class="n">datos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;categoria&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
         
 <span class="n">datos</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0    744
+2.0    638
+3.0    217
+Name: categoria, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -719,11 +727,27 @@ Counter({0: 670, 2: 668, 1: 662})
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LogisticRegression(multi_class=&#x27;multinomial&#x27;)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(multi_class=&#x27;multinomial&#x27;)</pre></div></div></div></div></div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos los coeficientes estimados</span>
 <span class="n">regresion</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span><span class="n">regresion</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([ 0.66442317,  0.71874285, -1.38316602]),
+ array([[-0.24606429,  0.4610216 ,  0.11687615, -0.12348027,  0.21393184,
+         -0.16523298,  0.44829069,  0.16662453,  0.02688159, -0.43410725,
+         -0.74334566],
+        [-0.08634793, -0.08304973, -0.15554726, -0.10287465,  0.07335224,
+          0.07372289, -0.05581244,  0.16024679, -0.03830873, -0.03472058,
+          0.09238194],
+        [ 0.33241222, -0.37797187,  0.03867111,  0.22635492, -0.28728409,
+          0.09151009, -0.39247825, -0.32687133,  0.01142714,  0.46882783,
+          0.65096371]]))
 </pre></div>
 </div>
 </div>
@@ -741,6 +765,13 @@ Counter({0: 670, 2: 668, 1: 662})
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sacamos la matriz de confusión</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
 <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">yhat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[580, 156,   8],
+       [226, 363,  49],
+       [ 14, 124,  79]], dtype=int64)
 </pre></div>
 </div>
 </div>

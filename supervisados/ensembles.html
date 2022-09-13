@@ -789,7 +789,7 @@ title="Print to PDF"
 <p>Una clasificación un poco más exhaustiva de estos sistemas de aprendizaje se puede ver en la siguiente imagen</p>
 <p><img alt="resumenEnsamble.PNG" src="../_images/resumenEnsamble.PNG" /></p>
 <p>Entre los métodos de aprendizaje que combinan varios sistemas de predicción, se encuentran XGBoost, Random Forest o AdaBoost</p>
-<p>Estos sistemas de algoritmos ensamblados consisten básicamente en unir varios algoritmos más simples con la finalidad de obtener un algoritmo más potentes que mejores la acuracidad del modelo que se está construyendo, es decir, se basan en el principio popular de que “la unión hace la fuerza” como lo pueden confirmar estos algoritmos ensamblados.</p>
+<p>Estos sistemas de algoritmos ensamblados consisten básicamente en unir varios algoritmos más simples con la finalidad de obtener un algoritmo más potentes que mejore el accuracy del modelo que se está construyendo, es decir, se basan en el principio popular de que “la unión hace la fuerza” como lo pueden confirmar estos algoritmos ensamblados.</p>
 <p>Como ya se ha dicho anteriormente hay muchas formas de ensamblar o unir algoritmos más débiles para formar otro  más potente y de mayor fiabilidad, pero entre los más usados y populares son los denominados de tipo <strong>bagging</strong> y de tipo <strong>boosting</strong>.</p>
 </section>
 <section id="bagging">
@@ -1374,9 +1374,6 @@ ver https://rubenfcasal.github.io/aprendizaje_estadistico/boosting.html
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/ensembles_45_0.png" src="../_images/ensembles_45_0.png" />
-</div>
 </div>
 <p>Como puede verse en los gráficos anteriores (uno para una tasa de aprendizaje de 0.3 y el otro de 0.2), a medida que se van incrementando los pasos, las curvas que delimitan las dos zonas de clasificación de los puntos, se van ajustando cada vez más y por lo tanto mejorando el ajuste que vamos buscando.</p>
 <p>Para apreciar aún con mayor detalle esta mejora en la clasificación a medida que incrementamos el número de pasos en el estimador, vamos a ver otro ejemplo similar al anterior pero en este caso, utilizando como estimador  de base un árbol de decisión.</p>
@@ -1505,7 +1502,7 @@ W^{(i)}\cdot exp(\alpha_{j}) &amp; si\ \hat{y}_{j}^{(i)}\neq y^{(i)}
 <section id="ejemplos-con-scikit-learn">
 <h3><span class="section-number">7.6.3. </span>Ejemplos con Scikit Learn.<a class="headerlink" href="#ejemplos-con-scikit-learn" title="Permalink to this headline">#</a></h3>
 <p>A continuación vamos a ir mostrando una serie de ejemplos que ayudan a entender cómo utilizar este algoritmo con Scikit Learn.</p>
-<p>El primer ejemplo va a consistir en hacer una predicción con un arbol de decisión  de profundidad 1 (modelo stump definido anteriormente), y calculamos la acuracidad obtenida. Después utilizaremos este mismo modelo como base dentro de un modelo AdaBoost y veremos cuanto mejoramos esta acuracidad.</p>
+<p>El primer ejemplo va a consistir en hacer una predicción con un arbol de decisión  de profundidad 1 (modelo stump definido anteriormente), y calculamos el accuracy obtenido. Después utilizaremos este mismo modelo como base dentro de un modelo AdaBoost y veremos cuanto mejoramos la precisión.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
@@ -1548,7 +1545,7 @@ W^{(i)}\cdot exp(\alpha_{j}) &amp; si\ \hat{y}_{j}^{(i)}\neq y^{(i)}
 </div>
 </div>
 </div>
-<p>Como podemos ver el modelo obtenido ofrece una buena acuracidad y además los valores de la misma son muy similares tanto para el conjunto de entrenamiento como de test, por lo que se podría concluir que puede ser un buen modelo con buenas perspectivas para ser generalizado a cualquier conjunto de datos.</p>
+<p>Como podemos ver el modelo obtenido ofrece una buen accuracy y además los valores de la misma son muy similares tanto para el conjunto de entrenamiento como de test, por lo que se podría concluir que puede ser un buen modelo con buenas perspectivas para ser generalizado a cualquier conjunto de datos.</p>
 <p>Veamos no obstante si ahora esas tasas de acierto las podemos mejorar utilizando un modelo de tipo AdaBoost.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1575,7 +1572,7 @@ W^{(i)}\cdot exp(\alpha_{j}) &amp; si\ \hat{y}_{j}^{(i)}\neq y^{(i)}
 <span class="c1">#</span>
 <span class="n">adbclassifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="c1">#</span>
-<span class="c1"># Sacamos la acuracidad del modelo</span>
+<span class="c1"># Sacamos el accuracy del modelo</span>
 <span class="c1">#</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Modelo test Score: </span><span class="si">%.3f</span><span class="s1">, &#39;</span> <span class="o">%</span><span class="k">adbclassifier</span>.score(X_test, y_test),
       <span class="s1">&#39;Modelo training Score: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span><span class="k">adbclassifier</span>.score(X_train, y_train))
@@ -1588,7 +1585,7 @@ W^{(i)}\cdot exp(\alpha_{j}) &amp; si\ \hat{y}_{j}^{(i)}\neq y^{(i)}
 </div>
 </div>
 </div>
-<p>Como podemos observar, se ha obtenido una mayor acuracidad tanto para el conjunto de datos de entrenamiento como de test, y además la generalización del modelo también es bastante aceptable.</p>
+<p>Como podemos observar, se ha obtenido un mayor accuracy tanto para el conjunto de datos de entrenamiento como de test, y además la generalización del modelo también es bastante aceptable.</p>
 </section>
 </section>
 <section id="gradient-boosting">
@@ -1682,7 +1679,10 @@ y\thickapprox\lambda f_{1}(x)+\lambda f_{2}(x)+.....+\lambda f_{m}(x)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-4 {color: black;background-color: white;}#sk-container-id-4 pre{padding: 0;}#sk-container-id-4 div.sk-toggleable {background-color: white;}#sk-container-id-4 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-4 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-4 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-4 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-4 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-4 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-4 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-4 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-4 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-4 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-4 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-4 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-4 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-4 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-4 div.sk-item {position: relative;z-index: 1;}#sk-container-id-4 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-4 div.sk-item::before, #sk-container-id-4 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-4 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-4 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-4 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-4 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-4 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-4 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-4 div.sk-label-container {text-align: center;}#sk-container-id-4 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-4 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-4" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_depth=2, random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox" checked><label for="sk-estimator-id-11" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeRegressor</label><div class="sk-toggleable__content"><pre>DecisionTreeRegressor(max_depth=2, random_state=42)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DecisionTreeRegressor(max_depth=2, random_state=42)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1695,7 +1695,10 @@ y\thickapprox\lambda f_{1}(x)+\lambda f_{2}(x)+.....+\lambda f_{m}(x)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-5 {color: black;background-color: white;}#sk-container-id-5 pre{padding: 0;}#sk-container-id-5 div.sk-toggleable {background-color: white;}#sk-container-id-5 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-5 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-5 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-5 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-5 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-5 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-5 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-5 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-5 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-5 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-5 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-5 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-5 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-5 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-5 div.sk-item {position: relative;z-index: 1;}#sk-container-id-5 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-5 div.sk-item::before, #sk-container-id-5 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-5 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-5 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-5 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-5 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-5 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-5 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-5 div.sk-label-container {text-align: center;}#sk-container-id-5 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-5 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_depth=2, random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" checked><label for="sk-estimator-id-12" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeRegressor</label><div class="sk-toggleable__content"><pre>DecisionTreeRegressor(max_depth=2, random_state=42)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DecisionTreeRegressor(max_depth=2, random_state=42)
+</pre></div>
+</div>
+</div>
 </div>
 <p>repetimos el proceso anterior</p>
 <div class="cell docutils container">
@@ -1707,7 +1710,10 @@ y\thickapprox\lambda f_{1}(x)+\lambda f_{2}(x)+.....+\lambda f_{m}(x)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-6 {color: black;background-color: white;}#sk-container-id-6 pre{padding: 0;}#sk-container-id-6 div.sk-toggleable {background-color: white;}#sk-container-id-6 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-6 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-6 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-6 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-6 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-6 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-6 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-6 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-6 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-6 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-6 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-6 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-6 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-6 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-6 div.sk-item {position: relative;z-index: 1;}#sk-container-id-6 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-6 div.sk-item::before, #sk-container-id-6 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-6 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-6 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-6 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-6 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-6 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-6 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-6 div.sk-label-container {text-align: center;}#sk-container-id-6 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-6 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-6" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_depth=2, random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox" checked><label for="sk-estimator-id-13" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeRegressor</label><div class="sk-toggleable__content"><pre>DecisionTreeRegressor(max_depth=2, random_state=42)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DecisionTreeRegressor(max_depth=2, random_state=42)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Lo que hemos obtenido es  un conjunto que contiene tres árboles. Se Pueden hacer predicciones sobre una nueva instancia simplemente sumando las predicciones de todos los árboles obtenidos con este procedimiento:</p>
 <div class="cell docutils container">
@@ -2206,7 +2212,7 @@ Accuracidad score (validation): 0.783
 </div>
 </div>
 </div>
-<p>Observamos que el major valor de acuracidad se obtiene para un learning rate de 1. Entonces trabajamos sobre este valor</p>
+<p>Observamos que el mejor valor de accuracy se obtiene para un learning rate de 1. Entonces trabajamos sobre este valor</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -2283,7 +2289,10 @@ weighted avg       0.78      0.78      0.78        46
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><style>#sk-container-id-7 {color: black;background-color: white;}#sk-container-id-7 pre{padding: 0;}#sk-container-id-7 div.sk-toggleable {background-color: white;}#sk-container-id-7 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-7 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-7 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-7 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-7 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-7 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-7 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-7 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-7 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-7 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-7 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-7 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-7 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-7 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-7 div.sk-item {position: relative;z-index: 1;}#sk-container-id-7 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-7 div.sk-item::before, #sk-container-id-7 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-7 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-7 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-7 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-7 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-7 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-7 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-7 div.sk-label-container {text-align: center;}#sk-container-id-7 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-7 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-7" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GradientBoostingRegressor(max_depth=2, n_estimators=56, random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox" checked><label for="sk-estimator-id-14" class="sk-toggleable__label sk-toggleable__label-arrow">GradientBoostingRegressor</label><div class="sk-toggleable__content"><pre>GradientBoostingRegressor(max_depth=2, n_estimators=56, random_state=42)</pre></div></div></div></div></div></div></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GradientBoostingRegressor(max_depth=2, n_estimators=56, random_state=42)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2483,17 +2492,13 @@ stacking = StackingClassifier(estimators=models)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;lr 0.866 (0.029)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;knn 0.931 (0.025)
-&gt;cart 0.828 (0.043)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;svm 0.957 (0.020)
+&gt;knn 0.931 (0.025)
+&gt;cart 0.824 (0.044)
+&gt;svm 0.957 (0.020)
 &gt;bayes 0.833 (0.031)
 </pre></div>
 </div>
-<img alt="../_images/ensembles_98_3.png" src="../_images/ensembles_98_3.png" />
+<img alt="../_images/ensembles_98_1.png" src="../_images/ensembles_98_1.png" />
 </div>
 </div>
 <p>Observando el gráfico anterior, se puede concluir que los métodos Knn y svm son los que ofrecen mejores resultados.</p>
@@ -2581,19 +2586,13 @@ stacking = StackingClassifier(estimators=models)
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;lr 0.866 (0.029)
 &gt;knn 0.931 (0.025)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;cart 0.825 (0.041)
+&gt;cart 0.828 (0.047)
 &gt;svm 0.957 (0.020)
+&gt;bayes 0.833 (0.031)
+&gt;stacking 0.964 (0.017)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;bayes 0.833 (0.031)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt;stacking 0.964 (0.020)
-</pre></div>
-</div>
-<img alt="../_images/ensembles_104_4.png" src="../_images/ensembles_104_4.png" />
+<img alt="../_images/ensembles_104_1.png" src="../_images/ensembles_104_1.png" />
 </div>
 </div>
 <p>Ahora ya tendríamos entrenado nuestro modelo, para poder hacer predicciones con él.</p>
@@ -2620,13 +2619,7 @@ sudo pip install xgboost
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="nn">Input In [64],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">xgboost</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">xgboost</span><span class="o">.</span><span class="n">__version__</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;xgboost&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;1.5.2&#39;
 </pre></div>
 </div>
 </div>
@@ -3090,7 +3083,7 @@ Clase Predicha: 1
 <p>El modelo de bosque aleatorio también implica la posibilidad de hacer selección de un subconjunto de características de entrada (features, columnas o variables) en cada punto de división en la construcción de los árboles.</p>
 <p>Al reducir las características o features a un subconjunto aleatorio que puede considerarse en cada punto de división obliga a cada árbol de decisión del conjunto a ser más diferente que los obtenidos en otros pasos.</p>
 <p>El efecto obtenido con este procedimiento de selección de features o columnas es que las predicciones, y a su vez, los errores de predicción, realizados por cada árbol del conjunto son más diferentes o están menos correlacionados.
-Cuando las predicciones de estos árboles menos correlacionados se promedian para hacer una predicción, a menudo se obtiene una acuracidad mejor. Por este motivo, tal vez el hiperparámetro más importante que hay que ajustar para el bosque aleatorio es el número de características aleatorias a considerar en cada punto de división.</p>
+Cuando las predicciones de estos árboles menos correlacionados se promedian para hacer una predicción, a menudo se obtiene un valor de accuracy mejor. Por este motivo, tal vez el hiperparámetro más importante que hay que ajustar para el bosque aleatorio es el número de características aleatorias a considerar en cada punto de división.</p>
 <p>En este sentido, y aunque sólo es una recomendación, el número de features a seleccionar se sugiere sean las siguientes:</p>
 <ul class="simple">
 <li><p>Para problemas de regresión, elegir el número total de features o columnas dividido entre tres.</p></li>
@@ -3118,7 +3111,7 @@ Cuando las predicciones de estos árboles menos correlacionados se promedian par
 <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1">#</span>
 <span class="n">n_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="c1"># sacamos la acuracidad media</span>
+<span class="c1"># sacamos el accuracy promedio</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acuracidad media: </span><span class="si">%.3f</span><span class="s1"> (</span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">n_scores</span><span class="p">),</span> <span class="n">std</span><span class="p">(</span><span class="n">n_scores</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -3215,7 +3208,7 @@ Cuando las predicciones de estos árboles menos correlacionados se promedian par
 <h4><span class="section-number">7.10.3.1. </span>Tamaño de las muestras.<a class="headerlink" href="#tamano-de-las-muestras" title="Permalink to this headline">#</a></h4>
 <p>Se puede configurar esta clase para que no se haga ningún tipo de submuestreo, y en este caso, los árboles de decisión se ajustarán en base a la información que proporcionan todos los datos de entrenamiento con los que se cuente. Esto se consigue con el hiperparámetro <em>bootstrap</em> que admite un valor booleano, de tal manera que si su valor es false, entonces no se realiza submuestreo.</p>
 <p>Igualmente se pueden definir los tamaños de las muestras, en el caso de realizar submuestreo. Esto se configura con el hiperparámetro <em>max_samples</em> que es un valor entre 0 y 1 y mediante el cual se controla el porcentaje de muestra con reemplazamiento que se desea obtener.</p>
-<p>Veamos con el siguiente ejemplo, el efecto en la acuracidad que se obtiene en el modelo, cambiando este parámetro.</p>
+<p>Veamos con el siguiente ejemplo, el efecto en el accuracy que se obtiene en el modelo, cambiando este parámetro.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span>
@@ -3261,7 +3254,7 @@ Cuando las predicciones de estos árboles menos correlacionados se promedian par
     <span class="c1"># almacenamos resultados</span>
     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
     <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="c1"># imprimimos la acuracidad para cada paso</span>
+    <span class="c1"># imprimimos el accuracy para cada paso</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%.3f</span><span class="s1"> (</span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
 <span class="c1"># plot los modelos</span>
 <span class="n">pyplot</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">showmeans</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

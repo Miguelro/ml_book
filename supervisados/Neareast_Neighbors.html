@@ -688,7 +688,7 @@ Distancias:
 <p>Al algoritmo KNN también se le denomina <strong>algoritmo de aprendizaje perezoso ( lazy learner algorithm)</strong> porque no aprende del conjunto de entrenamiento inmediatamente, sino que almacena el conjunto de datos y, cuando se va a hecer la clasificación, realiza la acción necesaria para resolver el problema en el conjunto de datos. En la fase de entrenamiento sólo se encarga de almacenar los datos que se utilizan para entrenar ( motivo por el cual requiere una gran cantidad de memoria para volúmenes importantes de datos) y cuando obtiene nuevos datos, los clasifica en una categoría que es muy similar a los nuevos datos.</p>
 <p>Un ejemplo de aplicación de este tipo de procedimientos puede ser el siguiente. Según datos históricos de una determinada entidad bancaria, se podrían clasificar los clientes en base a morosos o no morosos, en base a los diversos conjuntos de datos almacenados, previamente. Si aparece un nuevo cliente a solicitar un préstamos, se le pueden solicitar los datos de las variables que han servido para elaborar el modelo, y en base la predicción realizada con esta metodología, se le podría tratar de una u otra manera.</p>
 <p>En la siguiente figura se puede ver de forma gráfica lo comentado en estas líneas.</p>
-<p><img alt="K_3.svg" src="supervisados/attachment:K_3.svg" /></p>
+<p><img alt="K_3.svg" src="../_images/K_3.svg" /></p>
 <p>En la siguiente tabla, se presentan las ventajas e inconvenientes más significativos de esta tecnología.</p>
 <table class="colwidths-auto table">
 <thead>
@@ -715,7 +715,7 @@ Distancias:
 <p>Con este procedimiento de clasificación, lo que se busca es obtener un voto mayoritario de pertenencia a una clase, emitido por los vecinos más próximos, los cuales se determinan mediante una adecuada función de distancia.</p>
 <p>En consecuencia de lo que se trata es de lo siguiente: se tienen una serie de instancias observadas anteriormente, y cada una de esas instancias conformadas por una serie de observaciones más otra variable de clasificación. Entonces dada una nueva instancia que no se conoce a la clase a la que pertenece, pero sí los valores que tienen el resto de las variables independientes, lo que se trata es calcular o inferir a que clase pertenece. Para conseguir este objetivo lo que se buscan son lo k vecinos más próximos, y entonces utilizando un sistema de votación mayoritario, se asignaría  esa nueva observación a la clase más votada.</p>
 <p>Veamos esto con un simple ejemplo utilizando unos pocos datos que figuran en el fichero excel que se ha elaborado al efecto y que se muestran en la siguiente figura.</p>
-<p><img alt="excellKNN.PNG" src="supervisados/attachment:excellKNN.PNG" /></p>
+<p><img alt="excellKNN.PNG" src="../_images/excellKNN.PNG" /></p>
 <p>En el ejemplo ficticio anterior, se han colocado en la hoja excell un total de 12 personas, las primeras once tienen datos de edad e ingresos ( en miles de euros) y la clase a la que pertenecen ( columna asig) . La duodécima persona, tan sólo tiene datos de edad e ingresos y se quiere inferir cual es la clase más probable a la que pertenece. Para obtener este resultado, se ha calculado la distancia euclidea que hay entre el valor que queremos clasificar y las otras 11 observaciones ( tomando los valores de la variables edad e ingreso). En la columna “Dist. Euclidea”, se han anotado estas distancias. Si empleamos el criterio de los tres vecinos más próximos, que se han señalado en el gráfico anterior con sendas flechas, podemos ver que uno votaría N y los otros dos Y, por lo tanto mediante este sistema de votación mayoritario, el último dato, se clasificaría en la categoría Y. Sin embargo, el problema se tiene si se utiliza k = 4 pues en este caso se producirá un empate.</p>
 <p>Para evitar este problema de empates, se suele utilizar como criterio, intentar utilizar un valor de k impar y en el caso de utilizar un valor par y producirse este empate, entonces se suelen utilizar normas heurísticas para deshacer este empate, como por ejemplo seleccionar la clase que contiene al vecino más próximo, seleccionar la clase con la distancia media menor, etc.</p>
 <p>Como ya se ha comentado al comienzo de este apartado, el algoritmo KNN también se utiliza para resolver problemas de  regresión, aunque en menor medida que para clasificar, en este caso, en lugar de elegir la clase más votada entre los k puntos más cercanos, lo que se hace es calcular la media o mediana de las respuestas ( o variable dependiente) que tienen los k puntos más cercanos al que se quiere predecir el valor de la regresión.</p>
@@ -848,7 +848,7 @@ Distancias:
     knn.score(X_test, y_test)
 </code>
 <p>Otra posibilidad es utilizar curvas de error, tanto para los valores de entrenamiento como de prueba y observar las curvas obtenidas. Un ejemplo de esto lo podemos ver en la siguiente figura:</p>
-<p><img alt="valor_k.PNG" src="supervisados/attachment:valor_k.PNG" /></p>
+<p><img alt="valor_k.PNG" src="../_images/valor_k.PNG" /></p>
 <p>Como podemos ver en esta figura, un valor bajo de k implicaría un sobreajuste  y una alta variabilidad, en este caso el error de entrenamiento es muy bajo, pero en el test sube considerablemente. Tener presente que si k=1 en el caso de entrenamiento el error siempre es cero porque el único punto que se elije como vecino más próximo es el mismo punto.</p>
 <p>A medida que k aumenta, el error del test va disminuyendo hasta un determinado valor de k, a partir del cual el error vuelve a aumentar. Entonces se puede aceptar un valor de k en el cual el cual error del test se estabiliza  y se hace mínimo. En el ejemplo anterior se podría aceptar <a class="reference external" href="http://k=8.No">k=8.No</a> obstante y para evitar tomar decisiones de empates de los datos, conviene tomar un valor de k impar.</p>
 <p>Un posible código para implementar este tipo de gráficas podría ser el siguiente:</p>
@@ -987,7 +987,7 @@ plt.legend()
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x18634b3e640&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x29f2ea37790&gt;
 </pre></div>
 </div>
 <img alt="../_images/Neareast_Neighbors_19_1.png" src="../_images/Neareast_Neighbors_19_1.png" />
@@ -1094,7 +1094,7 @@ Trabajando para k=13
 Trabajando para k=14
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x18634b16550&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x29f2edbb910&gt;
 </pre></div>
 </div>
 <img alt="../_images/Neareast_Neighbors_28_2.png" src="../_images/Neareast_Neighbors_28_2.png" />
@@ -1119,11 +1119,11 @@ Trabajando para k=14
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x186104652e0&gt;,
-  &lt;matplotlib.axis.XTick at 0x18610465d60&gt;,
-  &lt;matplotlib.axis.XTick at 0x18634736460&gt;,
-  &lt;matplotlib.axis.XTick at 0x18634a04370&gt;,
-  &lt;matplotlib.axis.XTick at 0x186349f5eb0&gt;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x29f2ee0c0a0&gt;,
+  &lt;matplotlib.axis.XTick at 0x29f2ee0c070&gt;,
+  &lt;matplotlib.axis.XTick at 0x29f2ee62580&gt;,
+  &lt;matplotlib.axis.XTick at 0x29f2ee994c0&gt;,
+  &lt;matplotlib.axis.XTick at 0x29f2ee99bb0&gt;],
  [Text(0, 0, &#39;&#39;),
   Text(0, 0, &#39;&#39;),
   Text(0, 0, &#39;&#39;),
@@ -1141,16 +1141,16 @@ Trabajando para k=14
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">valor_k</span> <span class="o">=</span> <span class="mi">7</span>
 <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">valor_k</span><span class="p">)</span>
 <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;La acuracidad en el conjunto de entrenamiento es: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;El accuracy en el conjunto de entrenamiento es: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span>
         <span class="nb">format</span><span class="p">(</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;La acuracidad en el conjunto de test es: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;El accuracy en el conjunto de test es: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span>
         <span class="nb">format</span><span class="p">(</span><span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La acuracidad en el conjunto de entrenamiento es: 0.95
-La acuracidad en el conjunto de test es: 0.90
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>El accuracy en el conjunto de entrenamiento es: 0.95
+El accuracy en el conjunto de test es: 0.90
 </pre></div>
 </div>
 </div>
@@ -1436,7 +1436,10 @@ Mejor parámetro estimado:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/Neareast_Neighbors_44_0.png" src="../_images/Neareast_Neighbors_44_0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>downloading Olivetti faces from https://ndownloader.figshare.com/files/5976027 to C:\Users\migue\scikit_learn_data
+</pre></div>
+</div>
+<img alt="../_images/Neareast_Neighbors_44_1.png" src="../_images/Neareast_Neighbors_44_1.png" />
 </div>
 </div>
 </section>
