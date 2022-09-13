@@ -1,0 +1,1049 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>3. Regresión Logística &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. Regresión Softmax." href="../Softmax.html" />
+    <link rel="prev" title="2. Support Vector Machines (SVM)." href="../supportVectorMachine.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/supervisados/RegresionLogistica/RegresionLogisticaEjemplo.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/supervisados/RegresionLogistica/RegresionLogisticaEjemplo.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   3.1. Introducción
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#primer-ejemplo-sobre-regresion-logistica">
+   3.2. Primer ejemplo sobre regresión logística
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#otro-ejemplo-de-regresion-logistica">
+   3.3. Otro ejemplo de regresión logística
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizar-la-matriz-de-confusion">
+   3.4. Visualizar la matriz de confusión
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#diferentes-metricas-de-la-matriz-de-confusion">
+   3.5. diferentes métricas de la matriz de confusión
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Regresión Logística</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   3.1. Introducción
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#primer-ejemplo-sobre-regresion-logistica">
+   3.2. Primer ejemplo sobre regresión logística
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#otro-ejemplo-de-regresion-logistica">
+   3.3. Otro ejemplo de regresión logística
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualizar-la-matriz-de-confusion">
+   3.4. Visualizar la matriz de confusión
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#diferentes-metricas-de-la-matriz-de-confusion">
+   3.5. diferentes métricas de la matriz de confusión
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="regresion-logistica">
+<span id="logistica"></span><h1><span class="section-number">3. </span>Regresión Logística<a class="headerlink" href="#regresion-logistica" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<h2><span class="section-number">3.1. </span>Introducción<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p>Como ya se sabe, los modelos de regresión tienen como objeto predecir cómo afectan una o más variables explicativas (también llamadas independientes o features), sobre una  variable respuesta. Cuando la variable respuesta es de tipo cuantitativo continuo se utiliza como norma general el método de mínimo cuadrados ordinarios para estimar los parámetros del modelo resultante.</p>
+<p>Ahora bien, ese método de resolver el problema no sirve cuando la variable respuesta es de tipo discreta (toma pocos valores), y normalmente se trata de una variable categórica con dos o más valores como atributos o categorías. En estos casos los modelos de regresión más utilizados son los denominados <strong>modelos de regresión logística y los de tipo Softmax</strong>, en los cuales las variables independientes o explicativas, pueden ser de tipo cuantitativo o cualitativo.</p>
+<p>En el caso de los modelos cuya variable respuesta sólo puede tomar dos valores, estaríamos ante los denominados modelos de regresión logit o logística a los cuales se les va a dedicar este apartado. A continuación exponemos de forma resumida el aparato teórico, sobre el que se sostenta este modelo.</p>
+<p>Supongamos una variable Y que sólo puede tomar dos valores 1 ó 0, y sea un conjunto de variables independientes que denotamos por <span class="math notranslate nohighlight">\(X={x_1,x_2, ...,x_n}\)</span>. Llamamos p a la probabilidad de que la variable aleatoria (en adelante v.a.) Y tome el valor 1 suponiendo que se haya obtenido un valor concreto para la v.a. X. Entonces el siguiente modelo de regresión:</p>
+<div class="math notranslate nohighlight">
+\[p=\beta_0+\beta{_1}x{_1}+...+\beta{_n}x{_n}\]</div>
+<p>No serviría, pues inicialmente ese modelo de regresión no daría valores entre cero y uno que son los valores que puede tomar una probabilidad como p. Entonces, para poder resolver esto, lo que se suele hacer es hacer el siguiente ajuste.</p>
+<div class="math notranslate nohighlight">
+\[log(\frac{p}{1-p})=\beta_0+\beta{_1}x{_1}+...+\beta{_n}x{_n} \]</div>
+<p>Y en este caso sí tendría sentido hace ese ajuste de regresión. Ahora bien, si en la expresión anterior, se despeja p, nos quedaría la siguiente expresión:</p>
+<div class="math notranslate nohighlight">
+\[p=\frac{1}{1+e^{-(\beta_{0}+\beta_{1}x_{1}+...+\beta_{n}x_{n})}}\]</div>
+<p>La expresión que tenemos a la derecha de la fórmula anterior se denomina función sigmoidea, y para ver qué formato presenta, a continuación se muestra un trozo de código, que permite hacer una representación gráfica de la función.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">item</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gráfica de la función sigmoidea&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">sig</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/RegresionLogisticaEjemplo_1_0.png" src="../../_images/RegresionLogisticaEjemplo_1_0.png" />
+</div>
+</div>
+<p>Como puede verse en la figura, la función sigmoidea, verifica las siguientes propiedades:</p>
+<p>1.- Es una función monótana creciente en todo su dominio de definición.</p>
+<p>2.- Tiene dos asíntotas horizontales, una situada en el punto cero y otra en el punto 1.</p>
+<p>Todas estas propiedades vista hasta este momento, son las que nos van a permitir poder hacer las correspondientes clasificaciones en el caso de tener una variable aleatoria independiente dicotómica. En este sentido, si el valor que nos da el modelo es inferior a 0.5 clasificaríamos en punto en cuestión como de la clase 0 (se asume que el modelo presenta dos modalidades que denominamos 0 ó 1) y en caso contrario se clasificará en la otra clase.</p>
+<p>Es preciso matizar que este punto de corte normalmente tienen por denominación cutoff (o también Thershold) y que no siempre se toma el punto 0.5 como referencia de corte, sino se utilizan diferentes procedimientos para obtener este punto de tal manera que se cometa el menor error posible.</p>
+<p>En este enlace <a class="reference external" href="https://stackoverflow.com/questions/28719067/roc-curve-and-cut-off-point-python">https://stackoverflow.com/questions/28719067/roc-curve-and-cut-off-point-python</a>, se puede ver algún método de cómo elegir ese punto de corte con la finalidad de mejorar la fiabilidad de las predicciones del modelo.</p>
+</section>
+<section id="primer-ejemplo-sobre-regresion-logistica">
+<h2><span class="section-number">3.2. </span>Primer ejemplo sobre regresión logística<a class="headerlink" href="#primer-ejemplo-sobre-regresion-logistica" title="Permalink to this headline">#</a></h2>
+<p>A continuación procedemos a ver un ejemplo práctico sobre cómo poder utilizar esta metodología a un caso concreto, que ademas podemos encontrar en <a class="reference external" href="https://www.kaggle.com/mlg-ulb/creditcardfraud?select=creditcard.csv">kaggle</a>. Se trata de estudiar la existencia de posibles fraudes en la utilización de las tarjetas de crédito, en base a la información que facilita otra serie de variables observadas en la práctica diaria.</p>
+<p>Para desarrollar este ejemplo, utilizaremos la clase <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression">LogisticRegression</a> que pone a nuestra disposición scikit learn.</p>
+<p>Carguemos inicialmente los módulos que vamos a utilizar en el desarrollo del problema</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">confusion_matrix</span> 
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># leemos los datos</span>
+
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/creditcard.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">Input In [3],</span> in <span class="ni">&lt;cell line: 3&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># leemos los datos</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">dat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/creditcard.csv&#39;</span><span class="p">)</span>
+
+<span class="nn">File D:\programas\Anaconda\envs\py39\lib\site-packages\pandas\util\_decorators.py:311,</span> in <span class="ni">deprecate_nonkeyword_arguments.&lt;locals&gt;.decorate.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">305</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_allow_args</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">306</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">307</span>         <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="n">arguments</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">308</span>         <span class="ne">FutureWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">309</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="n">stacklevel</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">311</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File D:\programas\Anaconda\envs\py39\lib\site-packages\pandas\io\parsers\readers.py:680,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">665</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">666</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">667</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">676</span>     <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">677</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">678</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">680</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File D:\programas\Anaconda\envs\py39\lib\site-packages\pandas\io\parsers\readers.py:575,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">572</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">575</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">577</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">578</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File D:\programas\Anaconda\envs\py39\lib\site-packages\pandas\io\parsers\readers.py:934,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">931</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">933</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">--&gt; </span><span class="mi">934</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File D:\programas\Anaconda\envs\py39\lib\site-packages\pandas\io\parsers\readers.py:1218,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1214</span>     <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;rb&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1215</span> <span class="c1"># error: No overload variant of &quot;get_handle&quot; matches argument types</span>
+<span class="g g-Whitespace">   </span><span class="mi">1216</span> <span class="c1"># &quot;Union[str, PathLike[str], ReadCsvBuffer[bytes], ReadCsvBuffer[str]]&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1217</span> <span class="c1"># , &quot;str&quot;, &quot;bool&quot;, &quot;Any&quot;, &quot;Any&quot;, &quot;Any&quot;, &quot;Any&quot;, &quot;Any&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1218</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1219</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1220</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1221</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1222</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1223</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1224</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1225</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1226</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1227</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1228</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1229</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File D:\programas\Anaconda\envs\py39\lib\site-packages\pandas\io\common.py:786,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">781</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">782</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">784</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">785</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">786</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">787</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">788</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">789</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">790</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">791</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">792</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">793</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">794</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">795</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;data/creditcard.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Veamos a grandes pinceladas su contenido:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>te fichero. También existe el campo denominado class con valores cero y uno para indicar se ha habido o no fraude en la utilización de la tarjeta.</p>
+<p>Veamos cómo están distribuidos los datos, y en especial los casos que hay de fraude o no fraude, para ello procedemos a realizar a hacer un simple diagrama de barras de la variable class</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Class&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">dat</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Casos de fraude y no fraude&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;1= si fraude; 0 = No fraude&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observamos que estamos claramente ante un caso de datos no balanceados, lo cual puede suponer un problema a la hora de generar el modelo. Existen diversas formas para solventar este problema, y en este ejemplo, lo que se va a aplicar es el parámetro “class_weight” de la clase LogisticRegression, que si miramos en la documentación de scikit learn lo que hace es asignar diferentes pesos a las observaciones.</p>
+<p>En concreto, si asignamos a este parámetro el valor de “balanced”, entonces toma el valor de la variables dependiente para hacer el ajuste de forma inversamente proporcional al número de caso que tiene cada categoría de esta variable, en concreto los pesos los calcula de acuerdo a la siguiente expresión: n_samples / (n_classes * np.bincount(y))</p>
+<p>En el resultado mostrado en la celda siguiente podemos observar que el 99.8 por ciento de la transacciones son no fraudulentas y por consiguiente el nivel de datos no balanceados es importante.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">Class</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">))</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Class&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+<span class="n">y</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">Class</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scalar</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="c1">#lr = LogisticRegression(class_weight = &#39;balanced&#39;)</span>
+
+<span class="c1"># Con l siguiente los resultados mejoran sustancialemnte</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">modelo</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;standardizar&#39;</span><span class="p">,</span> <span class="n">scalar</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;log_reg&#39;</span><span class="p">,</span> <span class="n">logreg</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_hat</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">y_train_hat_probs</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_train</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">train_accuracidad</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_hat</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">train_auc_roc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_hat_probs</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Confusion matrix:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_hat</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training AUC: </span><span class="si">%.4f</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">train_auc_roc</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training accuracy: </span><span class="si">%.4f</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">train_accuracidad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_test_hat</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_test_hat_probs</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">test_accuracidad</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_hat</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">test_auc_roc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_hat_probs</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Confusion matrix:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_hat</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing AUC: </span><span class="si">%.4f</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">test_auc_roc</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing accuracy: </span><span class="si">%.4f</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">test_accuracidad</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_hat</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="otro-ejemplo-de-regresion-logistica">
+<h2><span class="section-number">3.3. </span>Otro ejemplo de regresión logística<a class="headerlink" href="#otro-ejemplo-de-regresion-logistica" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#import pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">col_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pregnant&#39;</span><span class="p">,</span> <span class="s1">&#39;glucose&#39;</span><span class="p">,</span> <span class="s1">&#39;bp&#39;</span><span class="p">,</span> <span class="s1">&#39;skin&#39;</span><span class="p">,</span> <span class="s1">&#39;insulin&#39;</span><span class="p">,</span> <span class="s1">&#39;bmi&#39;</span><span class="p">,</span> <span class="s1">&#39;pedigree&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]</span>
+<span class="c1"># load dataset</span>
+<span class="n">pima</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;diabetes.csv&quot;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">col_names</span><span class="p">)</span>
+<span class="n">pima</span> <span class="o">=</span> <span class="n">pima</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pima</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pregnant</th>
+      <th>glucose</th>
+      <th>bp</th>
+      <th>skin</th>
+      <th>insulin</th>
+      <th>bmi</th>
+      <th>pedigree</th>
+      <th>age</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>148</td>
+      <td>72</td>
+      <td>35</td>
+      <td>0</td>
+      <td>33.6</td>
+      <td>0.627</td>
+      <td>50</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>85</td>
+      <td>66</td>
+      <td>29</td>
+      <td>0</td>
+      <td>26.6</td>
+      <td>0.351</td>
+      <td>31</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>183</td>
+      <td>64</td>
+      <td>0</td>
+      <td>0</td>
+      <td>23.3</td>
+      <td>0.672</td>
+      <td>32</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>89</td>
+      <td>66</td>
+      <td>23</td>
+      <td>94</td>
+      <td>28.1</td>
+      <td>0.167</td>
+      <td>21</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>137</td>
+      <td>40</td>
+      <td>35</td>
+      <td>168</td>
+      <td>43.1</td>
+      <td>2.288</td>
+      <td>33</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Selecting Feature</p>
+<p>Here, you need to divide the given columns into two types of variables dependent(or target variable) and independent variable(or feature variables).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#split dataset in features and target variable</span>
+<span class="n">feature_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pregnant&#39;</span><span class="p">,</span> <span class="s1">&#39;insulin&#39;</span><span class="p">,</span> <span class="s1">&#39;bmi&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;glucose&#39;</span><span class="p">,</span><span class="s1">&#39;bp&#39;</span><span class="p">,</span><span class="s1">&#39;pedigree&#39;</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pima</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span> <span class="c1"># Features</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pima</span><span class="o">.</span><span class="n">label</span> <span class="c1"># Target variable</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pima</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pregnant    object
+glucose     object
+bp          object
+skin        object
+insulin     object
+bmi         object
+pedigree    object
+age         object
+label       object
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split X and y into training and testing sets</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import the class</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="c1"># instantiate the model (using the default parameters)</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;liblinear&#39;</span><span class="p">)</span>
+
+<span class="c1"># fit the model with data</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="n">y_pred</span><span class="o">=</span><span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import the metrics class</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="n">cnf_matrix</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">cnf_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[119,  11],
+       [ 26,  36]], dtype=int64)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizar-la-matriz-de-confusion">
+<h2><span class="section-number">3.4. </span>Visualizar la matriz de confusión<a class="headerlink" href="#visualizar-la-matriz-de-confusion" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import required modules</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># name  of classes</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">tick_marks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_names</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">class_names</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">,</span> <span class="n">class_names</span><span class="p">)</span>
+<span class="c1"># create heatmap</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cnf_matrix</span><span class="p">),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlGnBu&quot;</span> <span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Actual label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted label&#39;</span><span class="p">)</span>
+<span class="c1">#Text(0.5,257.44,&#39;Predicted label&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 257.44, &#39;Predicted label&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/RegresionLogisticaEjemplo_29_1.png" src="../../_images/RegresionLogisticaEjemplo_29_1.png" />
+</div>
+</div>
+</section>
+<section id="diferentes-metricas-de-la-matriz-de-confusion">
+<h2><span class="section-number">3.5. </span>diferentes métricas de la matriz de confusión<a class="headerlink" href="#diferentes-metricas-de-la-matriz-de-confusion" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Precision:&quot;</span><span class="p">,</span><span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recall:&quot;</span><span class="p">,</span><span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span> <span class="o">=</span> <span class="kc">None</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.8072916666666666
+Precision: [0.82068966 0.76595745]
+Recall: [0.91538462 0.58064516]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Curva de ROC</span>
+<span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[::,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>  <span class="n">y_pred_proba</span><span class="p">)</span>
+<span class="n">auc</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span><span class="n">tpr</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;data 1, auc=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">auc</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/RegresionLogisticaEjemplo_32_0.png" src="../../_images/RegresionLogisticaEjemplo_32_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./supervisados\RegresionLogistica"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../supportVectorMachine.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>Support Vector Machines (SVM).</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../Softmax.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Regresión Softmax.</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

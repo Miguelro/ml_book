@@ -1,0 +1,2025 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>5. Árboles de decisión. &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6. Multiclass clasificación." href="../multiclass.html" />
+    <link rel="prev" title="4. Regresión Softmax." href="../Softmax.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../otros/bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/supervisados/decisiontree/decisiontree.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/supervisados/decisiontree/decisiontree.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   5.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#metodologia-generica-para-construir-arboles-de-decision">
+   5.2. Metodología genérica para construir árboles de decisión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#criterios-para-parar-la-construccion-del-arbol">
+   5.3. Criterios para parar la construcción del árbol.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ventajas-y-desventajas-de-los-arboles-de-decision">
+   5.4. Ventajas y desventajas de los árboles de decisión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-boundary">
+   5.5. Decision Boundary.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#algoritmos-para-construir-arboles">
+   5.6. Algoritmos para construir árboles.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#algoritmo-cart">
+   5.7. Algoritmo cart
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#algoritmo-id3">
+   5.8. Algoritmo  ID3.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regresion-con-arboles-de-decision">
+   5.9. Regresión con árboles de decisión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-en-scikip-learn">
+   5.10. Decisión Tree en Scikip Learn
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decisiontreeclassifier">
+   5.11. DecisionTreeClassifier.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decisiontreeregressor">
+   5.12. DecisionTreeRegressor.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ejemplo-de-regresion">
+   5.13. Ejemplo de Regresión.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Árboles de decisión.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   5.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#metodologia-generica-para-construir-arboles-de-decision">
+   5.2. Metodología genérica para construir árboles de decisión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#criterios-para-parar-la-construccion-del-arbol">
+   5.3. Criterios para parar la construcción del árbol.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ventajas-y-desventajas-de-los-arboles-de-decision">
+   5.4. Ventajas y desventajas de los árboles de decisión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-boundary">
+   5.5. Decision Boundary.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#algoritmos-para-construir-arboles">
+   5.6. Algoritmos para construir árboles.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#algoritmo-cart">
+   5.7. Algoritmo cart
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#algoritmo-id3">
+   5.8. Algoritmo  ID3.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regresion-con-arboles-de-decision">
+   5.9. Regresión con árboles de decisión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-en-scikip-learn">
+   5.10. Decisión Tree en Scikip Learn
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decisiontreeclassifier">
+   5.11. DecisionTreeClassifier.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decisiontreeregressor">
+   5.12. DecisionTreeRegressor.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ejemplo-de-regresion">
+   5.13. Ejemplo de Regresión.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="arboles-de-decision">
+<h1><span class="section-number">5. </span>Árboles de decisión.<a class="headerlink" href="#arboles-de-decision" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<h2><span class="section-number">5.1. </span>Introducción.<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p>En este semana vamos a ver la teoría y práctica de los árboles de decisión, técnica simple pero poderosa ampliamente utilizada en el análisis de datos. Se puede decir que ésta es una técnica muy versátil que puede ser empleada en áreas de trabajo de muy diversa índole, como pueden ser en el campo del diagnóstico médico, predicción meteorológica, etc.</p>
+<p>Este tipo de herramientas, puede ser utilizado tanto para tareas de clasificación como de predicción, dependiendo de la naturaleza que tenga la variable de la clase (variable independiente): Si es discreta se utiliza un árbol de decisión y si es continua se usará un árbol de regresión.</p>
+<p>Entre las finalidades que podemos asignar a los árboles de decisión, se encuentran las siguientes:</p>
+<ul class="simple">
+<li><p>Para describir los datos: se pueden reducir una buena cantidad de datos mediante su transformación en una forma más compacta que mantenga las características más importantes, teniendo de esta manera un resumen adecuado de nuestros datos.</p></li>
+<li><p>Para tareas de clasificación. Es uno de los puntos principales de esta técnica, sobre el que nos centraremos en este trabajo.</p></li>
+<li><p>Para tareas de generalización. Descubrir una relación entre variables dependientes e independientes con el fin de predecir el valor de la variable dependiente de cara a un futuro.</p></li>
+</ul>
+<p>Se puede decir que un árbol de decisión, puede interpretarse como un conjunto de condiciones organizadas en una estructura jerárquica den formato de árbol ( de ahí su nombre), y que está formada por diferentes nodos que se interconectan con arcos (aquí llamados ramas) dirigidos, de tal manera que en esta estructura, se tendrían los siguientes nombres característicos de la misma:</p>
+<ul class="simple">
+<li><p>Nodo raíz. Con este nos estamos refiriendo al nodo inicial de  esta estructura, de tal manera que sólo tiene ramas salientes y dentro de este nodo queda recogida el total de la población.</p></li>
+<li><p>Nodos intermedios o hijos. Estos nodos se caracterizan porque tienen ramas entrantes que provienen de los nodos padre y ramas salientes que van hacia los nodos hijos. En estas zonas se encuentran las preguntas que se hacen sobre un determinado atributo y en base a la respuesta que se tenga a esa pregunta se determinará cual es el próximo nodo hijo al que habrá que dirigirse. Por lo tanto, deberá haber un nodo hijo por cada tipo de respuesta.</p></li>
+<li><p>Nodo terminal u hoja. Aquí es donde termina la estructura del árbol pues es la parte final del mismo, y en consecuencia tan sólo existen ramas entrantes y se asocia con una etiqueta o valor que sirve para caracterizar a los datos que llegan al nodo.</p></li>
+<li><p>Las ramas, son los arcos que unen esta estructura, es decir permiten unir los nodos padres con los hijos.</p></li>
+</ul>
+<p>En consecuencia, cada nodo va a representar una variable atributo ( de las utilizadas para poder construir la jerarquía), mientras que cada rama va a representar un estado de la variable. Como norma general se puede afirmar que cada nodo terminal representa el valor esperado de la variable clase o variable en estudio según la información contenida en el conjunto de datos utilizados para obtener el modelo. En consecuencia, y en base al formato de los árboles de decisión anteriormente expuesto, podemos decir que la clasificación de una instancia nueva, se realiza en base a una serie de preguntas sobre los valores de los atributos, entonces la etiqueta de la hoja a la que se llegue mediante este sistema de preguntas, será la clase que se asignará a la nueva observación.</p>
+<p>Un ejemplo de árbol de decisión puede ser el siguiente:</p>
+<p><img alt="Decision_tree.png" src="../../_images/Decision_tree.png" /></p>
+</section>
+<section id="metodologia-generica-para-construir-arboles-de-decision">
+<h2><span class="section-number">5.2. </span>Metodología genérica para construir árboles de decisión.<a class="headerlink" href="#metodologia-generica-para-construir-arboles-de-decision" title="Permalink to this headline">#</a></h2>
+<p>La idea general para construir este tipo de árboles es la de seguir una estrategia descendente, en el sentido de que se arranca de unos conceptos generales (los que contiene el nodo raiz) y se va descendiendo hacia conceptos más particulares a medida que la ramificación del árbol va creciendo. Debido a esta característica, este conjunto de métodos son conocidos dentro de este ámbito de estudio con la expresión anglosajona <em>“Top-Down induction of decision tres, TDIDT”</em>.</p>
+<p>La idea básica de construcción de este tipo de árboles de decisión se sustenta en la idea popular de “divide y vencerás”. En línea con este principio, se arranca de un conjunto completo de datos, los que se encuentran en la raíz del árbol, y se determina un cierto criterio de partición, en base al cual el conjunto completa se divide en subconjuntos, de forma jerárquica y cada vez más pequeños, obteniendo de esta manera los nodos del árbol. Se sigue con este proceso de subdivisión del conjunto hasta conseguir que todos los nodos sean puros (es decir cuando los casos del nodo son de una misma clase), o bien hasta que se alcance el mínimo de pureza (es decir de homogeneidad de los datos). Al final de todo este proceso, a los nodos hoja se les asigna una etiqueta o valor determinado de la variable clase.</p>
+<p>El problema que se tiene con esta metodología, es que si no se establece ningún límite en la construcción de los nodos del árbol, se termina cuando el nodo es puro, y entonces esta situación, lo que da lugar es a un sobreajuste de los datos, con los inconvenientes que esto tiene para extender las conclusiones a otra serie de datos. De esta manera, los que se obtiene es un modelo muy específico y poco general y que por lo tanto tendrá malas predicciones para otro conjunto de datos. Es más, si además los datos contienen ruido ( debidos a errores en la medición de las variables), entonces el modelo lo que hará es ajustarse con casi exactitud a los datos de entrenamiento, lo que puede diferir del comportamiento general que queremos medir y predecir.</p>
+<p>De esta manera se puede decir que que con un árbol de decisión, lo que se pretende es el mayor nivel de pureza posible y además utilizando para ello la menor cantidad de nodos posibles, en consecuencia cuanto menor cantidad de nodos se tenga y mayor numero de instancias posibles, mejor para el objetivo que vamos buscando.</p>
+<p>Para construir el árbol de decisión, lo que debemos intentar siempre es hacer las particiones de manera que éstas sean mínimas y además que la impureza obtenida sea la mínima posible.</p>
+</section>
+<section id="criterios-para-parar-la-construccion-del-arbol">
+<h2><span class="section-number">5.3. </span>Criterios para parar la construcción del árbol.<a class="headerlink" href="#criterios-para-parar-la-construccion-del-arbol" title="Permalink to this headline">#</a></h2>
+<p>No existe un criterio universalmente aceptado para esto, pero sí consejos que intentan conseguir un árbol de decisión pequeño pero al mismo tiempo eficiente para hacer predicciones o estimaciones futuras. Algunos criterios a tener en cuenta para parar la construcción de un árbol, pueden ser los siguiente (reglas pre-poda):</p>
+<ul class="simple">
+<li><p>Evaluar la pureza que tiene un determinado nodo. Indudablemente, cuando un nodo sólo tiene datos de una determinada clase, hay que parar el crecimiento del mismo por esa rama, al ser totalmente puro. No obstante y aunque esto es lo deseado, también se puede establecer un cierto nivel de pureza para parar la ramificación, una vez se ha conseguido ese nivel.</p></li>
+<li><p>Definir un nivel de profundidad. Con la finalidad de no construir árboles muy complejos, también se suele asignar con carácter previo a su construcción un nivel de profundidad, y una vez alcanzada esta profundidad, se detiene la ramificación por esa zona del árbol.</p></li>
+<li><p>Nivel mínimo de casos para un nodo. Igualmente se puede poner una frontera para seguir ramificando un nodo, de tal manera que si durante el proceso, se llega a alcanzar un número mínimo de casos, entonces se pararía la ramificación de ese nodo.</p></li>
+</ul>
+</section>
+<section id="ventajas-y-desventajas-de-los-arboles-de-decision">
+<h2><span class="section-number">5.4. </span>Ventajas y desventajas de los árboles de decisión.<a class="headerlink" href="#ventajas-y-desventajas-de-los-arboles-de-decision" title="Permalink to this headline">#</a></h2>
+<p>Entre las ventajas de este tipo de métodos, podemos encontrar las siguientes:</p>
+<ul class="simple">
+<li><p>Una mera visión del mismo, explica completamente el procedimiento a seguir para hacer la clasificación o predicción.</p></li>
+<li><p>El método a seguir es muy fácil y se basa en simples reglas del tipo SI—ENTONCES.</p></li>
+<li><p>Los árboles de decisión por regla general no asumen ningún tipo de suposición sobre distribución que siguen los datos a ajustar, lo que implica no tener que garantizar este tipo de cumplimientos muy frecuente en el campo estadístico.</p></li>
+<li><p>Son métodos muy flexibles, para trabajar tanto con atributos numéricos como nominales.</p></li>
+<li><p>Tienen una elevada capacidad predictiva, con no mucho esfuerzo computacional.</p></li>
+</ul>
+<p>Entre las desventajas, merece la pena destacar las siguientes:</p>
+<ul class="simple">
+<li><p>Son herramientas muy sensibles al conjunto de datos entrenados</p></li>
+<li><p>La presencia de ruido en los datos, puede hacer que el modelo sea inestable, en el sentido de que un pequeño cambio en los datos puede generar un cambio importante en el árbol generado.</p></li>
+<li><p>Las decisiones que se toman en base a estos árboles están muy condicionadas por la variable que se utiliza como raíz.</p></li>
+</ul>
+</section>
+<section id="decision-boundary">
+<h2><span class="section-number">5.5. </span>Decision Boundary.<a class="headerlink" href="#decision-boundary" title="Permalink to this headline">#</a></h2>
+<p>La construcción de los árboles de decisión se basa en la idea intuitiva de ir obteniendo paso a paso una serie de fronteras de decisión, que de forma gráfica lo vamos a explicar con los siguientes gráficos:</p>
+<p><img alt="boundary1" src="../../_images/boundary1.PNG" /></p>
+<p>En el gráfico superior se puede observa el primer paso del procedimiento. Va buscando separar las observaciones de manera que en cada nueva clase haya la mayor cantidad de pureza posible. Podemos observar en la zona de la derecha hoja izquierda que en una zona quedan 2 elementos de un tipo (azul) y 32 del otro ( rojo), lo que queda confirmado al ver la partición inferior del gráfico de la izquierda. Lo mismos ocurre con la información que contiene la rama de la derecha: 48 de un tipo y 18 del otro. Esta última zona contiene más impureza (mezcla de casos) que la anterior.</p>
+<p><img alt="boundary2" src="../../_images/boundary2.PNG" /></p>
+<p>Este segundo gráfico, muestra lo que ocurre en el segundo paso. Se mantiene la partición del paso anterior, pero se añade otra que consiste en dividir la zona de arria en dos mitades, de tal manera que ahora las dos nuevas zonas contienen menos impureza que en el paso anterior como bien puede observarse en este gráfico.</p>
+<p>Para un mayor detalle de estos métodos y ver cómo se puede conseguir mediante programación python , se aconseja al lector interesados que <a class="reference external" href="https://github.com/ashishthanki/Decision_Trees/blob/master/Decision_Tree_Iris_dataset.ipynb">mire este enlace</a> donde se puede ver con sumo detalle este procedimiento.</p>
+<p>Igualmente existe un vídeo en youtuve donde con se explica de forma resumida todo esto, este vídeo se puede <a class="reference external" href="https://www.youtube.com/watch?v=kqaLlte6P6o">ver en este enlace</a>.</p>
+</section>
+<section id="algoritmos-para-construir-arboles">
+<h2><span class="section-number">5.6. </span>Algoritmos para construir árboles.<a class="headerlink" href="#algoritmos-para-construir-arboles" title="Permalink to this headline">#</a></h2>
+<p>La principios que sustentan la metodología general de construcción de un árbol de decisión, ya se han expuesto en los párrafos precedente, pero existen mucho algoritmos que facilitan su construcción, en base a las ideas que subyacen a esta metodología.</p>
+<p>Entre estos algoritmos, se encuentran los siguiente:</p>
+<ul class="simple">
+<li><p>Algoritmo CHAID (Chi-squared Automatic Interaction Detection) que fue implementado por Kass en 1980.</p></li>
+<li><p>El método CART (Clasification ans regresión Trees), ideado por Breiman en 1984.</p></li>
+<li><p>El algoritmo ID3, desarrollado por Quinlan en 1986, que posteriormente evolucionó al método C4.5 y el C5.0</p></li>
+</ul>
+<p>En este tema nos vamos a centrar en el algortimo CART que además es el que utiliza Scikit Learn para implementar este tipo de árboles de decisión.</p>
+</section>
+<section id="algoritmo-cart">
+<h2><span class="section-number">5.7. </span>Algoritmo cart<a class="headerlink" href="#algoritmo-cart" title="Permalink to this headline">#</a></h2>
+<p>Para mostrar cómo funciona el algoritmo cart, a continuación se muestra un ejemplo muy utilizado en el mundo de árboles de decisión. Se trata de datos que dependiendo de la situación meteorológica se juega o no a un determinado juego. Los datos son los siguientes:</p>
+<p><img alt="datos1.PNG" src="../../_images/datos1.PNG" /></p>
+<p>Vamos a utilizar el índice de Gini (es el que utiliza Scikit Learn, aunque también se puede usar la medida de la entropia), para desarrollar este ejemplo. Este índice se define mediante la siguiente fórmula:</p>
+<div class="math notranslate nohighlight">
+\[Gini = 1-\sum_{i=1}^{n. clase}P_{i}^{2}\]</div>
+<p>Una vez definida la fórmula, vamos a ver a continuación cómo se usa y calcula para cada una de las categorías o variables independientes, que se pueden ver en la tabla anterior.</p>
+<p><strong>Variable Outlook.</strong></p>
+<p>Para un mejor cálculo del índice de gini, procedemos a elaborar una tabla de doble entrada en base a los datos que tenemos en la tabla:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outlook</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>NO</p></th>
+<th class="head"><p>total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sunny</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Overcast</p></td>
+<td><p>4</p></td>
+<td><p>0</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>Rain</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>5</p></td>
+</tr>
+</tbody>
+</table>
+<p>Calculemos ahora el índice de Gini.</p>
+<p>Gini(Outlook=Sunny) = <span class="math notranslate nohighlight">\(1 – (2/5)^2 – (3/5)^2\)</span> = 1 – 0.16 – 0.36 = 0.48</p>
+<p>Gini(Outlook=Overcast) = <span class="math notranslate nohighlight">\(1 – (4/4)^2 – (0/4)^2\)</span> = 0</p>
+<p>Gini(Outlook=Rain) = <span class="math notranslate nohighlight">\(1 – (3/5)^2 – (2/5)^2\)</span> = 1 – 0.36 – 0.16 = 0.48</p>
+<p>Ahora, para calcular el índice que correspondería a esta variable, calculamos una media ponderada de cada uno de los indices calculados anteriormente:</p>
+<p>Gini(Outlook) = (5/14) x 0.48 + (4/14) x 0 + (5/14) x 0.48 = 0.171 + 0 + 0.171 = 0.342</p>
+<p><strong>Variable Temperature.</strong></p>
+<p>Igual que se ha hecho para el caso anterior, se procedería con la variable Temperatura.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Temperature</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>No</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hot</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cool</p></td>
+<td><p>3</p></td>
+<td><p>1</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>Mild</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>6</p></td>
+</tr>
+</tbody>
+</table>
+<p>Los cálculos para el índice de Gini son los siguientes:</p>
+<p>Gini(Temp=Hot) = <span class="math notranslate nohighlight">\(1 – (2/4)^2 – (2/4)^2\)</span> = 0.5</p>
+<p>Gini(Temp=Cool) = <span class="math notranslate nohighlight">\(1 – (3/4)^2 – (1/4)^2\)</span> = 1 – 0.5625 – 0.0625 = 0.375</p>
+<p>Gini(Temp=Mild) = <span class="math notranslate nohighlight">\(1 – (4/6)^2 – (2/6)^2\)</span> = 1 – 0.444 – 0.111 = 0.445</p>
+<p>y promediando:</p>
+<p>Gini(Temp) = (4/14) x 0.5 + (4/14) x 0.375 + (6/14) x 0.445 = 0.142 + 0.107 + 0.190 = 0.439</p>
+<p><strong>Variable Humidity</strong>.</p>
+<p>Para esta variable, la tabla de doble entrada queda de la siguiente manera:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Humidity</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>No</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hight</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-odd"><td><p>Normal</p></td>
+<td><p>6</p></td>
+<td><p>1</p></td>
+<td><p>7</p></td>
+</tr>
+</tbody>
+</table>
+<p>Los índices de Gini:</p>
+<p>Gini(Humidity=High) = <span class="math notranslate nohighlight">\(1 – (3/7)^2 – (4/7)^2\)</span> = 1 – 0.183 – 0.326 = 0.489</p>
+<p>Gini(Humidity=Normal) = <span class="math notranslate nohighlight">\(1 – (6/7)^2 – (1/7)^2\)</span> = 1 – 0.734 – 0.02 = 0.244</p>
+<p>Y la media ponderada sería:</p>
+<p>Gini(Humidity) = (7/14) x 0.489 + (7/14) x 0.244 = 0.367</p>
+<p><strong>Variable Wind</strong></p>
+<p>Tabla de doble entrada.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Wind</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>No</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Weak</p></td>
+<td><p>6</p></td>
+<td><p>2</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>Strong</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>6</p></td>
+</tr>
+</tbody>
+</table>
+<p>Indices de Gini:</p>
+<p>Gini(Wind=Weak) = <span class="math notranslate nohighlight">\(1 – (6/8)^2 – (2/8)^2\)</span> = 1 – 0.5625 – 0.062 = 0.375</p>
+<p>Gini(Wind=Strong) = <span class="math notranslate nohighlight">\(1 – (3/6)^2 – (3/6)^2\)</span> = 1 – 0.25 – 0.25 = 0.5</p>
+<p>La media ponderada sería la siguiente:</p>
+<p>Gini(Wind) = (8/14) x 0.375 + (6/14) x 0.5 = 0.428</p>
+<p>Recapitulando los índices de Gini obtenidos para cada variable independiente son los siguientes:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>índi.Gini</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Outlook</p></td>
+<td><p>0.342</p></td>
+</tr>
+<tr class="row-odd"><td><p>Temperature</p></td>
+<td><p>0.439</p></td>
+</tr>
+<tr class="row-even"><td><p>Humidity</p></td>
+<td><p>0.367</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wind</p></td>
+<td><p>0.428</p></td>
+</tr>
+</tbody>
+</table>
+<p>La feature con menor índice sería Outlook, y por lo tanto sería la que inicia la ramificación. Ahora nos quedaría este árbol inicial.</p>
+<p><img alt="arbol1.PNG" src="../../_images/arbol1.PNG" /></p>
+<p>Como puede verse la tabla que cuelga de Overcast tiene sus valores de decisión en YES y por lo tanto no presenta ninguna impureza y ahí se terminaría esta ramificación. Por lo tanto quedaría de la siguiente manera:</p>
+<p><img alt="arbol2.PNG" src="../../_images/arbol2.PNG" /></p>
+<p>Ahora tocaría aplicar lo mismo a cada uno de los subconjuntos que cuelgan de la rama izquierda y derecha de la figura anterior.</p>
+<p>Empezamos por la siguiente tabla</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dia</p></th>
+<th class="head"><p>Outlook</p></th>
+<th class="head"><p>Temp.</p></th>
+<th class="head"><p>Humidity</p></th>
+<th class="head"><p>Wind</p></th>
+<th class="head"><p>Decision</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Sunny</p></td>
+<td><p>Hot</p></td>
+<td><p>Hight</p></td>
+<td><p>Weak</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Sunny</p></td>
+<td><p>Hot</p></td>
+<td><p>High</p></td>
+<td><p>Strong</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>Sunny</p></td>
+<td><p>Mild</p></td>
+<td><p></p></td>
+<td><p>High</p></td>
+<td><p>Weak</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>Sunny</p></td>
+<td><p>Cool</p></td>
+<td><p>Normal</p></td>
+<td><p>Weak</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>Sunny</p></td>
+<td><p>Mild</p></td>
+<td><p>Normal</p></td>
+<td><p>Strong</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable temperature|</strong></p>
+<p>Tabla doble entrada</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Temperature</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>NO</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hot</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cool</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>Mild</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+<p>Índices de Gini:</p>
+<p>Gini(Outlook=Sunny y Temp.=Hot) = $1 – (0/2)^2 – (2/2)^2 = 0</p>
+<p>Gini(Outlook=Sunny y Temp.=Cool) = <span class="math notranslate nohighlight">\(1 – (1/1)^2 – (0/1)^2\)</span> = 0</p>
+<p>Gini(Outlook=Sunny y Temp.=Mild) = <span class="math notranslate nohighlight">\(1 – (1/2)^2 – (1/2)^2\)</span> = 1 – 0.25 – 0.25 = 0.5</p>
+<p>El promedio ponderado:</p>
+<p>Gini(Outlook=Sunny y Temp.) = (2/5)x0 + (1/5)x0 + (2/5)x0.5 = 0.2</p>
+<p><strong>Variable Humedad</strong></p>
+<p>Tabla doble entrada</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Humedad</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>No</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hight</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Normal</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+<p>Gini(Outlook=Sunny y Humidity=High) = <span class="math notranslate nohighlight">\(1 – (0/3)^2 – (3/3)^2\)</span> = 0</p>
+<p>Gini(Outlook=Sunny y Humidity=Normal) = <span class="math notranslate nohighlight">\(1 – (2/2)^2 – (0/2)^2\)</span> = 0</p>
+<p>Gini(Outlook=Sunny y Humidity) = (3/5)x0 + (2/5)x0 = 0</p>
+<p><strong>Variable wind</strong></p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>wind</p></th>
+<th class="head"><p>Yes</p></th>
+<th class="head"><p>NO</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Weak</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Strong</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+<p>Gini(Outlook=Sunny y Wind=Weak) = <span class="math notranslate nohighlight">\(1 – (1/3)^2 – (2/3)^2\)</span> = 0.266</p>
+<p>Gini(Outlook=Sunny y Wind=Strong) = <span class="math notranslate nohighlight">\(1- (1/2)2 – (1/2)2\)</span> = 0.2</p>
+<p>Gini(Outlook=Sunny y Wind) = (3/5)x0.266 + (2/5)x0.2 = 0.466</p>
+<p>Como vemos la feature que menor índice Gini tiene es Himidity. Por lo tanto nos qudaría el siguiente árbol</p>
+<p><img alt="arbol3.PNG" src="../../_images/arbol3.PNG" /></p>
+<p>Como puede observarse, hemos conseguido las dos hojas finales, pues hemos separado las decisiones Yes de la No, y en consecuencia las dos hojas ya no tienen ninguna impureza y aquí se terminaría la ramificación por este lado. Nos quedará en consecuencia la siguiente figura:</p>
+<p><img alt="arbol4.PNG" src="../../_images/arbol4.PNG" /></p>
+<p>Nos quedaría ahora desarrollar la ramificación que nos queda a la derecha, cuya tabla sería la siguientes:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dia</p></th>
+<th class="head"><p>Outlook</p></th>
+<th class="head"><p>Temp.</p></th>
+<th class="head"><p>Humidity</p></th>
+<th class="head"><p>Wind1</p></th>
+<th class="head"><p>Decision</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Rain</p></td>
+<td><p>Mild</p></td>
+<td><p>High</p></td>
+<td><p>Weak</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Rain</p></td>
+<td><p>Cool</p></td>
+<td><p>Normal</p></td>
+<td><p>Weak1</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>Rain</p></td>
+<td><p>Cool</p></td>
+<td><p>Normal</p></td>
+<td><p>Strong</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>Rain</p></td>
+<td><p>Mild</p></td>
+<td><p>Normal</p></td>
+<td><p>Weak</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>Rain</p></td>
+<td><p>Mild</p></td>
+<td><p>High</p></td>
+<td><p>Strong</p></td>
+<td><p>No</p></td>
+</tr>
+</tbody>
+</table>
+<p>Haciendo el mismo procedimiento que antes, se obtienen los siguientes índices de Gini:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>ind. Gini</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Temperature</p></td>
+<td><p>0.466</p></td>
+</tr>
+<tr class="row-odd"><td><p>Humidity</p></td>
+<td><p>0.466</p></td>
+</tr>
+<tr class="row-even"><td><p>Wind</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+<p>Por lo tanto elegimos la variables Wind para dividir el nodo y nos quedará:</p>
+<p><img alt="arbol5.PNG" src="../../_images/arbol5.PNG" /></p>
+<p>Como puede verse las dos tablas finales separan perfectamente las categorías y están libres de impurezas. Al final el resultado que se tiene es el siguiente:</p>
+<p><img alt="arbol6.PNG" src="../../_images/arbol6.PNG" /></p>
+<p>¡¡¡¡¡ NOTA INFORMATIVA !!! Este árbol es el mismo que podemos ver en <a class="reference external" href="https://www.researchgate.net/figure/An-example-of-a-decision-tree-adapted-from-30-Internal-nodes-including-the-root_fig3_257635858">https://www.researchgate.net/figure/An-example-of-a-decision-tree-adapted-from-30-Internal-nodes-including-the-root_fig3_257635858</a></p>
+<p>Al igual que el índice de Gini, nos mide el nivel de impureza de un nodo, también existe otro idicador de esta impureza que es la entropia, que es una medida de “desorden” en una muestra de información. La medida de la entropia se realiza en base a la siguiente fórmula:</p>
+<div class="math notranslate nohighlight">
+\[ Entropia_i=-\sum_{k=1}^{n}p_{i,k}\cdot log_2(p_{i,k})\]</div>
+<p>Siendo <span class="math notranslate nohighlight">\(p_{i,k}\)</span> la probabilidad que tiene un elemento en un determinado nodo.</p>
+<p>Como puede verse en la fórmula el cálculo de la impureza no es lo mismo que con la utilización del índice de Gini y en consecuencia los resultados finales que se obtengan en la construcción del modelo pueden ser diferentes.</p>
+<p>El nivel de medida utilizando este indicador es similar al del índice de Gini, es decir a menor valor del mismo, menor nivel de impureza del nodo.</p>
+<p>Un ejemplo de cómo calcular esta entropía puede ser el siguiente:</p>
+<p>Denotemos por D el número de elementos de un conjunto de entrenamiento, que está constituido por P elementos positivos y N elementos negativos, entonces la entropía en este caso será igual a:</p>
+<div class="math notranslate nohighlight">
+\[-(P/D)log_{2}(p/T)-(N/D)log_{2}(N/D)\]</div>
+<p>En el ejemplo que hemos visto antes para desarrollar la estrategia de calcular el árbol de decisión mediante el método CART, si consideramos como elemento positivo la decisión Yes ( hay 9 casos) y como elemento negativo, la decisión NO (hay 5 casos), la entropía será la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[Entropia([9+, 5-])=-(9/14)log_{2}(9/14)-(5/14)log_{2}(5/14)=0.94\]</div>
+</section>
+<section id="algoritmo-id3">
+<h2><span class="section-number">5.8. </span>Algoritmo  ID3.<a class="headerlink" href="#algoritmo-id3" title="Permalink to this headline">#</a></h2>
+<p>Con el fin de no alargar en exceso este documento, se ha desarrollado este algoritmo en un documento diferenciado de este, y por lo tanto,  <a class="reference download internal" download="" href="../../_downloads/95b7a4e098f0f4df82b953480281acc4/AlgoritmoID3.pdf"><code class="xref download docutils literal notranslate"><span class="pre">el</span> <span class="pre">fichero</span> <span class="pre">AlgoritmoID3.pdf</span></code></a>contiene la exposición de este algoritmo.</p>
+</section>
+<section id="regresion-con-arboles-de-decision">
+<h2><span class="section-number">5.9. </span>Regresión con árboles de decisión.<a class="headerlink" href="#regresion-con-arboles-de-decision" title="Permalink to this headline">#</a></h2>
+<p>En apartados anteriores, hemos hecho ajustes donde la variable dependiente (target), admitía categoría ( era una variable categórica). Sin embargo la metodología de árboles de decisión también se puede aplicar para hacer regresiones, en cuyo caso la variable dependiente deberá ser de tipo numérico continuo.</p>
+<p>El procedimiento para hacer esto es muy similar al que se ha usado para el caso de clasificación, pero con sus particularidades, pues si bien en los casos de clasificación, hemos dicho que se pueden utilizar entre otras medidas de impureza el índice de Gini y la entropía, en el caso de la regresión se deberá utilizar el <strong>error cuadrático medio</strong> ya que en este caso estamos trabajando con variables aleatorias continuas. Definiremos esta medida de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[MSE=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i )^2\]</div>
+<p>Representando en la anterior expresión por y el valor real y por y sombrero el valor de la predicción. Lo que se pretende con este valor es ir cortando por los valores mínimos del mismo.</p>
+<p>Veamos cómo construir este árbol con un ejemplo sencillo en plan didáctico a fin de que se entienda el método que se utiliza. Supongamos tenemos los siguientes datos:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>X</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+<th class="head"><p>6</p></th>
+<th class="head"><p>7</p></th>
+<th class="head"><p>8</p></th>
+<th class="head"><p>9</p></th>
+<th class="head"><p>10</p></th>
+<th class="head"><p>11</p></th>
+<th class="head"><p>12</p></th>
+<th class="head"><p>13</p></th>
+<th class="head"><p>14</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>y</p></td>
+<td><p>1</p></td>
+<td><p>1.2</p></td>
+<td><p>1.4</p></td>
+<td><p>1.1</p></td>
+<td><p>1</p></td>
+<td><p>5.5</p></td>
+<td><p>6.1</p></td>
+<td><p>6.7</p></td>
+<td><p>6.4</p></td>
+<td><p>6</p></td>
+<td><p>6</p></td>
+<td><p>3</p></td>
+<td><p>3.2</p></td>
+<td><p>3.1</p></td>
+</tr>
+</tbody>
+</table>
+<p>Veamos por pasos cómo se procede a construir el árbol de regresión.</p>
+<p><strong>Paso 1</strong>.</p>
+<p>Ordenaremos los datos en base a la variable X (paso ya hecho tal y como se presentan los datos). A continuación hacemos el promedio de las dos primeras columnas de la variable X y calculemos su promedio (1+2)/2=1.5. Ahora dividimos este conjunto de datos en dos partes que denominaremos parte A ( para X &lt; 1.5) y parte B ( para X &gt;=5).</p>
+<p>De acuerdo con este criterio, la parte A sólo contiene un punto (X=1, y=1) y la parte B contendrá el resto de los pares de puntos. A continuación calculamos el promedio de todos los valores de y en la parte A y hacemos lo mismo para la parte B. Estos dos valores son la salida del árbol de decisión para X &lt; 1.5 y X &gt;=1.5. Usando los valores pronosticados y originales, calculamos el error cuadrático medio y lo anotamos.</p>
+<p><strong>Paso 2</strong></p>
+<p>A continuación haremos un proceso similar, pero en esta ocasión calcularemos el promedio de los dos siguientes valores de X ((2+3)/2=2.5), y en esta ocasión dividiremos el conjunto de datos en dos partes para X&lt; 2.5 y X&gt;=2.5 y construiremos como antes, la parte A y la parte B y predecimos los resultados y encontraremos el error cuadrático medio como se hizo en el paso 1.</p>
+<p>Este proceso se seguirá haciendo para cada para de valores siguientes.</p>
+<p><strong>Paso 3</strong></p>
+<p>De esta manera hemos construido n-1 errores cuadráticos medios (si tenemos n números), y entonces para elegir el número en el que hacer nuestra primera división será aquel que nos da un error cuadrático medio menor. En este caso será el punto X=5.5 y en consecuencia en el primer paso el árbol se dividirá en dos partes: X&lt;5.5 y X&gt;=5.5. De esta manera ya tendríamos definido el nodo raíz, y el resto de nodos se irán obteniendo de forma recursiva y en un formato similar a como se comentado aquí.</p>
+<p>Así pues la idea del método es encontrar el punto de la variable independiente para dividir el conjunto de datos en dos mitades de modo que se vaya minimizando el error cuadrático medio ( aunque <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html">scikit learn permite tener en cuenta otras posibilidades de medidas de error</a> ). El algoritmo se hace de forma repetitiva hasta formal el árbol de decisión que se va buscando.</p>
+<p>Más adelante veremos qué árbol de decisión obtendríamos para este ejemplo con scikit learn.</p>
+<p>Para un ejemplo un poco más detallado de esta metodología, <a class="reference external" href="https://www.saedsayad.com/decision_tree_reg.htm">mirar en este enlace</a>.</p>
+</section>
+<section id="decision-tree-en-scikip-learn">
+<h2><span class="section-number">5.10. </span>Decisión Tree en Scikip Learn<a class="headerlink" href="#decision-tree-en-scikip-learn" title="Permalink to this headline">#</a></h2>
+<p>Antes de nada decir que para resolver este tipo de problemas, scikit learn no cuenta con algún parámetro que permita decir sobre el método a utilizar para resolver el problema, sin embargo en github sí podemos encontrar algún desarrollo en python que permita elegir este método. Por ejemplo <a class="reference external" href="https://github.com/loginaway/DecisionTree">podemos acudir a este enlace</a> para unos de ellos.</p>
+<p>La librería Scikip learn tiene <a class="reference external" href="https://scikit-learn.org/stable/modules/tree.html#tree">implementados procedimientos</a> que nos facilitan enormemente la construcción de este tipo de árboles de decisión. Para ello, implementa dos procedimientos que sirven cada uno de ellos para resolver problemas de clasificación (<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier">DecisionTreeClassifier</a> ) por una parte, o de regresión (<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor">DecisionTreeRegressor</a> ) por otra.</p>
+<p>Para ir entrando en materia, veamos inicialmente cómo resuelve scikit learn los problemas teóricos que hemos visto anteriormente, para ello procedemos a cargar las librerías necesarias y los datos correspondientes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## importamos dependencias</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span> <span class="c1">#Para resolver el árbol</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># Para crear el dataframe</span>
+<span class="kn">import</span> <span class="nn">pydotplus</span> <span class="c1"># Para ver el árbol generado</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>  <span class="c1"># PAra mostrar la imagen del gráficoTo Display a image of our graph</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span> <span class="c1">#Para resolver el árbol</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> <span class="c1"># Para crear el dataframe</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">pydotplus</span> <span class="c1"># Para ver el árbol generado</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pydotplus&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>NOTA: pydotplus se utiliza para dar un formato más estético al árbol de decisión generado por scikit learn. Para mayor detalle se puede acudir a <a class="reference external" href="https://www.analyticslane.com/2018/11/09/visualizacion-de-arboles-de-decision-en-python-con-pydotplus/">este enlace</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Creamos el dataset</span>
+<span class="c1">#creamos un dataframe vacío</span>
+<span class="n">jugar_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="c1">#añadimos campo outlook</span>
+<span class="n">jugar_df</span><span class="p">[</span><span class="s1">&#39;Outlook&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sunny&#39;</span><span class="p">,</span> <span class="s1">&#39;sunny&#39;</span><span class="p">,</span> <span class="s1">&#39;overcast&#39;</span><span class="p">,</span> <span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;rain&#39;</span><span class="p">,</span> 
+                     <span class="s1">&#39;overcast&#39;</span><span class="p">,</span> <span class="s1">&#39;sunny&#39;</span><span class="p">,</span> <span class="s1">&#39;sunny&#39;</span><span class="p">,</span> <span class="s1">&#39;rain&#39;</span><span class="p">,</span> <span class="s1">&#39;sunny&#39;</span><span class="p">,</span> <span class="s1">&#39;overcast&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;overcast&#39;</span><span class="p">,</span> <span class="s1">&#39;rain&#39;</span><span class="p">]</span>
+
+<span class="c1">#añadimos campo temperature</span>
+<span class="n">jugar_df</span><span class="p">[</span><span class="s1">&#39;Temperature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="s1">&#39;mild&#39;</span><span class="p">,</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;mild&#39;</span><span class="p">,</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span> <span class="s1">&#39;mild&#39;</span><span class="p">,</span> <span class="s1">&#39;mild&#39;</span><span class="p">,</span> <span class="s1">&#39;mild&#39;</span><span class="p">,</span> <span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="s1">&#39;mild&#39;</span><span class="p">]</span>
+
+<span class="c1">#añadimo campo humidity</span>
+<span class="n">jugar_df</span><span class="p">[</span><span class="s1">&#39;Humidity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">]</span>
+
+<span class="c1">#añadimos campo windy</span>
+<span class="n">jugar_df</span><span class="p">[</span><span class="s1">&#39;Wind&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;strong&#39;</span><span class="p">,</span> <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;strong&#39;</span><span class="p">,</span> <span class="s1">&#39;strong&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;strong&#39;</span><span class="p">,</span> <span class="s1">&#39;strong&#39;</span><span class="p">,</span> <span class="s1">&#39;weak&#39;</span><span class="p">,</span> <span class="s1">&#39;strong&#39;</span><span class="p">]</span>
+
+<span class="c1">#añadimos campo play</span>
+<span class="n">jugar_df</span><span class="p">[</span><span class="s1">&#39;Play&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">]</span>
+
+
+<span class="c1">#Mostramos todos los datos que hemos generado</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jugar_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     Outlook Temperature Humidity    Wind Play
+0      sunny         hot     high    weak   no
+1      sunny         hot     high  strong   no
+2   overcast         hot     high    weak  yes
+3       rain        mild     high    weak  yes
+4       rain        cool   normal    weak  yes
+5       rain        cool   normal  strong   no
+6   overcast        cool   normal  strong  yes
+7      sunny        mild     high    weak   no
+8      sunny        cool   normal    weak  yes
+9       rain        mild   normal    weak  yes
+10     sunny        mild   normal  strong  yes
+11  overcast        mild     high  strong  yes
+12  overcast         hot   normal    weak  yes
+13      rain        mild     high  strong   no
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convertimos las variables categórica en variables dummy, decir con valores 0 ó 1.</span>
+<span class="c1"># Por ejemplo la variable Outlok tiene tres categorías, por lo tanto creamos tres columnas nuevas,</span>
+<span class="c1"># de tal manera que por ejmplo la columna Outlook_overcast tendrá el valor cero, si la columna Outlook</span>
+<span class="c1"># no tiene el valor overcast y un uno si tiene ese valor.</span>
+
+<span class="n">one_hot_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">jugar_df</span><span class="p">[</span> <span class="p">[</span><span class="s1">&#39;Outlook&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;Humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;Wind&#39;</span><span class="p">]</span> <span class="p">])</span>
+<span class="c1">#Mostramos el nuevo conjunto de datos</span>
+<span class="n">one_hot_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Outlook_overcast</th>
+      <th>Outlook_rain</th>
+      <th>Outlook_sunny</th>
+      <th>Temperature_cool</th>
+      <th>Temperature_hot</th>
+      <th>Temperature_mild</th>
+      <th>Humidity_high</th>
+      <th>Humidity_normal</th>
+      <th>Wind_strong</th>
+      <th>Wind_weak</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>NOTA:</strong> Como podemos ver, en scikit learn necesitamos generar variables de tipo dummy para trabajar con datos categóricos. Si queremos evitar esto, <a class="reference external" href="https://github.com/m4jidRafiei/Decision-Tree-Python-">en github podemos encontrar</a> un desarrollo de deicision tree, sin necesidad de hacer esta transformación. Además ahí se puede ver cómo obtener el árbol de decisión también para los datos que se han utilizado en este tema.</p>
+<p>Una vez creada toda la infraestructura que necesitamos procedemos a crear y ajustar el modelo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generamos el modelo del clasificador.</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="c1"># Entrenamos el modelo</span>
+<span class="n">clf_train</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">one_hot_data</span><span class="p">,</span> <span class="n">jugar_df</span><span class="p">[</span><span class="s1">&#39;Play&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># imprimimos el árbolo a un formato DOT.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">clf_train</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+<span class="c1">#creamos Dot Data</span>
+<span class="n">dot_data</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">clf_train</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">one_hot_data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
+                                <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Not_Play&#39;</span><span class="p">,</span> <span class="s1">&#39;Play&#39;</span><span class="p">],</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Gini decides which attribute/feature should be placed at the root node, which features will act as internal nodes or leaf nodes</span>
+<span class="c1"># creamos el gráfico obtenido desde los datos en formato DOT</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">pydotplus</span><span class="o">.</span><span class="n">graph_from_dot_data</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
+
+<span class="c1"># Mostramos el gráfico</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">create_png</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>digraph Tree {
+node [shape=box, fontname=&quot;helvetica&quot;] ;
+edge [fontname=&quot;helvetica&quot;] ;
+0 [label=&quot;X[0] &lt;= 0.5\ngini = 0.459\nsamples = 14\nvalue = [5, 9]&quot;] ;
+1 [label=&quot;X[7] &lt;= 0.5\ngini = 0.5\nsamples = 10\nvalue = [5, 5]&quot;] ;
+0 -&gt; 1 [labeldistance=2.5, labelangle=45, headlabel=&quot;True&quot;] ;
+2 [label=&quot;X[2] &lt;= 0.5\ngini = 0.32\nsamples = 5\nvalue = [4, 1]&quot;] ;
+1 -&gt; 2 ;
+3 [label=&quot;X[8] &lt;= 0.5\ngini = 0.5\nsamples = 2\nvalue = [1, 1]&quot;] ;
+2 -&gt; 3 ;
+4 [label=&quot;gini = 0.0\nsamples = 1\nvalue = [0, 1]&quot;] ;
+3 -&gt; 4 ;
+5 [label=&quot;gini = 0.0\nsamples = 1\nvalue = [1, 0]&quot;] ;
+3 -&gt; 5 ;
+6 [label=&quot;gini = 0.0\nsamples = 3\nvalue = [3, 0]&quot;] ;
+2 -&gt; 6 ;
+7 [label=&quot;X[9] &lt;= 0.5\ngini = 0.32\nsamples = 5\nvalue = [1, 4]&quot;] ;
+1 -&gt; 7 ;
+8 [label=&quot;X[1] &lt;= 0.5\ngini = 0.5\nsamples = 2\nvalue = [1, 1]&quot;] ;
+7 -&gt; 8 ;
+9 [label=&quot;gini = 0.0\nsamples = 1\nvalue = [0, 1]&quot;] ;
+8 -&gt; 9 ;
+10 [label=&quot;gini = 0.0\nsamples = 1\nvalue = [1, 0]&quot;] ;
+8 -&gt; 10 ;
+11 [label=&quot;gini = 0.0\nsamples = 3\nvalue = [0, 3]&quot;] ;
+7 -&gt; 11 ;
+12 [label=&quot;gini = 0.0\nsamples = 4\nvalue = [0, 4]&quot;] ;
+0 -&gt; 12 [labeldistance=2.5, labelangle=-45, headlabel=&quot;False&quot;] ;
+}
+</pre></div>
+</div>
+<img alt="../../_images/decisiontree_29_1.png" src="../../_images/decisiontree_29_1.png" />
+</div>
+</div>
+<p>Veamos cómo resuelve scikip learn el ejemplo simple de regresión, que hemos visto anteriormente. En primer lugar creamos el conjunto de datos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datos_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="c1">#creamos la variable X</span>
+<span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">]</span>
+
+<span class="c1">#creamos la variable y</span>
+<span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mf">6.1</span><span class="p">,</span><span class="mf">6.7</span><span class="p">,</span><span class="mf">6.4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mf">3.1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">datos_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     X    y
+0    1  1.0
+1    2  1.2
+2    3  1.4
+3    4  1.1
+4    5  1.0
+5    6  5.5
+6    7  6.1
+7    8  6.7
+8    9  6.4
+9   10  6.0
+10  11  6.0
+11  12  3.0
+12  13  3.2
+13  14  3.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación procedemos a hacer el ajuste, pero haciendo una distinción, utilizando para ello el hiperparámetro max_depth de scikit learn, que indica el número de niveles del árbol hasta el que queremos llegar. Haremos una distinción entre 2 niveles y 5 niveles</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clf_2</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">clf_5</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">clf_2</span> <span class="o">=</span> <span class="n">clf_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">clf_5</span> <span class="o">=</span> <span class="n">clf_5</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora sacamos el gráfico del árbol obtenido</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">plot_tree</span><span class="p">(</span><span class="n">clf_2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/decisiontree_35_0.png" src="../../_images/decisiontree_35_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hacemos ahora prediccines para luego poder sacar el gráfico</span>
+
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+<span class="n">y_2</span> <span class="o">=</span> <span class="n">clf_2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_5</span> <span class="o">=</span> <span class="n">clf_5</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una vez tenemos ya todo preparado, es hora de sacar el gráfico corerspondiente</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="n">datos_df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;darkorange&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cornflowerblue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;max_depth=2&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;yellowgreen&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;max_depth=5&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;datos&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Decision Tree Regression&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/decisiontree_38_0.png" src="../../_images/decisiontree_38_0.png" />
+</div>
+</div>
+<p>Como puede observarse en la gráfica anterior, a medida que incrementamos el número de niveles del árbol de decisión, más se aproxima la curva de regresión a los puntos, pero eso sí podemos incurrir en un sobreajuste importante que haga que nuestro modelo no sirva para hacer predicciones sobre otros datos diferentes, que queden fuera del rango sobre el que hemos entrenado el modelo.</p>
+</section>
+<section id="decisiontreeclassifier">
+<h2><span class="section-number">5.11. </span>DecisionTreeClassifier.<a class="headerlink" href="#decisiontreeclassifier" title="Permalink to this headline">#</a></h2>
+<p>Esta clase tiene una serie de hiperparámetros de entro los cuales merece la pena destacar los siguiente:</p>
+<ul class="simple">
+<li><p>criterion. Puede tomar los valores “gini” o “entropia” que sirven para medir la pureza de los nodos que se van creando.</p></li>
+<li><p>splitter: puede tomar los valores best (valor por defecto) y random. Normalmente, en la construcción del árbol de decisión se elige dividir cada nodo en un punto óptimo (basado en la impureza dada gini o en la ganancia de información de la entropía). Sin embargo, sería más rápido, y posiblemente no mucho peor, utilizar una división aleatoria. Para esto se puede utilizar este parámetro. Para ver un ejemplo de esto se puede <a class="reference external" href="https://www.kaggle.com/code/drgilermo/playing-with-the-knobs-of-sklearn-decision-tree/notebook">visitar esta página web</a>.</p></li>
+<li><p>max_deph. Es un valor entero que se utiliza para determinar el nivel de desarrollo del árbol, de tal manera que al utilizar este parámetro, el árbol que se construya no tendrá más de los niveles indicados por este parámetro.</p></li>
+<li><p>min_samples_split. su valor por defecto es 2 he indica el número mínimo de observaciones que debe tener un nodo para que se pueda dividir.</p></li>
+<li><p>min_samples_leaf. Similar al anterior parámetro, pero en este caso para referirse a las hojas del árbol.</p></li>
+<li><p>min_weight_fraction_leaf. Es la fracción mínima ponderada necesaria para estar en un nodo hoja</p></li>
+<li><p>class_weight. Los pasos asociado a las clases, se deben facilitar en la forma: {class_label: wight}</p></li>
+</ul>
+</section>
+<section id="decisiontreeregressor">
+<h2><span class="section-number">5.12. </span>DecisionTreeRegressor.<a class="headerlink" href="#decisiontreeregressor" title="Permalink to this headline">#</a></h2>
+<p>Los hiperparámetros más relevantes de esta clase coinciden con los expuestos en el párrafo anterior, salvo <em>class_wight</em>, por lo que sería valido lo indicado en dicho apartado.</p>
+</section>
+<section id="ejemplo-de-regresion">
+<h2><span class="section-number">5.13. </span>Ejemplo de Regresión.<a class="headerlink" href="#ejemplo-de-regresion" title="Permalink to this headline">#</a></h2>
+<p>Vamos a ver en este apartado un ejemplo completo sobre regresión utilizando el método que hemos visto en este capítulo.</p>
+<p>Comenzamos por cargar las librerías necesarias</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p>Leamos el fichero y veamos un resumen de su contenido</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;data/Datos_Tema2.xlsx&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Thickness_ft</th>
+      <td>987.0</td>
+      <td>150.448933</td>
+      <td>52.452284</td>
+      <td>50.218753</td>
+      <td>123.462354</td>
+      <td>141.662622</td>
+      <td>166.707110</td>
+      <td>475.992627</td>
+    </tr>
+    <tr>
+      <th>Bulk Density_gg per cc</th>
+      <td>987.0</td>
+      <td>2.423001</td>
+      <td>0.019059</td>
+      <td>2.386117</td>
+      <td>2.409469</td>
+      <td>2.422639</td>
+      <td>2.433418</td>
+      <td>2.540608</td>
+    </tr>
+    <tr>
+      <th>Resistivity_ohmsm</th>
+      <td>987.0</td>
+      <td>3.892432</td>
+      <td>1.342193</td>
+      <td>1.680451</td>
+      <td>3.120852</td>
+      <td>3.650354</td>
+      <td>4.319585</td>
+      <td>15.970625</td>
+    </tr>
+    <tr>
+      <th>Effective Porosity_Fraction</th>
+      <td>987.0</td>
+      <td>0.061492</td>
+      <td>0.014805</td>
+      <td>0.017432</td>
+      <td>0.051250</td>
+      <td>0.061158</td>
+      <td>0.072289</td>
+      <td>0.096054</td>
+    </tr>
+    <tr>
+      <th>Clay Volume_ Fraction</th>
+      <td>987.0</td>
+      <td>0.271257</td>
+      <td>0.045289</td>
+      <td>0.153118</td>
+      <td>0.238607</td>
+      <td>0.264785</td>
+      <td>0.303776</td>
+      <td>0.413083</td>
+    </tr>
+    <tr>
+      <th>Water Saturation_Fraction</th>
+      <td>987.0</td>
+      <td>0.435876</td>
+      <td>0.080023</td>
+      <td>0.230041</td>
+      <td>0.372234</td>
+      <td>0.442414</td>
+      <td>0.490972</td>
+      <td>0.683304</td>
+    </tr>
+    <tr>
+      <th>TOC_Fraction</th>
+      <td>987.0</td>
+      <td>0.052630</td>
+      <td>0.005062</td>
+      <td>0.030830</td>
+      <td>0.051026</td>
+      <td>0.053662</td>
+      <td>0.056100</td>
+      <td>0.060907</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>A continuación vamos a visualizar la distribución de cada una de las features contenidas en el fichero</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Thickness_ft&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Bulk Density_gg per cc&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span> <span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Resistivity_ohmsm&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Effective Porosity_Fraction&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Clay Volume_ Fraction&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Water Saturation_Fraction&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;brown&quot;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;TOC_Fraction&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1">#plt.tight_layout()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;TOC_Fraction&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/decisiontree_48_1.png" src="../../_images/decisiontree_48_1.png" />
+</div>
+</div>
+<p>También es interesante ver los diagramas de puntos dos a dos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/decisiontree_50_0.png" src="../../_images/decisiontree_50_0.png" />
+</div>
+</div>
+<p>Al ser variables continuas, también podemos sacar la correlación de Pearson, de la siguiente manera</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+<span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/decisiontree_52_0.png" src="../../_images/decisiontree_52_0.png" />
+</div>
+</div>
+<p>Como podemos ver en el gráfico anterior hay dos variable con una correlación más bien alta igual a -0.72, por lo tanto lo que se podría hacer es dejar de lado una de las dos variables y trabajar solo con una, o hacer un PCA y trabajar con los resultados que nos salgan de ese análisis. No obstante se va a seguir trabajando con las dos variable, y se deja al lector interesado trabajar sobre estas lineas y comparar los resultados que se obtengan de esos análisis.</p>
+<p>Vamos a preparar lo datos para elaborar el modelo. Seleccionamos los valores de la X y el de la y</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;TOC_Fraction&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;TOC_Fraction&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación entresacamos los datos de train y de test</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">seed</span><span class="o">=</span><span class="mi">1000</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="n">train_test_split</span>\
+<span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación definimos el modelo con una serie de hiperparámetros que ya se ha explicado anteriormente su significado.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="c1"># creamos el modelo</span>
+<span class="n">dtree</span><span class="o">=</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">splitter</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span>
+<span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="n">max_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">ccp_alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ajustamos el modelo</span>
+<span class="n">dtree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DecisionTreeRegressor(ccp_alpha=0, criterion=&#39;mse&#39;, max_depth=None,
+                      max_features=None, max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=2, min_samples_split=4,
+                      min_weight_fraction_leaf=0.0, presort=&#39;deprecated&#39;,
+                      random_state=None, splitter=&#39;best&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_train</span><span class="o">=</span><span class="n">dtree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">y_pred_test</span><span class="o">=</span><span class="n">dtree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación procedemos a calcular <span class="math notranslate nohighlight">\(R^2\)</span> de la siguiente manera:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Primero para los datos de entrenamientp</span>
+<span class="n">corr_train</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_train</span><span class="p">)</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rˆ2 de los datos entreamiento =&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">corr_train</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="s1">&#39;R=&#39;</span><span class="p">,</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">corr_train</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rˆ2 de los datos entreamiento = 0.975 R= 0.9874
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ahora para los daatos test</span>
+<span class="n">corr_test</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_test</span><span class="p">)</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rˆ2 de los datos test =&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">corr_test</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="s1">&#39;R=&#39;</span><span class="p">,</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">corr_test</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rˆ2 de los datos test = 0.6833 R= 0.8266
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como resultado de todo esto podemos ver que los datos de <span class="math notranslate nohighlight">\(R^2\)</span> son muy diferentes entre el entrenamiento y el test, por lo tanto habría que ver si se puede mejorar este ajuste mediante una serie de cambios de parámetros ( <a class="reference external" href="https://machinelearningmastery.com/hyperparameter-optimization-with-random-search-and-grid-search/">Grid search optimization</a>), por ejemplo utilizando <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html">RandomizedSearchCV</a>, o bien <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">GridSearchCV</a>.</p>
+<p>Para hacernos una idea de cómo están los datos, vamos a hacer una representación gráfica comparativa de los datos de entrenamiento y sus valores predichos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_train</span><span class="p">,</span> <span class="s1">&#39;g.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;TOC Datos entrenamiento reales&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;TOC datos entrenamiento predichos&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;TOC Datos de entrenamiento reales Vs. Predichos&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;TOC Datos de entrenamiento reales Vs. Predichos&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/decisiontree_67_1.png" src="../../_images/decisiontree_67_1.png" />
+</div>
+</div>
+<p>Hagaamos lo mismo para los datos de test</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_test</span><span class="p">,</span> <span class="s1">&#39;g.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;TOC Datos test reales&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;TOC datos test predichos&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;TOC Datos de test reales Vs. Predichos&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;TOC Datos de test reales Vs. Predichos&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/decisiontree_69_1.png" src="../../_images/decisiontree_69_1.png" />
+</div>
+</div>
+<p>En estos dos gráficos podemos ver con toda claridad la diferencia que hay en la distribución de estas dos magnitudes, y claramente en el segundo gráfico se puede observar la mayor dispersión que existe para los datos de test, lo que indica que existe un sobreajuste en el método utilizado.</p>
+<p>Además de las métricas anteriores, vamos a obtener alguna más: MAE, MSE, RMSE</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MAE:&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span>
+<span class="n">y_pred_test</span><span class="p">),</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE:&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span>
+<span class="n">y_pred_test</span><span class="p">),</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE:&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span>
+<span class="n">y_pred_test</span><span class="p">)),</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MAE: 0.00127
+MSE: 1e-05
+RMSE: 0.00278
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una característica importante de estos métodos, implementada en scikip learn es que podemos ver la importancia de cada feature, mediante el método “dtree.featureimportances_”. Veamos esto a continuación:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dtree</span><span class="o">.</span><span class="n">feature_importances_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.28651806, 0.11955648, 0.13959011, 0.24352775, 0.13713719,
+       0.07367041])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hagamos un gráfico, para ver estos datos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_names</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">feature_imp</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dtree</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span>
+<span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feature_imp</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">feature_imp</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Score de Feature Importance usando Decision Tree&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Features&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Ranking de Feature Importance&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Ranking de Feature Importance&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/decisiontree_75_1.png" src="../../_images/decisiontree_75_1.png" />
+</div>
+</div>
+<p>Para profundizar un poco más en este estudio, vamos a realizar una validación cruzada utilizando para ello un total de 5 folds.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="n">scores_R2</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">dtree</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;r2&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; R2_Cross-validation scores: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span> <span class="nb">format</span><span class="p">(</span><span class="n">scores_R2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> R2_Cross-validation scores: [0.69672778 0.56657738 0.51290659 0.60992366 0.76534161]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Promedio de  R2_Cross-validation scores: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span>
+<span class="nb">format</span><span class="p">(</span><span class="n">scores_R2</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Promedio de  R2_Cross-validation scores: 0.6302954016341682
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./supervisados\decisiontree"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../Softmax.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">4. </span>Regresión Softmax.</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../multiclass.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Multiclass clasificación.</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

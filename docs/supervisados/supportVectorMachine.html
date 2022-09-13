@@ -1,0 +1,976 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2. Support Vector Machines (SVM). &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Regresión Logística" href="RegresionLogistica/RegresionLogisticaEjemplo.html" />
+    <link rel="prev" title="1. Algoritmo Neareast Neighbors (KNN)" href="Neareast_Neighbors.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/supervisados/supportVectorMachine.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/supervisados/supportVectorMachine.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   2.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#soporte-matematico">
+   2.2. Soporte matemático.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-separados-linealmente">
+     2.2.1. Datos “separados linealmente”.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#casos-cuasi-separables-linealmente">
+     2.2.2. Casos cuasi-separables linealmente.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#separacion-no-lineal-de-puntos">
+     2.2.3. Separación no lineal de puntos.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#kernel-polinomico">
+       2.2.3.1. Kernel polinómico.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#kernel-bases-radiales">
+       2.2.3.2. Kernel bases radiales.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#ajuste-de-los-parametros">
+       2.2.3.3. Ajuste de los parámetros.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svm-para-mas-de-dos-clases">
+   2.3. SVM para más de dos clases.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svm-en-scikit-learn">
+   2.4. SVM en scikit learn.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clasificacion">
+     2.4.1. Clasificación.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regresion">
+     2.4.2. Regresión.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ejemplos">
+   2.5. Ejemplos.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   2.6. Bibliografía.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Support Vector Machines (SVM).</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   2.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#soporte-matematico">
+   2.2. Soporte matemático.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-separados-linealmente">
+     2.2.1. Datos “separados linealmente”.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#casos-cuasi-separables-linealmente">
+     2.2.2. Casos cuasi-separables linealmente.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#separacion-no-lineal-de-puntos">
+     2.2.3. Separación no lineal de puntos.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#kernel-polinomico">
+       2.2.3.1. Kernel polinómico.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#kernel-bases-radiales">
+       2.2.3.2. Kernel bases radiales.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#ajuste-de-los-parametros">
+       2.2.3.3. Ajuste de los parámetros.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svm-para-mas-de-dos-clases">
+   2.3. SVM para más de dos clases.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svm-en-scikit-learn">
+   2.4. SVM en scikit learn.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clasificacion">
+     2.4.1. Clasificación.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#regresion">
+     2.4.2. Regresión.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ejemplos">
+   2.5. Ejemplos.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   2.6. Bibliografía.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="support-vector-machines-svm">
+<h1><span class="section-number">2. </span>Support Vector Machines (SVM).<a class="headerlink" href="#support-vector-machines-svm" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<h2><span class="section-number">2.1. </span>Introducción.<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p id="index-0">Este método de clasificación-regresión, se desarrolló en la década de los años 90, y dentro del campo computacional. En su origen fue un método de clasificación binaria, pero posteriormente se extendió a problemas de clasificación múltiple y regresión.</p>
+<p>Estas máquinas de vector soporte se fundamentan en el concepto de <em>Maximal Margin Classifier</em> el cual a su vez se fundamenta en el concepto de hiperplano ( que desde un punto de vista algebráico, no es más que una zona de dimensión n-1 que divide al espacio con el que estemos trabajando en dos mitades. Por ejemplo si estamos trabajando en dos dimensión, un hiperplano sería una recta - que tiene una dimensión n-1=2-1=1- mientras que si estamos en el espacio, un hiperplano sería un plano que tiene tiene dimensión 2 = 3-1 ). Para comprender los fundamentos matemáticos de SVM se requiere ciertos conocimientos de álgebra, y los mimos se desarrollarán en el siguiente apartado para que el lector pueda entender mejor el procedimiento que se utiliza con esta técnica de clasificación-regresión, aunque ya se advierte, que si bien es conveniente conocer y comprender estos fundamentos matemáticos, los mismos no son imprescindibles para que el lector pueda aplicar estas técnicas en la resolución de problemas de machine learning.</p>
+<p>En este apartado nos centraremos en la utilización de esta metodología en base a las herramientas que nos proporciona scikit learn, no obstante para los amantes  el paquete estadístico R también se puede decir que disponen de dos librerías denominadas <em>e1071</em> y <em>LiblineaR</em> con las que se pueden hacer análisis de datos mediante estas Máquinas de Vector Soporte.</p>
+</section>
+<section id="soporte-matematico">
+<h2><span class="section-number">2.2. </span>Soporte matemático.<a class="headerlink" href="#soporte-matematico" title="Permalink to this headline">#</a></h2>
+<p>Para ir entrando en materia sobre al aparato matemático sobre el que se construye esta metodología, veamos a continuación cual es la expresión matemática de un hiperplano. En el caso de dos dimensiones, el hiperplano no es más que una recta que se define mediante la siguiente expresión matemática:</p>
+<div class="math notranslate nohighlight">
+\[\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}=0\]</div>
+<p>La ecuación anterior puede extenderse a un espacio de dimensión p de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+\ldots+\beta_{p}x_{p}=0\]</div>
+<p>A efectos de aligerar la notación, el hiperplano anterior también lo podemos representar en notación matricial de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[\beta_{0}+\beta^{'}X=0\]</div>
+<p>Siendo <span class="math notranslate nohighlight">\(\beta^{'}\)</span> el vector transpuesto de los parámetros beta.</p>
+<p>Entonces cuando un punto de dimensión p, X verifica que</p>
+<div class="math notranslate nohighlight">
+\[\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+\ldots+\beta_{p}x_{p}&lt;0\]</div>
+<p>o bien</p>
+<div class="math notranslate nohighlight">
+\[\beta_{0}+\beta_{1}x_{1}+\beta_{2}x_{2}+\ldots+\beta_{p}x_{p}&gt;0\]</div>
+<p>diremos que el punto X cae a un lado u otro del hiperplano, y por lo tanto esta es la idea a tener en cuenta cuando intentamos hacer una separación de puntos, que es la finalidad de los métodos de clasificación.</p>
+<section id="datos-separados-linealmente">
+<h3><span class="section-number">2.2.1. </span>Datos “separados linealmente”.<a class="headerlink" href="#datos-separados-linealmente" title="Permalink to this headline">#</a></h3>
+<p>En este caso vamos a suponer que constamos con n datos <span class="math notranslate nohighlight">\(x_{i}\:\epsilon\:\mathbb{R^{\textrm{p}}}\)</span>, que pertenecen a dos tipos de clases, <span class="math notranslate nohighlight">\(y_{i}\ \epsilon\ \{-1,1\}\)</span> y que existe un hiperplano <span class="math notranslate nohighlight">\(\{X:\beta_{0}+\beta^{'}X=0 \}\)</span> que separa perfectamente estos puntos. Entonces se tiene lo siguiente:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\beta_{0}+\beta^{'}X_{i}&gt;0 &amp; si\ y_{i}=1\\
+\beta_{0}+\beta^{'}X_{i}&lt;0 &amp; si\ y_{i}\ =-1
+\end{cases}\end{split}\]</div>
+<p>Lo cual se puede escribir mediante una simple ecuación de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[(\beta_{0}+\beta^{'}X_{i})\cdot y_{i}&gt;0\]</div>
+<p>para i=1,2,…,n</p>
+<ul class="simple">
+<li><p>Se puede comprobar que el LDA (Lineal Discriminant analysis) y la regresión logística buscan hiperplanos separantes lineales pero se puede comprobar que no siempre encuentran un hiperplano que separa perfectamente los grupos aunque éstos sí sean “linealmente separables”.</p></li>
+<li><p>El objetivo del Support Vector Machine (SCM) es que si los datos son separables linealmente vamos a buscar un hiperplano que mejor separe los mismos, en el sentido de dejar mayor “margen”. Esto se puede observar en la siguiente figura.</p></li>
+</ul>
+<p><img alt="SVM1" src="../_images/svm1.PNG" /></p>
+<p>Recordemos de álgebra, que la distancia de un punto x a un hiperplano definido por  <span class="math notranslate nohighlight">\(\{X:\beta_{0}+\beta^{'}X=0 \}\)</span> es <span class="math notranslate nohighlight">\(\pm\frac{1}{\left\Vert \beta\right\Vert }(\beta_{0}+\beta^{'}X)\)</span></p>
+<p>Entonces si tomamos parámetros beta unitarios, es decir <span class="math notranslate nohighlight">\(\left\Vert \beta\right\Vert \ =\ 1\)</span> y los datos son separables linealmente entonces la distancia del punto <span class="math notranslate nohighlight">\(X_i\)</span> al hiperplano separante será <span class="math notranslate nohighlight">\(y_{i}\cdot(\beta_{0}+\beta^{'}X_{i})\)</span>, que como ya hemos visto anteriormente será siempre un valor positivo.</p>
+<p>Entonces el problema que queremos resolver, se puede expresar mediante la siguiente expresión matemática:</p>
+<div class="math notranslate nohighlight">
+\[\underset{\beta_{0},\beta\ con\ \left\Vert \beta\right\Vert =1}{max}M\qquad sujeto\ a\ y_{i}(\beta_{0}+\beta^{'}X_{i})\ \geq\ M\]</div>
+<p>En la expresión anterior, lo que pretendemos indicar es que la distancia de todos los puntos <span class="math notranslate nohighlight">\(X_i\)</span> al hiperplano deben ser mayores que el margen M.</p>
+<p>Podemos mejorar el planteamiento del problema si en lugar de tomar <span class="math notranslate nohighlight">\(\left\Vert \beta\right\Vert =1\)</span> se toma un <span class="math notranslate nohighlight">\(\beta\)</span> tal que la restricción <span class="math notranslate nohighlight">\(y_{i}(\beta_{0}+\beta^{'}X_{i})\ \geq\ M\)</span> se simplifique a <span class="math notranslate nohighlight">\(y_{i}(\beta_{0}+\beta^{'}X_{i})\ \geq\ 1\)</span>. En este caso, se puede demostrar que la distancia de las observaciones en los “márgenes” es <span class="math notranslate nohighlight">\(M=1/\left\Vert \beta\right\Vert \)</span> y por lo tanto maximizar <span class="math notranslate nohighlight">\(M=1/\left\Vert \beta\right\Vert \)</span> es equivalente a minimizar <span class="math notranslate nohighlight">\(\left\Vert \beta\right\Vert\)</span> y en consecuencia el problema puede reescribirse como.</p>
+<div class="math notranslate nohighlight">
+\[\underset{\beta_{0},\beta}{min}\frac{1}{2}\left\Vert \beta\right\Vert ^{2}\qquad sujeto\ a\ y_{i}(\beta_{0}+\beta^{'}X_{i})\ \geq\ 1\]</div>
+<p>Con el problema de optimización anterior, se puede probar lo siguiente:</p>
+<p><span class="math notranslate nohighlight">\(\beta=\sum_{i=1}^{n}\alpha_{i}y_{i}x_{i}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\alpha_{i}\geq0\)</span></p>
+<p><span class="math notranslate nohighlight">\(\alpha_{i}\ge0\)</span> sólo para los puntos que verifican <span class="math notranslate nohighlight">\(y_{i}(\beta_{0}+\beta^{'}x_{i})=1\)</span>, es decir las únicas observaciones que contribuyen a calcular lo <span class="math notranslate nohighlight">\(\beta\)</span> son aquellas que están exactamente en los “márgenes”, que son los denominados <em>Puntos de soporte</em> o <em>Support Vector Machines</em>.</p>
+<p><img alt="SVM2" src="../_images/svm2.PNG" /></p>
+<p>Por lo tanto el método de Support Vector Machines (SVM) ponen todo su esfuerzo clasificatorio centrándose en las observaciones “fronterizas” entre los grupos. Esta es una diferencia muy importante, respecto a otros métodos clasificatorios como el LDA(lineal discriminant analysis), QDA (quadratic discriminant analysis) o la regresión logística que usan todas las observaciones de las clases, aunque éstas fueran fácilmente separables.</p>
+</section>
+<section id="casos-cuasi-separables-linealmente">
+<h3><span class="section-number">2.2.2. </span>Casos cuasi-separables linealmente.<a class="headerlink" href="#casos-cuasi-separables-linealmente" title="Permalink to this headline">#</a></h3>
+<p>El hiperplano obtenido anteriormente se denomina <em>maximal margin hyperplane</em> y está obtenido bajo unas condiciones que normalmente no se dan, pues lo más normal es que los datos no se pueden separar linealmente de forma perfecta. Entonces para dar solución a esto lo que se suele hacer es extender el concepto de  <em>maximal margin hyperplane</em> para obtener otro hiperplano que “casi” separe las clases y permitir de esta manera que se cometan una mínima cantidad de errores. A este nuevo hipeplano se le conoce con el término de <em>Support Vector Classifier</em> o <em>Solf Margin</em>.</p>
+<p>Por estas razones, es preferible crear un clasificador basado en un hiperplano que, aunque no separe perfectamente las dos clases, sea más robusto y tenga mayor capacidad predictiva al aplicarlo a nuevas observaciones (menos problemas de overfitting). Esto es exactamente lo que consiguen los <em>clasificadores de vector soporte</em>, también conocidos como <em>soft margin classifiers</em> o <em>Support Vector Classifiers</em>. Para lograrlo, en lugar de buscar el margen de clasificación más ancho posible que consigue que las observaciones estén en el lado correcto del margen; se permite que ciertas observaciones estén en el lado incorrecto del margen o incluso del hiperplano.</p>
+<p>La formulación matemática que se ha ideado para este tipo de situaciones es la siguiente.</p>
+<p id="index-1">Para poder admitir puntos <span class="math notranslate nohighlight">\(X_i\)</span> “mal clasificados”, se admiten observaciones en lados no verificando los “márgenes” y penalizando  el tamaño de esa “mala clasificación” con un coste dado que denotaremos con C. En esta ocasión se van a permitir las denominadas variables de holgura o *slack variables”, <span class="math notranslate nohighlight">\(\xi\)</span>.De esta forma el problema matemático a resolver sería el siguiente:</p>
+<div class="math notranslate nohighlight">
+\[\underset{\beta_{0},\beta}{min}\frac{1}{2}\left\Vert \beta\right\Vert ^{2}+C\sum_{i=1}^{n}\xi_{i}\qquad sujeto\ a\ y_{i}(\beta_{0}+\beta^{'}X_{i})\ \geq\ 1-\xi_{i}\ y\ \xi_{i}\ge0\]</div>
+<p><img alt="SVM3" src="../_images/svm3.PNG" /></p>
+<p>La identificación del hiperplano de un clasificador de vector soporte, que clasifique correctamente la mayoría de las observaciones a excepción de unas pocas, es un problema de optimización convexa,y como se puede ver, este proceso incluye un hiperparámetro de <em>tuning</em> C, que controla el número y severidad de las violaciones del margen (y del hiperplano) que se toleran en el proceso de ajuste. Si C=∞, no se permite ninguna violación del margen y por lo tanto, el resultado es equivalente al <em>Maximal Margin Classifier</em> (teniendo en cuenta que esta solución solo es posible si las clases son perfectamente separables). Cuando más se aproxima C a cero, menos se penalizan los errores y más observaciones pueden estar en el lado incorrecto del margen o incluso del hiperplano. C es a fin de cuentas el hiperparámetro encargado de controlar el balance entre bias y varianza del modelo. En la práctica, su valor óptimo se identifica mediante cross-validation.</p>
+<p>Existen en internet (eso si, en inglés) una buena cantidad de tutoriales explicando esta materia. A continuación se plasman una serie de enlaces a esas páginas web que ayudarán al lector interesado a comprender mejor este procedimiento.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=ny1iZ5A8ilA">https://www.youtube.com/watch?v=ny1iZ5A8ilA</a></p></li>
+<li><p><a class="reference external" href="https://www.csd.uwo.ca/~xling/cs860/papers/SVM_Explained.pdf">https://www.csd.uwo.ca/~xling/cs860/papers/SVM_Explained.pdf</a></p></li>
+<li><p><a class="reference external" href="https://cse.iitkgp.ac.in/~dsamanta/courses/da/resources/slides/10SupportVectorMachine.pdf">https://cse.iitkgp.ac.in/~dsamanta/courses/da/resources/slides/10SupportVectorMachine.pdf</a></p></li>
+<li><p><a class="reference external" href="https://www.hindawi.com/journals/aaa/2014/836895/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=HDW_MRKT_GBL_SUB_ADWO_PAI_DYNA_JOUR_Complexity_X0000_Geotarget&amp;gclid=CjwKCAjwi8iXBhBeEiwAKbUofRLpuyloKYLODWxPRdbasxk4nrFXA7YeVbwBUm37IlCpE-kui1XrhBoCLm8QAvD_BwE">https://www.hindawi.com/journals/aaa/2014/836895/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=HDW_MRKT_GBL_SUB_ADWO_PAI_DYNA_JOUR_Complexity_X0000_Geotarget&amp;gclid=CjwKCAjwi8iXBhBeEiwAKbUofRLpuyloKYLODWxPRdbasxk4nrFXA7YeVbwBUm37IlCpE-kui1XrhBoCLm8QAvD_BwE</a></p></li>
+</ul>
+<p>Si tenemos interés en resolver este tipo de problemas mediante el paquete estadístico R, se puede consultar el siguiente enlace:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://bookdown.org/aurora_tumminello/statistics_lab/support-vector-machines.html">https://bookdown.org/aurora_tumminello/statistics_lab/support-vector-machines.html</a></p></li>
+</ul>
+</section>
+<section id="separacion-no-lineal-de-puntos">
+<h3><span class="section-number">2.2.3. </span>Separación no lineal de puntos.<a class="headerlink" href="#separacion-no-lineal-de-puntos" title="Permalink to this headline">#</a></h3>
+<p>El método de separación de puntos explicado anteriormente, consigue buenos resultados, cuando el límite de separación de los mismos es aproximadamente lineal, cuando no se da esta premisa, los resultados obtenidos decaen considerablemente. Entonces, una estrategia para enfrentarse a escenarios en los que la separación de los grupos es de tipo no lineal consiste en expandir las dimensiones del espacio original.</p>
+<p>El hecho de que los grupos no sean linealmente separables en el espacio original no significa que no lo sean en un espacio de mayores dimensiones. Las imágenes siguientes muestran como dos grupos, cuya separación en dos dimensiones no es lineal, sí lo es al añadir una tercera dimensión.</p>
+<p><img alt="SVM4" src="../_images/svm4.PNG" /></p>
+<p id="index-2">Ahora bien la pregunta inmediata que aparece ante esta situación es ¿Cómo se aumenta la dimensión y cual sería la dimensión correcta a tener en cuenta?. Para aumentar la dimensión del espacio, lo que se hace normalmente es utilizar diferentes funciones, denominadas <em>Kernel</em>, siendo un ejemplo el siguiente:</p>
+<div class="math notranslate nohighlight">
+\[f(x_{1},x_{2})=(x_{1}^{2},\sqrt{2}x_{1}x_{2},x_{2}^{2})\]</div>
+<p>Los kernels más usados son los siguientes.</p>
+<section id="kernel-polinomico">
+<h4><span class="section-number">2.2.3.1. </span>Kernel polinómico.<a class="headerlink" href="#kernel-polinomico" title="Permalink to this headline">#</a></h4>
+<p>La expresión matemática es la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[K(x,x^{'})=(x\cdot x^{'}+c)^{d}\]</div>
+<p>Cuando se toma d=1 y c=0, se obtiene el denominado <em>kernel lineal</em>. Si d&gt;1 entonces se generan límites de decisión no lineales, siendo menos lineales a medida que se incrementa el valor de d, y además se recomiendan valores de d menores o iguales a 5 para evitar problemas de sobreajuste (overfitting).</p>
+<p><img alt="SVM5" src="../_images/svm5.PNG" /></p>
+</section>
+<section id="kernel-bases-radiales">
+<h4><span class="section-number">2.2.3.2. </span>Kernel bases radiales.<a class="headerlink" href="#kernel-bases-radiales" title="Permalink to this headline">#</a></h4>
+<p>Este kernel también es conocido como kernel Gaussian (RBF) y su expresión matemática es la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[K(x,x^{'})=exp(-\gamma\left\Vert x-x^{'}\right\Vert ^{2})\]</div>
+<p><img alt="SVM6" src="../_images/svm6.PNG" /></p>
+<p>El valor del parámetro <span class="math notranslate nohighlight">\(\gamma\)</span> controla el comportamiento del kernel, de tal manera que si <span class="math notranslate nohighlight">\(\gamma\)</span> es muy pequeño el modelo que se obtiene es muy similar al kernel lineal, y a medida que se incrementa el valor de este parámetro también lo hace la flexibilidad del modelo.</p>
+</section>
+<section id="ajuste-de-los-parametros">
+<h4><span class="section-number">2.2.3.3. </span>Ajuste de los parámetros.<a class="headerlink" href="#ajuste-de-los-parametros" title="Permalink to this headline">#</a></h4>
+<p>Los parámetros de los modelos/kernels mencionados anteriormente, es decir, el parámetro C (coste mal-clasificación), d (núcleo polinómico) o <span class="math notranslate nohighlight">\(\gamma\)</span> (bases radiales) se suelen elegir mediante validación cruzada, y además hay que tener en cuenta que cuanto mayor es el valor de estos parámetros, mayor riesgo se tiene de sobreajuste.</p>
+</section>
+</section>
+</section>
+<section id="svm-para-mas-de-dos-clases">
+<h2><span class="section-number">2.3. </span>SVM para más de dos clases.<a class="headerlink" href="#svm-para-mas-de-dos-clases" title="Permalink to this headline">#</a></h2>
+<p id="index-3">El concepto de hiperplano de separación en el que se basan los SVMs no se generaliza de forma natural para más de dos clases. Se han desarrollado numerosas estrategias con el fin de aplicar este método de clasificación a situaciones con k&gt;2-clases, de entre ellos, los más empleados son: one-versus-one, one-versus-all y DAGSVM.</p>
+<p>Las estrategias one-versus-one, one-versus-all se desarrollan <a class="reference internal" href="multiclass.html#multiclases"><span class="std std-ref">predicción con multiclases</span></a>, por lo que no se vuelven a repetir los conceptos en este apartado.</p>
+<p>DAGSVM (Directed Acyclic Graph SVM) es una mejora del método one-versus-one. La estrategia seguida es la misma, pero consiguen reducir su tiempo de ejecución eliminando comparaciones innecesarias gracias al empelo de una directed acyclic graph (DAG). Supóngase un set de datos con cuatro clases (A, B, C, D) y 6 clasificadores entrenados con cada posible par de clases (A-B, A-C, A-D, B-C B-D, C-D). Se inician las comparaciones con el clasificador (A-D) y se obtiene como resultado que la observación pertenece a la clase A, o lo que es equivalente, que no pertenece a la clase D. Con esta información se pueden excluir todas las comparaciones que contengan la clase D, puesto que se sabe que no pertenece a este grupo. En la siguiente comparación se emplea el clasificador (A-C) y se predice que es A. Con esta nueva información se excluyen todas las comparaciones que contengan C. Finalmente solo queda emplear el clasificador (A-B) y asignar la observación al resultado devuelto. Siguiendo esta estrategia, en lugar de emplear los 6 clasificadores, solo ha sido necesario emplear 3. DAGSVM tiene las mismas ventajas que el método one-versus-one pero mejorando mucho el rendimiento.</p>
+<p><strong>NOTA</strong>. En scikit learn se cuenta con el hiperparámetro denominado <em>decision_function_shape</em> que puede tomar los valores ‘ovo’ o ‘ovr’ para que de forma trasparente al usuario se pueda hacer esta clasificación de más dos clases.</p>
+</section>
+<section id="svm-en-scikit-learn">
+<h2><span class="section-number">2.4. </span>SVM en scikit learn.<a class="headerlink" href="#svm-en-scikit-learn" title="Permalink to this headline">#</a></h2>
+<p>Scikit learn tiene implementadas diferentes clases para realizar trabajos tanto de clasificación como de regresión utilizando la metodología de SVM descrita anteriormente. En este apartado vamos a detallar las herramientas que scikit learn nos proporciona tanto para clasificación como para regresión</p>
+<section id="clasificacion">
+<h3><span class="section-number">2.4.1. </span>Clasificación.<a class="headerlink" href="#clasificacion" title="Permalink to this headline">#</a></h3>
+<p>Existen tres clases que podemos utilizar en scikit learn para realizar predicciones de clasificación:
+<a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" target="_blank"> SVC </a>, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVC.html#sklearn.svm.NuSVC" target="_blank"> NuSVC </a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC" target="_blank"> LinearSVC </a>.</p>
+<p>Las clases SVC y NuSvc son métodos muy similares pero aceptan una serie de parámetros ligeramente diferentes, y con una <a href="https://scikit-learn.org/stable/modules/svm.html#svm-mathematical-formulation" target="_blank"> formulación matemática también distinta</a>. En el caso de <em>LinearSVC</em> es otra implementación de SVM que se ejecuta de forma más rápida, pero sólo se usa cuando el kernel es de tipo lineal.</p>
+<p>Estos tres modelos, aceptan como datos de entrada dos arrays:</p>
+<ul class="simple">
+<li><p>Un array X de dimensión (n_observaciones, n_features), que contiene los datos de entrenamiento.</p></li>
+<li><p>Un array y que contiene el código de pertenencia a una determinada clase. De dimensión (n_observaciones).</p></li>
+</ul>
+<p>A continuación se muestra un ejemplo de uso de la clase SVC en el que se puede observar la influencia que tiene el parámetro C a la hora de obtener el hiperplano de separación de los dos grupos que se forman al utilizar la función mak_blobs utilizada para generar los datos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+
+<span class="c1"># creamos 40 puntos con una desviación estándar de 2</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># fit the model, don&#39;t regularize for illustration purposes</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">clf2</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">clf2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+
+<span class="c1"># dibujamos la función de decisión</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">clf</span><span class="p">,</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">plot_method</span><span class="o">=</span><span class="s2">&quot;contour&quot;</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">],</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># dibujamos los vectores de soporte</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">facecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SVM con C=1000&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Hacemos algo similar a lo anterior pero en este caso para C=1 (modelo clf2)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">clf2</span><span class="p">,</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">plot_method</span><span class="o">=</span><span class="s2">&quot;contour&quot;</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">linestyles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">],</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">clf2</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">clf2</span><span class="o">.</span><span class="n">support_vectors_</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">facecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SVM con C=1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/supportVectorMachine_1_0.png" src="../_images/supportVectorMachine_1_0.png" />
+<img alt="../_images/supportVectorMachine_1_1.png" src="../_images/supportVectorMachine_1_1.png" />
+</div>
+</div>
+<p>Para datos no balanceados, existe también la posibilidad de dar diferentes pesos o importancia a las clases con las que se trabaja. Los parámetros que se pueden utilizar para hacer estos son <em>class_weight</em> y <em>sample_weight</em> (¡¡¡ojo!!! <em>sample_weight</em> es un parámetro del método fit).</p>
+<p>La clase <em>SVC</em> implementa por ejemplo el parámetro <em>class_wieght</em>, el cual debe tener como valor un diccionario si se quieren asignar diferentes pesos a las clases de datos. Este diccionario debe tener un formato {class_etiqueta: valor} de tal forma que el valor debe ser un número flotante mayor que cero, de tal manera que el valor de C quedaría multiplicado por ese valor y dependiendo de la clase a la que corresponda cada observación.</p>
+<p>Con el parámetro <em>sample_weight</em> del método <em>fit</em> también se pueden modificar los pesos, pero en este caso de cada observación, de tal manera que en este caso, el parámetro C queda modificado dependiendo del peso de cada observación, y en este sentido si denotamos por peso[i] el peso asignado a la observación i-ésima, entonces C se modifica por C * peso[i] .</p>
+</section>
+<section id="regresion">
+<h3><span class="section-number">2.4.2. </span>Regresión.<a class="headerlink" href="#regresion" title="Permalink to this headline">#</a></h3>
+<p>El método de Support Vector Classification puede ser extendido de forma fácil para los problemas de regresión. A este método se le designa por Support Vector Regression.</p>
+<p>En scikit learn existen existen tres implementaciones diferentes de Support Vector Regression:</p>
+<ul class="simple">
+<li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR" target="_blank">SVR</a></p></li>
+<li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVR.html#sklearn.svm.NuSVR" target="_blank">NuSVR</a></p></li>
+<li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html#sklearn.svm.LinearSVR" target="_blank">LinearSVR</a></p></li>
+</ul>
+<p>Como puede verse el esquema y nomenclatura es muy similar a lo que ya se ha visto para la clasificación de los datos, y al igual que ocurría para la clasificación, en este caso se puede decir que <em>LinearSVR</em> es más rápido que <em>SVR</em> pero sólo admite como kernel el formato lineal, mientras que <em>NuSCR</em> implementa una formulación algo diferente a <em>SVR</em> y <em>LinearSVR</em>.</p>
+</section>
+</section>
+<section id="ejemplos">
+<h2><span class="section-number">2.5. </span>Ejemplos.<a class="headerlink" href="#ejemplos" title="Permalink to this headline">#</a></h2>
+<p>En los ejemplos que siguen vamos a ver cómo influyen los parámetros más importantes de SVC en la obtención de los resultados de los modelos.</p>
+<p>Comenzamos por importar algunas librerías y obteniendo los datos con los que se van a trabajar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span><span class="p">,</span> <span class="n">datasets</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="c1"># importamos el conjunto de datos iris</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># Tomamos sólo las dos primeras features, para su representación gráfica</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos a definir la función que servirá para hacer todas las representaciones gráficas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plotSVC</span><span class="p">(</span><span class="n">titulo</span><span class="p">):</span>
+    <span class="c1"># creamos una rejilla para la representación gráfica</span>
+    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_max</span> <span class="o">/</span> <span class="n">x_min</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span>
+     <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sepal length&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sepal width&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xx</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">titulo</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación definimos diferentes parámetros kernel para ver los resultados que se obtienen con ellos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kernels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="s1">&#39;poly&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">kernel</span> <span class="ow">in</span> <span class="n">kernels</span><span class="p">:</span>
+    <span class="n">svc</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">plotSVC</span><span class="p">(</span><span class="s1">&#39;kernel=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kernel</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/supportVectorMachine_9_0.png" src="../_images/supportVectorMachine_9_0.png" />
+<img alt="../_images/supportVectorMachine_9_1.png" src="../_images/supportVectorMachine_9_1.png" />
+<img alt="../_images/supportVectorMachine_9_2.png" src="../_images/supportVectorMachine_9_2.png" />
+</div>
+</div>
+<p>El parámetro gamma es un parámetro que se utiliza para el kernel igual a rbf. Veamos los resultados que se obtienen con diferentes valores para este parámetro.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gammas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">gamma</span> <span class="ow">in</span> <span class="n">gammas</span><span class="p">:</span>
+   <span class="n">svc</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+   <span class="n">plotSVC</span><span class="p">(</span><span class="s1">&#39;gamma=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gamma</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/supportVectorMachine_11_0.png" src="../_images/supportVectorMachine_11_0.png" />
+<img alt="../_images/supportVectorMachine_11_1.png" src="../_images/supportVectorMachine_11_1.png" />
+<img alt="../_images/supportVectorMachine_11_2.png" src="../_images/supportVectorMachine_11_2.png" />
+<img alt="../_images/supportVectorMachine_11_3.png" src="../_images/supportVectorMachine_11_3.png" />
+</div>
+</div>
+<p>El parámetro C sirve para penalizar la mal clasificación de los puntos, y dependiendo de su valor el “margen” tomará un valor mayor o menor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cs</span><span class="p">:</span>
+   <span class="n">svc</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+   <span class="n">plotSVC</span><span class="p">(</span><span class="s1">&#39;C=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/supportVectorMachine_13_0.png" src="../_images/supportVectorMachine_13_0.png" />
+<img alt="../_images/supportVectorMachine_13_1.png" src="../_images/supportVectorMachine_13_1.png" />
+<img alt="../_images/supportVectorMachine_13_2.png" src="../_images/supportVectorMachine_13_2.png" />
+<img alt="../_images/supportVectorMachine_13_3.png" src="../_images/supportVectorMachine_13_3.png" />
+<img alt="../_images/supportVectorMachine_13_4.png" src="../_images/supportVectorMachine_13_4.png" />
+</div>
+</div>
+<p>Otro kernel que se suele utilizar es el polinómico, el cual puede tener diferentes valores para el grado del mismo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">degree</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">:</span>
+   <span class="n">svc</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;poly&#39;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+   <span class="n">plotSVC</span><span class="p">(</span><span class="s1">&#39;degree=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">degree</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/supportVectorMachine_15_0.png" src="../_images/supportVectorMachine_15_0.png" />
+<img alt="../_images/supportVectorMachine_15_1.png" src="../_images/supportVectorMachine_15_1.png" />
+<img alt="../_images/supportVectorMachine_15_2.png" src="../_images/supportVectorMachine_15_2.png" />
+<img alt="../_images/supportVectorMachine_15_3.png" src="../_images/supportVectorMachine_15_3.png" />
+<img alt="../_images/supportVectorMachine_15_4.png" src="../_images/supportVectorMachine_15_4.png" />
+<img alt="../_images/supportVectorMachine_15_5.png" src="../_images/supportVectorMachine_15_5.png" />
+<img alt="../_images/supportVectorMachine_15_6.png" src="../_images/supportVectorMachine_15_6.png" />
+</div>
+</div>
+</section>
+<section id="bibliografia">
+<h2><span class="section-number">2.6. </span>Bibliografía.<a class="headerlink" href="#bibliografia" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a href="https://www.syncfusion.com/succinctly-free-ebooks/support-vector-machines-succinctly" target="_blank">Support Vector Machines Succinctly by Alexandre Kowalczyk </a></p></li>
+<li><p>A Practical Guide to Support Vector Classification by Chih-Wei Hsu, Chih-Chung Chang, and Chih-Jen Lin</p></li>
+<li><p><a href="https://www.researchgate.net/publication/263817587_Tutorial_sobre_Maquinas_de_Vectores_Soporte_SVM" target="_blank">Tutorial sobre Máquinas de Vector Soporte (SVM) Enrique J. Carmona Suárez </a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./supervisados"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Neareast_Neighbors.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>Algoritmo Neareast Neighbors (KNN)</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="RegresionLogistica/RegresionLogisticaEjemplo.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Regresión Logística</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

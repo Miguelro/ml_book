@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>4. Regresión Softmax. &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Árboles de decisión." href="decisiontree/decisiontree.html" />
+    <link rel="prev" title="3. Regresión Logística" href="RegresionLogistica/RegresionLogisticaEjemplo.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/supervisados/Softmax.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/supervisados/Softmax.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   4.1. Introducción
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#otros-clasificadores-multiples">
+   4.2. Otros clasificadores múltiples.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Regresión Softmax.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   4.1. Introducción
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#otros-clasificadores-multiples">
+   4.2. Otros clasificadores múltiples.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="regresion-softmax">
+<h1><span class="section-number">4. </span>Regresión Softmax.<a class="headerlink" href="#regresion-softmax" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<h2><span class="section-number">4.1. </span>Introducción<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p id="index-0">En el apartado <a class="reference internal" href="RegresionLogistica/RegresionLogisticaEjemplo.html#logistica"><span class="std std-ref">dedicado a la regresión logística</span></a> ha quedado bien claro una importante limitación del ajuste mediante regresión logística, pues el mismo queda limitado a los casos en que la variable dependiente o target sólo puede tomar dos posibles valores.</p>
+<p>En este apartado, vamos a generalizar esa situación para el caso de que la variable dependiente sea cualitativa pero con más de dos categorías, como pudiera ser la clasificación en tres formas distintas de sentimiento ( positivo, negativo o neutro ), en cuyo caso se contará con un total de tres categorías. Para resolver este tipo de problemas, se cuenta con la herramienta denominada <strong>regresión softmax</strong>, o también regresión logística multinomial.</p>
+<p>Así pues, para este tipo de regresión, la variable objetivo tiene un valor que varía sobre un conjunto de más de dos clases, entonces por analogía a la regresión logit <a class="reference internal" href="RegresionLogistica/RegresionLogisticaEjemplo.html#logistica"><span class="std std-ref">vista en el apartado</span></a>, el objetivo va a ser calcular la probabilidad de que la variable dependiente y pertenezca a una de las clases potenciales, para una observación dada, es decir se tratará de calcular <span class="math notranslate nohighlight">\(P(y=c|x)\)</span>.</p>
+<p>Como vamos a poder observar este método de regresión generaliza el uso de la función sigmoidea que ya hemos visto <a class="reference internal" href="RegresionLogistica/RegresionLogisticaEjemplo.html#logistica"><span class="std std-ref">en el apartado de regresión logística</span></a>, y para ello lo que se va a utilizar es la denominada función softmax que gracias a ella se podrá calcular la <span class="math notranslate nohighlight">\(P(y=c|x)\)</span>. Esta función se define para un vector de n valores reales <span class="math notranslate nohighlight">\(z=(z_{1},z_{2},...,z_{n})^T\)</span>, de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[ s(z{_i})=\frac{e^{z_{i}}}{\sum_{j=1}^{n}e^{z_{j}}},\ 1\le i\le n\]</div>
+<p>Como puede verse cada valor que devuelve esta función está entre cero y uno y además la suma de todos los valores que devuelve es siempre igual a uno. El vector de valores que devuelve esta función es el siguiente:</p>
+<p>$<span class="math notranslate nohighlight">\( s(z) = \left[\frac{e^{z_{1}}}{\sum_{j=1}^{n}e^{z_{j}}}, \frac{e^{z_{2}}}{\sum_{j=1}^{n}e^{z_{j}}}, ...., \frac{e^{z_{n}}}{\sum_{j=1}^{n}e^{z_{j}}}\right]\)</span>$.</p>
+<p>Los valores de esta función se pueden obtener fácilmente en python, mediante el uso de la librería scipy, veamos a continuación cómo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">softmax</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span><span class="mf">1.6</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;El valor de la función softmax para el vector anterior es:&quot;</span><span class="p">)</span>
+<span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Comprobamos que su suma es 1&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>El valor de la función softmax para el vector anterior es:
+
+Comprobamos que su suma es 1
+1.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Entonces teniendo en cuenta todas estas propiedades, y de forma similar a como se montó la función sigmoidea, se podría construir la función softmax, considerando un vector de pesos <span class="math notranslate nohighlight">\(w = (w{_0},w{_1},...,w{_n})\)</span>  y un vector de valores observados <span class="math notranslate nohighlight">\(x = (1,x{_1},x{_2},...,x{_n})\)</span>, y entonces se definiría.</p>
+<div class="math notranslate nohighlight">
+\[P(y=c|x)=\frac{e^{w_{c}^{t}x}}{\sum_{j=1}^{n}e^{w_{j}^{t}z}}\]</div>
+<p>Notar que para cada valor que pueda tomar la variable dependiente se tienen n parámetros a estimar diferentes, por lo que si son k los valores que que puede tomar la variable dependiente y. Si además  tenemos n variables independientes, entonces el número total de parámetros a estimar por el modelo sería <span class="math notranslate nohighlight">\(k\cdot(n+1)\)</span>.</p>
+<p>De esta manera para cada valor x que se quiera clasificar, se signara a la clase en la que se obtenga una mayor probabilidad, dentro el vector de probabilidades que devuelve softmax.</p>
+<p>Como en todos los problemas de optimización, necesitamos además definir un función de pérdida que será la que se minimice para poder así estimar los parámetros del modelo. Para este problema, la función de pérdida que se utiliza es la denominada función de pérdida de <strong>entropía cruzada</strong>, que se define de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[En(\hat{y},y)=-\sum_{h=1}^{k}I_{\{y=h\}}log\hat{P}(y=h|x)=-\sum_{h=1}^{k}I_{\{y=h\}}log\frac{e^{w_{k}^{t}x}}{\sum_{j=1}^{n}e^{w_{j}^{t}z}} \]</div>
+<p>Donde la expresión <span class="math notranslate nohighlight">\(I_{\{y=h\}}\)</span> toma un valor de 1 cuando la variable dependiente es igual a h y cero en caso contrario (es decir es la función indicador).</p>
+<p>Veamos un poco el significado de esta función de coste, que recordemos que de lo que se trata es de buscar los parámetros que la minimizan. Cuando la variable y toma el valor h, se trata de maximizar la probabilidad de que y tomo ese valor, pero como el valor máximo es 1, lo función logaritmo toma el valor cero en ese punto ( recordar log(1) = 0 ), y por lo tanto si la probabilidad llegara a valer 1 ( que sería lo óptimo) entonces la entropia cruzada total valdría cero, luego estaríamos minimizando esa función al actuar de esta manera.</p>
+<p>Aunque no se demostrará aquí ( el lector interesado puede ver esto con más detalle <a class="reference external" href="http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/">en este enlace</a>) por quedar fuera del alcance de este curso, se puede demostrar que el gradiente para una muestra es la diferencia entre el valor de la clase verdadera k y la probabilidad que el clasificador genera para la clase k ponderado por el valor de la entrada <span class="math notranslate nohighlight">\(x_k\)</span>, es decir:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial En(\hat{y},y)}{\partial w_{k}}=-\left(I_{\{y=k\}}-P(y=k|x)\right)x_{k}=-\left(I_{\{y=k\}}-\frac{e^{w_{k}^{t}x}}{\sum_{j=1}^{n}e^{w_{j}^{t}z}}\right)x_{k}\]</div>
+<p>La función softmax, tiene una importancia muy elevada en el mundo de las redes neuronales, cuando se quiere resolver algún tipo de problemas de clasificación, ya que en estos casos, Softmax se implementa a través de una capa de red neuronal justo antes de la capa de salida. La capa Softmax debe tener el mismo número de nodos que la capa de salida. Este esquema lo podemos ver en la siguiente figura:</p>
+<p><img alt="RNN2.PNG" src="supervisados/attachment:RNN2.PNG" /></p>
+<p>Para resolver de manera práctica estos problemas, también se utiliza la clase <em><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_classification.html">Logistidregression</a></em> de Scikip Learn, pero en este caso debemos utilizar el parámetro <em>multi_class = “multinomial”</em>. Veamos a continuación un ejemplo práctico.</p>
+<p>El primer ejemplo que se va a exponer es en base a una serie de datos creados con la función  <em>make_classification()</em> que se suele utilizar para generar un determinado número de filas y columnas con determinado número de clases. A continuación se muestra cómo trabajar con esta función.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
+<span class="c1"># definimos el conjunto de datos</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+                           <span class="n">n_redundant</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># resumen del dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2000, 10) (2000,)
+Counter({0: 670, 2: 668, 1: 662})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># definimos el modelo de regresión ligística</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s1">&#39;multinomial&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># definimos el modelo de regresión ligística</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s1">&#39;multinomial&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;LogisticRegression&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Es una buena práctica evaluar los modelos de clasificación utilizando una validación cruzada de <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RepeatedStratifiedKFold.html">tipo k-fold estratificada repetida </a> . La estratificación garantiza que cada grupo (fold) de validación cruzada tenga aproximadamente la misma distribución de elementos de cada clase que el conjunto de datos de entrenamiento completo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedStratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">mean</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">std</span>
+
+<span class="c1"># definimos el modelo de evaluación comenado</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># procedemos a evaluar el modelo</span>
+<span class="n">n_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Sacamos el dato el ajuste obtenido</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acuracidad media: </span><span class="si">%.3f</span><span class="s1"> (</span><span class="si">%.3f</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">n_scores</span><span class="p">),</span> <span class="n">std</span><span class="p">(</span><span class="n">n_scores</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Otro ejemplo de aplicar este clasificador puede verse mediante la utilización del fichero winequality-red.csv, que se puede localizar en <a class="reference external" href="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/">uci</a>. Se trata de un conjunto de datos que contiene diversas variables sobre un determinado tipo de vino, y además la variable “quality” que indica la calidad del vino y será la que utilizaremos en este ejemplo como variable dependiente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/winequality-red.csv&quot;</span><span class="p">)</span>
+<span class="n">datos</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fixed acidity</th>
+      <th>volatile acidity</th>
+      <th>citric acid</th>
+      <th>residual sugar</th>
+      <th>chlorides</th>
+      <th>free sulfur dioxide</th>
+      <th>total sulfur dioxide</th>
+      <th>density</th>
+      <th>pH</th>
+      <th>sulphates</th>
+      <th>alcohol</th>
+      <th>quality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.4</td>
+      <td>0.70</td>
+      <td>0.00</td>
+      <td>1.9</td>
+      <td>0.076</td>
+      <td>11.0</td>
+      <td>34.0</td>
+      <td>0.9978</td>
+      <td>3.51</td>
+      <td>0.56</td>
+      <td>9.4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7.8</td>
+      <td>0.88</td>
+      <td>0.00</td>
+      <td>2.6</td>
+      <td>0.098</td>
+      <td>25.0</td>
+      <td>67.0</td>
+      <td>0.9968</td>
+      <td>3.20</td>
+      <td>0.68</td>
+      <td>9.8</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7.8</td>
+      <td>0.76</td>
+      <td>0.04</td>
+      <td>2.3</td>
+      <td>0.092</td>
+      <td>15.0</td>
+      <td>54.0</td>
+      <td>0.9970</td>
+      <td>3.26</td>
+      <td>0.65</td>
+      <td>9.8</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11.2</td>
+      <td>0.28</td>
+      <td>0.56</td>
+      <td>1.9</td>
+      <td>0.075</td>
+      <td>17.0</td>
+      <td>60.0</td>
+      <td>0.9980</td>
+      <td>3.16</td>
+      <td>0.58</td>
+      <td>9.8</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7.4</td>
+      <td>0.70</td>
+      <td>0.00</td>
+      <td>1.9</td>
+      <td>0.076</td>
+      <td>11.0</td>
+      <td>34.0</td>
+      <td>0.9978</td>
+      <td>3.51</td>
+      <td>0.56</td>
+      <td>9.4</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos cuantos valores distintos hay de calidad del vino</span>
+<span class="n">datos</span><span class="o">.</span><span class="n">quality</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos a definir tres tipos de categorías sobre las que hacer la inferencia. Para ello, la categoria 1 agrupa los valores 3,4 y 5 de quality; la categoria 2 se corresponde con el valor 6 de quality y la categria 3 para el resto de valores.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">datos</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;quality&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]:</span>
+        <span class="n">datos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;quality&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="n">datos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">datos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;categoria&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+        
+<span class="n">datos</span><span class="o">.</span><span class="n">categoria</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Procedemos ahora a realizar el ajuste mediante softmax, para ello seleccionamos las primeras 11 variable como features, y como variable dependiente la creada anteriormente</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="n">datos</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">11</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="c1"># estandarizamos los datps</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">Xstan</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regresion</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">multi_class</span> <span class="o">=</span> <span class="s1">&#39;multinomial&#39;</span><span class="p">,</span> <span class="n">solver</span> <span class="o">=</span> <span class="s1">&#39;lbfgs&#39;</span><span class="p">)</span>
+<span class="n">regresion</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xstan</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos los coeficientes estimados</span>
+<span class="n">regresion</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span><span class="n">regresion</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculemos los valores predichos</span>
+<span class="n">yhat</span> <span class="o">=</span> <span class="n">regresion</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xstan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sacamos la matriz de confusión</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">yhat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="otros-clasificadores-multiples">
+<h2><span class="section-number">4.2. </span>Otros clasificadores múltiples.<a class="headerlink" href="#otros-clasificadores-multiples" title="Permalink to this headline">#</a></h2>
+<p>Hay otra serie de clasificadores que resuelven el problema de la clasificación, pero existen dos métodos que basándose en clasificadores de dos variantes, como es el caso del la regresión logística, permiten también resolver problemas de clasificación múltiple. Estas dos variantes son las siguiente:</p>
+<p>1.- One-vs-Rest.<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html">Ver aquí</a></p>
+<p>2.- One-vs-One. <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsOneClassifier.html">ver aquí</a></p>
+<p>Los dos los podemos <a class="reference external" href="https://machinelearningmastery.com/one-vs-rest-and-one-vs-one-for-multi-class-classification/">ver en este enlace</a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./supervisados"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="RegresionLogistica/RegresionLogisticaEjemplo.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">3. </span>Regresión Logística</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="decisiontree/decisiontree.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Árboles de decisión.</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

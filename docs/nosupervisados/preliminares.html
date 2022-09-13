@@ -1,0 +1,995 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>8. Conceptos preliminares. &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Pipelines , canalizaciones o tuberías." href="../otros/pipelines.html" />
+    <link rel="prev" title="7. Métodos de ensembles" href="../supervisados/ensembles.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../otros/bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/nosupervisados/preliminares.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/nosupervisados/preliminares.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   8.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cuestiones-preliminares">
+   8.2. Cuestiones preliminares.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#distancia-o-similitud">
+     8.2.1. Distancia o similitud.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#distancia-euclidea">
+       8.2.1.1. Distancia euclídea.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#distancia-de-gauss">
+       8.2.1.2. Distancia de Gauss.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#distancia-de-mahalanobis">
+       8.2.1.3. Distancia de Mahalanobis.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clustering-y-segmentacion">
+   8.3. Clustering y segmentación.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#agrupacion-jerarquica">
+     8.3.1. Agrupación jerárquica.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#algoritmos-de-tipo-aglomerativo">
+       8.3.1.1. Algoritmos de tipo aglomerativo.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#algoritmos-de-tipo-divisivo">
+       8.3.1.2. Algoritmos de tipo divisivo.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algoritmos-particionales">
+     8.3.2. Algoritmos particionales.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#k-means">
+       8.3.2.1. k-means.
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#criterios-para-seleccionar-k">
+         8.3.2.1.1. Criterios para seleccionar k.
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#canopy-clustering">
+     8.3.3. Canopy clustering.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modelos-basados-en-densidad">
+   8.4. Modelos basados en densidad.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algoritmo-dbscan">
+     8.4.1. Algoritmo DBSCAN.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#ventajas-e-inconvenientes">
+       8.4.1.1. Ventajas e inconvenientes.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algoritmo-optics">
+     8.4.2. Algoritmo OPTICS.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       8.4.2.1. Ventajas e inconvenientes.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#affinity-propagation">
+   8.5. Affinity propagation.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   8.6. Bibliografia.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Conceptos preliminares.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   8.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cuestiones-preliminares">
+   8.2. Cuestiones preliminares.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#distancia-o-similitud">
+     8.2.1. Distancia o similitud.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#distancia-euclidea">
+       8.2.1.1. Distancia euclídea.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#distancia-de-gauss">
+       8.2.1.2. Distancia de Gauss.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#distancia-de-mahalanobis">
+       8.2.1.3. Distancia de Mahalanobis.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clustering-y-segmentacion">
+   8.3. Clustering y segmentación.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#agrupacion-jerarquica">
+     8.3.1. Agrupación jerárquica.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#algoritmos-de-tipo-aglomerativo">
+       8.3.1.1. Algoritmos de tipo aglomerativo.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#algoritmos-de-tipo-divisivo">
+       8.3.1.2. Algoritmos de tipo divisivo.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algoritmos-particionales">
+     8.3.2. Algoritmos particionales.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#k-means">
+       8.3.2.1. k-means.
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#criterios-para-seleccionar-k">
+         8.3.2.1.1. Criterios para seleccionar k.
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#canopy-clustering">
+     8.3.3. Canopy clustering.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modelos-basados-en-densidad">
+   8.4. Modelos basados en densidad.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algoritmo-dbscan">
+     8.4.1. Algoritmo DBSCAN.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#ventajas-e-inconvenientes">
+       8.4.1.1. Ventajas e inconvenientes.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algoritmo-optics">
+     8.4.2. Algoritmo OPTICS.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       8.4.2.1. Ventajas e inconvenientes.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#affinity-propagation">
+   8.5. Affinity propagation.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   8.6. Bibliografia.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="conceptos-preliminares">
+<h1><span class="section-number">8. </span>Conceptos preliminares.<a class="headerlink" href="#conceptos-preliminares" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<h2><span class="section-number">8.1. </span>Introducción.<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p>La clasificación no supervisada persigue la obtención de un modelo válido para clasificar objetos a partir de la similitud de sus características. Más formalmente podríamos decirlo del siguiente modo:</p>
+<blockquote>
+<div><p>A partir de un conjunto de objetos descritos por un vector de características y a partir de una métrica que nos defina el concepto de similitud entre objetos, se construye un modelo o regla general que nos va a permitir clasificar todos los objetos.</p>
+</div></blockquote>
+<p>No se trata de modelos predictivos, sino de modelos de descubrimiento de patrones. Existen dos grandes familias de algoritmos de clasificación no supervisada:</p>
+<p id="index-0">1.- <strong>Algoritmos jerárquicos</strong>. construyen nodos de forma jerárquica, unos a partir de otros. La representación de los resultados se hace habitualmente mediante dendogramas. Estos se dividen en dos subcategorías:</p>
+<ul class="simple">
+<li><p>Aglomerativos o <em>bottom up</em>. Esta aproximación parte del supuesto que cada objeto es un nodo o clúster y, a medida que evolucionan los pasos del algoritmo, los nodos se van agrupando hasta conseguir un número de nodos aceptable.</p></li>
+<li><p>Divisivos o <em>top down</em>. Es la aproximación opuesta, es decir, parte del supuesto que existe un único nodo y, a medida que avanza el algoritmo, este nodo se va subdividiendo en nuevos nodos, y así sucesivamente.</p></li>
+</ul>
+<p>Ejemplos de algoritmos jerárquicos pueden ser el método del mínimo o <em>single linkage</em> y el método del máximo o <em>complete linkage</em>.</p>
+<p>2.- <strong>Algoritmos particionales</strong>. También llamados algoritmos de optimización, obtienen los nodos a partir de la optimización de una función adecuada para el propósito del estudio. Esta función suele estar relacionada con la métrica
+seleccionada para establecer el concepto de similitud entre objetos.</p>
+</section>
+<section id="cuestiones-preliminares">
+<h2><span class="section-number">8.2. </span>Cuestiones preliminares.<a class="headerlink" href="#cuestiones-preliminares" title="Permalink to this headline">#</a></h2>
+<p>Como hemos visto, muchos modelos no supervisados basan su lógica en el concepto de <em>similitud o distancia</em>, de modo que merece la pena dedicar tiempo a su comprensión, ya que nos ayudará a entender el mecanismo de algoritmos como el k-means y el clustering, entre otros.</p>
+<section id="distancia-o-similitud">
+<span id="index-1"></span><h3><span class="section-number">8.2.1. </span>Distancia o similitud.<a class="headerlink" href="#distancia-o-similitud" title="Permalink to this headline">#</a></h3>
+<p>Cuando hablamos de distancia, en realidad estamos refiriéndonos a una forma de cuantificar cómo de similares son dos objetos, dos variables o dos puntos. Planteado de esta forma, el concepto de distancia es muy abstracto y etéreo; por este motivo, los científicos quieren ponerle algunos límites o condiciones.</p>
+<p>Para un conjunto de elementos X, se considera distancia cualquier función:</p>
+<div class="math notranslate nohighlight">
+\[(XxX)\longmapsto\mathbb{R}\]</div>
+<p>que cumple la siguientes condiciones:</p>
+<ul class="simple">
+<li><p>No negatividad: la distancia entre dos puntos siempre debe ser positiva.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[d(a,b)\ge0\quad\forall a,b\epsilon X\]</div>
+<ul class="simple">
+<li><p>Simetría. la distancia entre dos puntos a y b es la misma si se mide desde a hacia b que desde b hacia a.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[d(a,b)=d(b,a)\quad\forall a,b\epsilon X\]</div>
+<ul class="simple">
+<li><p>La desigualdad triangular. Coincide con la idea de que la distancia en recta entre dos puntos es el camino más corto.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[d(a,b)\le d(a,c)+d(c,b)\quad\forall a,b,c\:\epsilon\ X\]</div>
+<p>Con estas tres condiciones, vamos a centrarnos en tres definiciones de distancia muy peculiares: la euclidiana o clásica, la estadística o de Gauss y la que propuso Mahalanobis.</p>
+<section id="distancia-euclidea">
+<h4><span class="section-number">8.2.1.1. </span>Distancia euclídea.<a class="headerlink" href="#distancia-euclidea" title="Permalink to this headline">#</a></h4>
+<p>Si tenemos dos puntos <span class="math notranslate nohighlight">\(A(x_{1},y_{1})\)</span> y <span class="math notranslate nohighlight">\(B(x_{2},y_{2})\)</span> entonces la distancia euclídea entre estos dos puntos sería la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[d(A,B)=\sqrt{\left(x_{2}-x_{1}\right)^{2}+\left(y_{2}-y_{1}\right)^{2}}\]</div>
+<p>Utilizar esta distancia en un proceso de segmentación presenta un <a class="reference external" href="http://inconveniente.No">inconveniente.No</a> tiene en cuenta las escalas en las que pueden estar expresadas las variables X e Y.</p>
+</section>
+<section id="distancia-de-gauss">
+<span id="index-2"></span><h4><span class="section-number">8.2.1.2. </span>Distancia de Gauss.<a class="headerlink" href="#distancia-de-gauss" title="Permalink to this headline">#</a></h4>
+<p>Para superar la distorsión provocada por las diferentes unidades de medida usadas en las distintas variables estudiadas tenemos la distancia estadística, que simplemente normaliza las variables para situarlas a todas bajo la misma
+escala.</p>
+<p>Si tenemos dos puntos <span class="math notranslate nohighlight">\(A(x_{1},y_{1})\)</span> y <span class="math notranslate nohighlight">\(B(x_{2},y_{2})\)</span> entonces la distancia de Gauss entre estos dos puntos sería la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[d(A,B)=\sqrt{\left(\frac{x_{2}-x_{1}}{\sigma(X)}\right)^{2}+\left(\frac{y_{2}-y_{1}}{\sigma(X)}\right)^{2}}\]</div>
+<p>Nuevamente, este concepto de distancia  tiene problemas. No tiene en cuenta la correlación entre las variables, es decir, si nuestras variables fueran totalmente independientes no habría ningún problema. Sin embargo, si tienen algún tipo de correlación, una influye sobre la otra y esta influencia no queda bien reflejada si usamos las distancias definidas anteriormente.</p>
+</section>
+<section id="distancia-de-mahalanobis">
+<span id="index-3"></span><h4><span class="section-number">8.2.1.3. </span>Distancia de Mahalanobis.<a class="headerlink" href="#distancia-de-mahalanobis" title="Permalink to this headline">#</a></h4>
+<p>Prasanta Chandra Mahalanobis (India) en 1936 se dio cuenta de esta carencia y propuso corregir la distorsión provocada por la correlación de las variables mediante la siguiente expresión:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}d(A,B)=\sqrt{\left(x_{1}-y_{1},x_{2}-y_{2}\right)\left[\begin{array}{cc}\sigma^{2}(X) &amp; Cov(X,Y)\\Cov(Y,X) &amp; \sigma^{2}(Y)\end{array}\right]^{-1}\left(x_{1}-y_{1},x_{2}-y_{2}\right)}\end{split}\]</div>
+<p>La definición de distancia propuesta por Mahalanobis responde a la idea intuitiva de que los puntos que se encuentran en una zona densamente poblada deberían considerarse más cercanos entre ellos que con respecto a puntos fuera de esta zona de mayor densidad.</p>
+<p>Si tomamos como ejemplo la siguiente figura , vemos como una versión clásica de distancia nos diría que el punto A está más cerca de B que de C. Sin embargo, Mahalanobis, entendiendo qué puntos en zona de densidad son más similares,
+nos dirá que el punto A está más cerca de C que de B.</p>
+<p><img alt="Mahalanobis" src="../_images/Mahalanobis.PNG" /></p>
+</section>
+</section>
+</section>
+<section id="clustering-y-segmentacion">
+<span id="index-4"></span><h2><span class="section-number">8.3. </span>Clustering y segmentación.<a class="headerlink" href="#clustering-y-segmentacion" title="Permalink to this headline">#</a></h2>
+<p><em>Clustering y segmentation</em>, traducidos como agrupamiento y segmentación, constituyen el ámbito de conocimiento correspondiente a las técnicas no supervisadas, ya que no tienen como objetivo predecir una etiqueta que marca cada
+observación del juego de datos.</p>
+<blockquote>
+<div><p>Su objetivo es describir el juego de datos encontrando patrones a partir de la identificación de grupos similares</p>
+</div></blockquote>
+<p>De este modo, los conceptos de distancia y similitud serán claves para entender este tipo de algoritmos.</p>
+<section id="agrupacion-jerarquica">
+<h3><span class="section-number">8.3.1. </span>Agrupación jerárquica.<a class="headerlink" href="#agrupacion-jerarquica" title="Permalink to this headline">#</a></h3>
+<p>Dentro de esta familia, distinguiremos dos tipos de algoritmo: los aglomerativos y los divisivos.</p>
+<section id="algoritmos-de-tipo-aglomerativo">
+<h4><span class="section-number">8.3.1.1. </span>Algoritmos de tipo aglomerativo.<a class="headerlink" href="#algoritmos-de-tipo-aglomerativo" title="Permalink to this headline">#</a></h4>
+<p>Los algoritmos de agrupación jerárquica son de tipo aglomerativo cuando, partiendo de una fragmentación completa de los datos, estos se van fusionando hasta conseguir una situación contraria, es decir, todos los datos se unen en un solo grupo. En este caso hablaremos de clustering o agrupamiento.</p>
+<p>Para construir grupos, necesitan de un concepto de distancia entre objetos y de un criterio de enlace para establecer la pertenencia a un grupo u otro. Algunos de los criterios más utilizados para medir la distancia entre dos grupos
+A y B son los siguientes:</p>
+<ul class="simple">
+<li><p><em>Enlace simple o simple linkage</em>. Tomaremos como criterio la distancia mínima entre elementos de los grupos:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[min\left\{ d(x,y)\ /x\epsilon A,y\epsilon B\right\} \]</div>
+<p>Puede ser apropiado para encontrar grupos de forma no elíptica, pero es muy sensible al ruido en los datos y puede llegar a provocar el efecto cadena. Este consiste en el hecho de que puede llegar a forzar la unión de dos grupos, que a priori deberían permanecer bien diferenciados, por el hecho de que estos compartan algún elemento muy próximo.</p>
+<ul class="simple">
+<li><p>Enlace completo o complete linkage. Tomaremos como criterio la distancia máxima entre elementos de los grupos:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[max\left\{ d(x,y)\ /x\epsilon A,y\epsilon B\right\} \]</div>
+<p>No produce el efecto cadena, pero es sensible a los valores outliers. Sin embargo, suele dar mejores resultados que el criterio simple.</p>
+<ul class="simple">
+<li><p><em>Enlace medio o average linkage</em>. Tomaremos como criterio la distancia media entre elementos de los grupos:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\frac{1}{\left|A\right|\left|B\right|}\sum_{x\epsilon A}\sum_{y\epsilon B}d(x,y)\]</div>
+<p>Se trata de un criterio que intenta mitigar los inconvenientes de los dos anteriores sin acabar de resolverlos por completo.</p>
+<ul class="simple">
+<li><p><em>Enlace centroide o centroid linkage</em>. La distancia entre dos grupos será la distancia entre sus dos centroides. Presenta la ventaja de que su coste computacional es muy inferior al de los criterios anteriores, de modo que está indicado para juegos de datos de gran volumen.</p></li>
+</ul>
+<p>Para construir un dendograma aglomerativo, deberemos inicialmente establecer con qué métrica desearemos trabajar (distancia euclidiana, de Gauss, de Mahalanobis…) y qué criterio de enlace de grupos o segmentos utilizaremos (simple linkage, complete linkage, average linkage, centroid linkage…).</p>
+<p>El siguiente paso será considerar cada observación del juego de datos como un grupo o segmento en sí mismo, y a partir de aquí empezaremos a calcular distancias entre grupos. En este punto entraremos en un proceso iterativo en el que en cada repetición fusionaremos los grupos más cercanos.</p>
+</section>
+<section id="algoritmos-de-tipo-divisivo">
+<h4><span class="section-number">8.3.1.2. </span>Algoritmos de tipo divisivo.<a class="headerlink" href="#algoritmos-de-tipo-divisivo" title="Permalink to this headline">#</a></h4>
+<p>Diremos que son de tipo divisivo cuando, partiendo de un grupo que contiene todos los datos, se procede a una división progresiva hasta conseguir tener un grupo para cada observación. En este caso hablaremos de segmentación.</p>
+</section>
+</section>
+<section id="algoritmos-particionales">
+<h3><span class="section-number">8.3.2. </span>Algoritmos particionales.<a class="headerlink" href="#algoritmos-particionales" title="Permalink to this headline">#</a></h3>
+<p>Los algoritmos <em>particionales o no jerárquicos</em> reciben este nombre porque los segmentos que acaban produciendo no responden a ningún tipo de organización jerárquica. En esta categoría de algoritmos encontraríamos al k-means.</p>
+<p><img alt="Clustering" src="../_images/clustering.PNG" /></p>
+<p>En la figura anterior podemos distinguir de una forma visual la diferencia entre el clustering jerárquico y el particional.</p>
+<section id="k-means">
+<span id="id1"></span><h4><span class="section-number">8.3.2.1. </span>k-means.<a class="headerlink" href="#k-means" title="Permalink to this headline">#</a></h4>
+<p id="index-5">El algoritmo k-means, o k-medias en español, está considerado como un algoritmo de clasificación no supervisada. Requiere que de antemano se fijen los k grupos que quieren obtenerse.</p>
+<p>Supongamos que disponemos de un juego de datos compuesto por n observaciones.Por ejemplo, cada caso podría ser un cliente del que hemos seleccionado m atributos que lo caracterizan.</p>
+<p>Llamaremos X a este juego de datos <span class="math notranslate nohighlight">\(X=\left\{ x_{1},x_{2},...,x_{n}\right\} \)</span> donde cada <span class="math notranslate nohighlight">\(x_i\)</span> podría ser un cliente con m atributos <span class="math notranslate nohighlight">\(x_{i}=\left\{ x_{i1},x_{i2},...,x_{im}\right\} \)</span> como pueden ser, por ejemplo,
+ventas, promociones, distancia al centro de distribución logística, etc.</p>
+<p>Para clasificar nuestro juego de datos X mediante el algoritmo k-means, seguiremos los siguientes pasos:</p>
+<p>1.- De entre las n observaciones seleccionaremos k, al que llamaremos <em>semillas</em>, y denotaremos por <span class="math notranslate nohighlight">\(c_j\)</span> donde j = 1,…,k. Cada semilla <span class="math notranslate nohighlight">\(c_j\)</span> identificará su clúster <span class="math notranslate nohighlight">\(C_j\)</span>.</p>
+<p>2.- Asignaremos la observación <span class="math notranslate nohighlight">\(x_i\)</span> al clúster <span class="math notranslate nohighlight">\(C_t\)</span> cuando la distancia entre la observación <span class="math notranslate nohighlight">\(x_i\)</span> y la semilla <span class="math notranslate nohighlight">\(c_t\)</span> sea la menor entro todas las semillas.</p>
+<p>3.- Calcularemos los nuevos centroides a partir de las medias de los clústeres actuales.</p>
+<p>4.- Como criterio de parada, calcularemos la mejora que se produciría si asignáramos una observación a un clúster al que no pertenece actualmente. Entendiendo por mejora, por ejemplo, la minimización de la distancia de las distintas observaciones a sus respectivos centros.</p>
+<p>5.- Haremos al cambio que mayor mejora proporciona.</p>
+<p>6.- Repetiremos los pasos 3, 4 y 5 hasta que ningún cambio sea capaz de proporcionar una mejora significativa.</p>
+<section id="criterios-para-seleccionar-k">
+<h5><span class="section-number">8.3.2.1.1. </span>Criterios para seleccionar k.<a class="headerlink" href="#criterios-para-seleccionar-k" title="Permalink to this headline">#</a></h5>
+<p>Uno de los inconvenientes que tiene k-means es el hecho de que requiere que se le especifique de antemano el valor k (número de clústeres).</p>
+<p>Los valores k para los que ya no se consiguen mejoras significativas en la homogeneidad interna de los segmentos o la heterogeneidad entre segmentos distintos, deberían descartarse.</p>
+<p>En la figura que sigue hemos generado un gráfico con la suma de las distancias intragrupo que obtenemos para cada valor de k.</p>
+<p><img alt="Valor de k" src="../_images/valork.PNG" /></p>
+<p>Observamos cómo, a partir de cinco segmentos, la mejora que se produce en la distancia interna de los segmentos ya es insignificante. Este hecho  debería ser indicativo de que cinco segmentos es un valor adecuado para k.</p>
+</section>
+</section>
+</section>
+<section id="canopy-clustering">
+<span id="index-6"></span><h3><span class="section-number">8.3.3. </span>Canopy clustering.<a class="headerlink" href="#canopy-clustering" title="Permalink to this headline">#</a></h3>
+<p>Podemos pensar esta técnica como una generalización de los algoritmos particionales.</p>
+<p>La idea brillante que subyace a esta técnica es que podemos reducir drásticamente el número de cálculos que requieren los algoritmos particionales como k-means, introduciendo un proceso previo de generación de grupos superpuestos o (canopies) a partir de una métrica más sencilla de calcular, (cheapest metric).</p>
+<p>De esta forma, solo calcularemos distancias con la métrica inicial, más estricta y pesada en cálculos, para los puntos que pertenecen al mismo canopy</p>
+<p>Podríamos resumirlo diciendo que, previamente, mediante una métrica simple, decidimos qué puntos están definitivamente lejos y, en consecuencia, para estos puntos alejados ya no valdrá la pena malgastar más cálculos con una métrica más exigente.</p>
+<p>En realidad, el método del canopy clustering divide el proceso de segmentación en dos etapas:</p>
+<ul class="simple">
+<li><p>En la primera, usaremos una métrica sencilla en cálculos con el objetivo de generar los canopies o subgrupos superpuestos de puntos. Además, lo haremos de modo que cada punto pueda pertenecer a más de un canopy y, a su vez, todos los puntos tengan que pertenecer al menos a un canopy.</p></li>
+<li><p>En la segunda, utilizaremos un método de segmentación tradicional, como por ejemplo el método k-means, pero lo haremos con la siguiente restricción: no calcularemos la distancia entre puntos que no pertenecen al mismo canopy.</p></li>
+</ul>
+<p>Para facilitar la comprensión del mecanismo del algoritmo, vamos a situarnos en los dos casos extremos:</p>
+<p>1.- Supongamos que, como consecuencia de la primera etapa, nuestro universo de puntos cae por completo en un solo canopy. Entonces, el método de segmentación por canopies sería exactamente igual al del método de segmentación tradicional seleccionado, es decir, k-means en nuestro ejemplo.</p>
+<p>2.- Supongamos que, como resultado de la primera etapa, generamos canopies relativamente pequeños y conmuy poca  superposición. En este caso, al aplicar la técnica tradicional solo dentro de cada canopy, habremos ahorrado un gran
+número de cálculos.</p>
+<p>Para ilustrar de un modo gráfico el proceso de construcción de canopies a partir de una métrica simple y el proceso de construcción de clústeres a partir de una métrica más exigente, proporcionamos una serie de tres figuras.</p>
+<p>Inicialmente, en la primera y siguiente, se aprecia cómo los canopies se construyen de una forma amplia y con superposiciones.</p>
+<p><img alt="Canopy_1" src="../_images/Canopy1.PNG" /></p>
+<p>En la siguiente figura  apreciamos cómo los clústeres se calculan sin superposiciones y siempre dentro de su canopy correspondiente.</p>
+<p><img alt="Canopy_2" src="../_images/Canopy2.PNG" /></p>
+<p>Finalmente en la figura siguiente podemos ver el resultado final de un proceso de segmentación mediante la técnica del <em>canopy clustering</em>.</p>
+<p><img alt="Canopy_3" src="../_images/Canopy3.PNG" /></p>
+</section>
+</section>
+<section id="modelos-basados-en-densidad">
+<h2><span class="section-number">8.4. </span>Modelos basados en densidad.<a class="headerlink" href="#modelos-basados-en-densidad" title="Permalink to this headline">#</a></h2>
+<p>Los modelos de <em>clustering</em> basados en la densidad constituyen una familia de algoritmos que han dado muy buenos resultados y, en consecuencia, han despertado el interés de muchos analistas. Este tipo de algoritmos se especializan en identificar zonas de alta concentración de observaciones separadas entre sí por zonas con menor densidad de observaciones.</p>
+<p>Los dos algoritmos más conocidos son DBSCAN y OPTICS</p>
+<section id="algoritmo-dbscan">
+<span id="dbscan"></span><h3><span class="section-number">8.4.1. </span>Algoritmo DBSCAN.<a class="headerlink" href="#algoritmo-dbscan" title="Permalink to this headline">#</a></h3>
+<p><em>Density-based Spatial Clustering of Applications with Noise</em>, un nombre complejo para un algoritmo que en el fondo es muy sencillo. Veamos cómo funciona.</p>
+<p>Inicialmente, requiere que se le informe de dos parámetros:</p>
+<ul class="simple">
+<li><p>El valor ε (<strong>epsilon</strong>): máximo radio de vecindad. Consideraremos que dos puntos u observaciones están cercanos si la distancia que los separa es menor o igual a ε.</p></li>
+<li><p>El valor <strong>minPts</strong>: mínimo número de puntos en la ε-vecindad de un punto.Podemos pensarlo como el valor que marcará nuestro criterio de qué consideramos como denso.</p></li>
+</ul>
+<p>De este modo, DBSCAN irá construyendo esferas de radio ε que al menos incluyan minPts <a class="reference external" href="http://observaciones.La">observaciones.La</a> lógica que sigue el algoritmo para construir los clústeres o zonas densamente pobladas es la siguiente:</p>
+<ul class="simple">
+<li><p>Se considera que un punto p es un punto núcleo, <em>core point</em>, si al menos tiene minPts puntos a una distancia menor o igual a ε. Dicho de otro modo, contiene minPts en la ε-vecindad.</p></li>
+<li><p>Un punto q es alcanzable desde p, (p-reachable), donde p es núcleo, si la distancia entre ambos es inferior o igual a ε. Dicho de otro modo, si está dentro de la ε-vecindad de p.</p></li>
+<li><p>Un punto q es alcanzable desde p, si existe un camino de puntos núcleo que los conecta. ES decir, si existe <span class="math notranslate nohighlight">\(p_1,p_2,...,p_n\)</span> con <span class="math notranslate nohighlight">\(p_1=p\)</span> y <span class="math notranslate nohighlight">\(p_n=q\)</span>, donde cada <span class="math notranslate nohighlight">\(p_{i+1}\)</span> es alcanzable por <span class="math notranslate nohighlight">\(p_i\)</span> y todos los <span class="math notranslate nohighlight">\(p_1,p_2,...,p_{n-1}\)</span> son puntos núcleo.</p></li>
+<li><p>Cualquier punto no alcanzable se considerará punto extremo o <em>outlier</em>.</p></li>
+</ul>
+<p>La siguiente figura  nos muestra de un modo esquemático, el proceso de construcción de zonas de densidad. En este ejemplo se toma minPts = 4.</p>
+<p><img alt="DBSCAN" src="../_images/DBscan.PNG" /></p>
+<p>Los puntos B y C corresponden a la frontera del clúster, es decir, son puntos alcanzables desde un punto núcleo, pero ellos mismo no son punto núcleo porque no incluyen minPts en su ε-vecindario.</p>
+<p>Los puntos A son puntos núcleo ya que como mínimo cada uno de ellos tiene 4 puntos en un radio ε pre-fijado.</p>
+<p>Finalmente, el punto N se considera extremo o outlier puesto que no es alcanzable desde ningún punto del juego de datos.</p>
+<section id="ventajas-e-inconvenientes">
+<h4><span class="section-number">8.4.1.1. </span>Ventajas e inconvenientes.<a class="headerlink" href="#ventajas-e-inconvenientes" title="Permalink to this headline">#</a></h4>
+<p>La principal ventaja de DBSCAN es que es capaz de identificar clústeres de cualquier forma geométrica, no solo circular, ya que solo necesita que exista la combinación de zonas con alta y baja densidad de concentración de puntos. Es especialmente bueno identificando valores extremos. Contrariamente a otros algoritmos, para DBSCAN no supone ningún inconveniente trabajar con un juego de datos con este tipo de valores.</p>
+<p>DBSCAN tampoco requiere que le prefijemos el número de clústeres que queremos que identifique. Lo único que necesita es que haya zonas de baja densidad de puntos para así poder marcar bien las fronteras entre clústeres.</p>
+<p>En cuanto a inconvenientes, el principal es el hecho de tener que fijar como parámetros de entrada los valores ε y minPts. Acertar con el valor óptimo de estos parámetros requiere de experiencia y conocimiento tanto sobre el algoritmo en sí como sobre el propio juego de datos.</p>
+</section>
+</section>
+<section id="algoritmo-optics">
+<span id="optics"></span><h3><span class="section-number">8.4.2. </span>Algoritmo OPTICS.<a class="headerlink" href="#algoritmo-optics" title="Permalink to this headline">#</a></h3>
+<p><em>Ordering Points to Identify Cluster Structure</em> es un algoritmo que de algún modo generaliza DBSCAN y resuelve su principal inconveniente: los parámetros iniciales.</p>
+<p>OPTICS requiere un radio ε y un criterio de densidad minPts igual que DBSCAN, pero en el caso de OPTICS el valor de radio ε no determinará la formación de clústeres sino que servirá para ayudar a reducir la complejidad de cálculo en el propio algoritmo.</p>
+<p>En realidad OPTICS no es un algoritmo que genere una propuesta de clústeres a partir de un juego de datos de entrada, como DBSCAN. De hecho, lo que hace es ordenar los puntos del juego de datos en función de su distancia de
+alcanzabilidad, o reachability distance, en inglés.</p>
+<p>Para entender bien este concepto nuevo, nos basaremos en la siguiente figura, donde hemos tomado minPts = 5.</p>
+<p><img alt="OPTICS" src="../_images/optics.PNG" /></p>
+<p>La <em>core-distance</em> del punto p es el radio <span class="math notranslate nohighlight">\(\epsilon^{'}\)</span> mínimo tal que su <span class="math notranslate nohighlight">\(\epsilon^{'}-vecindad\)</span> contiene al menos minPts = 5 puntos.</p>
+<p>La <em>reachability-distance</em> de un punto q respecto de un punto núcleo (corepoint) p será la mayor de las dos distancias siguientes:</p>
+<ul class="simple">
+<li><p><em>core-distance</em> del punto p</p></li>
+<li><p>distancia euclídea entre los puntos p y q, que denotamos por <span class="math notranslate nohighlight">\(d(p,q)\)</span></p></li>
+</ul>
+<p>Siguiendo con el ejemplo de la figura anterior, vemos cómo la reachability-distance de los puntos p y <span class="math notranslate nohighlight">\(q_1\)</span> es la core-distance del punto p, porque esta es mayor que la distancia euclidiana entre los puntos p y q.</p>
+<p>Por otro lado, la <em>reachability-distance</em> de los puntos p y <span class="math notranslate nohighlight">\(q_2\)</span> es la distancia euclidiana entre ellos, porque esta es mayor que la core-distance del punto p.</p>
+<p>OPTICS como algoritmo lo que nos va a hacer es asignar a cada punto del juego de datos una <em>reachability-distance</em>.</p>
+<p>Aclarados estos conceptos básicos, podemos avanzar en la comprensión de la utilidad de disponer de dicha ordenación. Para ello usaremos un tipo de gráfico específico para este algoritmo, el <em>reachability plot</em>.</p>
+<p>Para entender bien qué es un <em>reachability plot</em> veamos la siguiente figura. En el gráfico inferior vemos la <em>reachability-distance</em> asignada a cada punto y apreciamos cómo hay zonas con valores altos que se corresponden con los puntos outliers
+y zonas con valores muy bajos que se corresponden con puntos ubicados en zonas densas.</p>
+<p><img alt="reachability plot" src="../_images/OPTICS2.PNG" /></p>
+<p>Fijémonos que a la hora de generar los clústeres podremos decidir cuál es la <em>reachability-distance</em> límite que nos marca qué consideramos como clúster.</p>
+<p>Podremos calibrar o ajustar este valor límite hasta conseguir una generación de clústeres adecuada.</p>
+<p>La posibilidad de calibrar la <em>reachability-distance</em> límite, hace que OPTICS en realidad lo que nos dé es una ordenación de puntos por reachability-distance y en consecuencia será el propio analista quien podrá generar múltiples combinaciones
+de clústeres en función del límite que se quiera fijar.</p>
+<section id="id2">
+<h4><span class="section-number">8.4.2.1. </span>Ventajas e inconvenientes.<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h4>
+<p>DBSCAN presupone que la densidad que encontrará en todos los clústeres es un valor constante. Sin embargo, OPTICS permite que el valor de densidad sea variable en un juego de datos, precisamente por la habilidad de fijar el límite
+en el punto que queramos.</p>
+</section>
+</section>
+</section>
+<section id="affinity-propagation">
+<span id="afinitypropagation"></span><h2><span class="section-number">8.5. </span>Affinity propagation.<a class="headerlink" href="#affinity-propagation" title="Permalink to this headline">#</a></h2>
+<p>Se trata de un algoritmo de clustering que basa su lógica en el intercambio de mensajes entre los distintos puntos del juego de datos.</p>
+<p>Una diferencia significativa entre otro algoritmo de clustering como k-means y <em>affinity propagation</em> es que en k-means empezamos con un número predefinido de clústeres y una propuesta inicial de centros potenciales, mientras que en
+affinity propagation cada punto del juego de datos se trata como un centro potencial o <em>exemplar</em>.</p>
+<p>Como entrada, el algoritmo requiere que se le pasen dos juegos de datos:</p>
+<ul class="simple">
+<li><p>Una matriz de similaridades S donde suele tomarse la distancia euclidiana y donde quedará representado cómo es de adecuado que dos puntos {i,k} pertenezcan al mismo clúster.</p></li>
+<li><p>Una relación de preferencias donde reflejaremos qué puntos consideraremos más apropiados para jugar el papel de ejemplares.</p></li>
+</ul>
+<p>A partir de aquí, <em>affinity propagation</em> centrará su procedimiento en dos matrices:</p>
+<ul class="simple">
+<li><p>La matriz de responsabilidades R: r(i,k) nos va a indicar cómo de bien encaja el punto k como punto ejemplar de i.</p></li>
+<li><p>La matriz de disponibilidad A: a(i,k) nos indicará cómo de adecuado es para el punto i considerar k como su ejemplar.</p></li>
+</ul>
+<p>Ambas matrices pueden ser interpretadas como probabilidades logarítmicas y es por este motivo que consideraremos su valores en negativo.</p>
+<p>En la siguiente figura vemos cómo los distintos puntos del juego de datos se relacionan con su punto ejemplar de referencia.</p>
+<p><img alt="Affinity propagation" src="../_images/affinity.PNG" /></p>
+<p>En la expresión formal de la matriz de responsabilidades R (ecuación que se muestra a continuación), observamos
+cómo esta refleja la evidencia acumulada de cómo es de adecuado el punto k para servir como ejemplar para el punto i, teniendo en cuenta otros posibles ejemplares para el punto i.</p>
+<div class="math notranslate nohighlight">
+\[r(i,k)=s(i,k)-max_{k'\not\mathrel{\varepsilon}\{i,k\}}\left\{ a(i,k^{'})+s(i,k^{'})\right\} \]</div>
+<p>Por otro lado, vemos cómo la expresión formal de la matriz de disponibilidad A availability matrix (ecuación que sigue) refleja la evidencia acumulada de cómo de apropiado sería para el punto i elegir el punto k como su ejemplar, teniendo
+en cuenta el apoyo de otros puntos para que el punto k fuera un ejemplar.</p>
+<p>Esta ecuación está dividida en dos partes:</p>
+<div class="math notranslate nohighlight">
+\[a(i,k)=min\left\{ 0,r(k,k)+\sum_{i^{'}\not\mathrel{\varepsilon}\{i,k\}}max\left\{ 0,r(i^{'},k)\right\} \right\} \]</div>
+<div class="math notranslate nohighlight">
+\[a(k,k)=\sum_{i^{'}\neq k}max\left\{ 0,r(i^{'},k)\right\} \]</div>
+<ul class="simple">
+<li><p>La primera ecuación es para los puntos fuera de la diagonal de A, es decir, para los mensajes que van de un punto a otro.</p></li>
+<li><p>La segunda ecuación para los puntos en la diagonal de A, es decir, para el mensaje de disponibilidad que un punto se envía a sí mismo.</p></li>
+</ul>
+<p><em>Affinity propagation</em>, desde su aparición en 2007, ha ido ganando adeptos como uno de los mejores algoritmos en tareas de clustering y por su buen rendimiento en multitud de situaciones.</p>
+</section>
+<section id="bibliografia">
+<h2><span class="section-number">8.6. </span>Bibliografia.<a class="headerlink" href="#bibliografia" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://aprendeia.com/algoritmo-kmeans-clustering-machine-learning/">https://aprendeia.com/algoritmo-kmeans-clustering-machine-learning/</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=xLkhiIcTJF8">https://www.youtube.com/watch?v=xLkhiIcTJF8</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./nosupervisados"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../supervisados/ensembles.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">7. </span>Métodos de ensembles</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../otros/pipelines.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>Pipelines , canalizaciones o tuberías.</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

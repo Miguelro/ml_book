@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\programas\Anaconda\envs\py39\lib\asyncio\base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\programas\Anaconda\envs\py39\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+X = X.loc[:,['pclass','age','sibsp','parch','fare']]
+from sklearn.impute import SimpleImputer
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+imp.fit(X)
+X = imp.transform(X)
+X = pd.DataFrame(X, columns = ['pclass','age','sibsp','parch','fare'])
+
+# Veamos si se han eliminado los valores faltantes
+X.isna().sum()
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mNameError[0m                                 Traceback (most recent call last)
+Input [1;32mIn [22][0m, in [0;36m<cell line: 3>[1;34m()[0m
+[0;32m      1[0m X [38;5;241m=[39m X[38;5;241m.[39mloc[:,[[38;5;124m'[39m[38;5;124mpclass[39m[38;5;124m'[39m,[38;5;124m'[39m[38;5;124mage[39m[38;5;124m'[39m,[38;5;124m'[39m[38;5;124msibsp[39m[38;5;124m'[39m,[38;5;124m'[39m[38;5;124mparch[39m[38;5;124m'[39m,[38;5;124m'[39m[38;5;124mfare[39m[38;5;124m'[39m]]
+[0;32m      2[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mimpute[39;00m [38;5;28;01mimport[39;00m SimpleImputer
+[1;32m----> 3[0m imp [38;5;241m=[39m SimpleImputer(missing_values[38;5;241m=[39m[43mnp[49m[38;5;241m.[39mnan, strategy[38;5;241m=[39m[38;5;124m'[39m[38;5;124mmean[39m[38;5;124m'[39m)
+[0;32m      4[0m imp[38;5;241m.[39mfit(X)
+[0;32m      5[0m X [38;5;241m=[39m imp[38;5;241m.[39mtransform(X)
+
+[1;31mNameError[0m: name 'np' is not defined
+NameError: name 'np' is not defined
+

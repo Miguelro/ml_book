@@ -1,0 +1,48 @@
+Traceback (most recent call last):
+  File "D:\Python\libro\venv_py39\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\programas\Python\Python39\lib\asyncio\base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from numpy import mean
+from numpy import std
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.linear_model import LogisticRegression
+# generamos los datos con un total de tres clases (n_classes=3)
+X, y = make_classification(n_samples=1000, n_features=10, n_informative=5, n_redundant=5,
+n_classes=3, random_state=1)
+# definimos el modelo para clasificación múltiple multi_class='ovr'
+model = LogisticRegression(multi_class='ovr')
+# definimos el porcedimiento de evaluación el modelo
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+
+n_scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=-1)
+# Imprimimos la acuracidad del modelo obtenido
+print('Acuracidad media: %.3f (%.3f)' % (mean(n_scores), std(n_scores)))
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn [1], line 1[0m
+[1;32m----> 1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mimport[39;00m mean
+[0;32m      2[0m [38;5;28;01mfrom[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mimport[39;00m std
+[0;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdatasets[39;00m [38;5;28;01mimport[39;00m make_classification
+
+[1;31mModuleNotFoundError[0m: No module named 'numpy'
+ModuleNotFoundError: No module named 'numpy'
+

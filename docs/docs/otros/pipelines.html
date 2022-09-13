@@ -1,0 +1,1694 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>9. Pipelines , canalizaciones o tuberías. &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="10. Regularización" href="Regularizacion.html" />
+    <link rel="prev" title="8. Conceptos preliminares." href="../nosupervisados/preliminares.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/otros/pipelines.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/otros/pipelines.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   9.1. Introducción
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#los-transformadores">
+   9.2. Los transformadores.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#construccion-y-uso-de-las-tuberias">
+   9.3. Construcción y uso de las tuberías.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#definiendo-los-parametros-de-los-elementos-de-una-canalizacion">
+     9.3.1. Definiendo los parámetros de los elementos de una canalización.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#utilizacion-de-la-cache">
+   9.4. Utilización de la caché.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#la-clase-columntransformer">
+   9.5. La clase ColumnTransformer .
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#la-clase-featureunion">
+   9.6. La clase FeatureUnion.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Pipelines , canalizaciones o tuberías.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   9.1. Introducción
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#los-transformadores">
+   9.2. Los transformadores.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#construccion-y-uso-de-las-tuberias">
+   9.3. Construcción y uso de las tuberías.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#definiendo-los-parametros-de-los-elementos-de-una-canalizacion">
+     9.3.1. Definiendo los parámetros de los elementos de una canalización.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#utilizacion-de-la-cache">
+   9.4. Utilización de la caché.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#la-clase-columntransformer">
+   9.5. La clase ColumnTransformer .
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#la-clase-featureunion">
+   9.6. La clase FeatureUnion.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="pipelines-canalizaciones-o-tuberias">
+<h1><span class="section-number">9. </span>Pipelines , canalizaciones o tuberías.<a class="headerlink" href="#pipelines-canalizaciones-o-tuberias" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<span id="index-0"></span><h2><span class="section-number">9.1. </span>Introducción<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p>Esta herramienta que ofrece Scikit Learn se utiliza mucho en ciencia de datos para poder incorporar en una sola instrucción una serie de transformadores que se combinan con regresores, clasificadores u otros estimadores para obtener con una sola instrucción de scickit learn los resultados que se buscan en un determinado trabajo.</p>
+<p>Las tuberías se pueden utilizar posteriormente como si fuesen un estimador más. Lo que permite emplearlas en clases como GridSearchCV para seleccionar los parámetros e hiperparametros de los modelos mediante validación cruzada.</p>
+<p id="index-1">Uno de los primeros pasos que normalmente se hacen en los procesos de análisis e inferencia sobre los datos es la transformación de los mimos para adaptarlos a las necesidades que el investigador necesita y así poder obtener conclusiones fiables. Para poder realizar estas tareas previas, Scikit Learn posee los denominados transformadores, que se pasan a exponer en el siguiente apartado.</p>
+</section>
+<section id="los-transformadores">
+<h2><span class="section-number">9.2. </span>Los transformadores.<a class="headerlink" href="#los-transformadores" title="Permalink to this headline">#</a></h2>
+<p id="index-2">En aprendizaje automático o análisis de datos, la creación de un modelo es un proceso complejo que requiere llevar a cabo múltiples pasos. Siendo la preparación de los datos uno de los que más tiempo requiere. Tras la obtención de un conjunto de datos es necesario aplicarle a este diferentes operaciones antes de poder utilizar un estimador. A modo de ejemplo algunas de las operaciones más habituales son: limpieza de datos, extracción de las características, normalización de las características y reducción de la dimensionalidad.</p>
+<p>Scikit Learn cuenta con una buena colección de transformadores, que <a class="reference external" href="https://scikit-learn.org/stable/data_transforms.html">se pueden encontrar en este enlace</a>, los cuales permiten hacer las transformaciones oportunas de los datos para que una vez depurados convenientemente o se realicen las acciones indicadas en el párrafo anterior, pasen a ser analizados mediante las diversas técnicas de análisis de datos que ofrece Scikit Learn.</p>
+<p>Es conjunto de transformadores, puede por ejemplo limpiar los datos iniciales (<a class="reference external" href="https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing">preprocesamiento de los datos</a>), reducir la dimensión de los mismos, es decir reducir el número de variables a estudiar por otra cantidad inferior pero que conservan la mayor cantidad de información posible del conjunto inicial de los datos (<a class="reference external" href="https://scikit-learn.org/stable/modules/unsupervised_reduction.html#data-reduction">reducción de la dimensionalidad</a>) o <a class="reference external" href="https://scikit-learn.org/stable/modules/feature_extraction.html#feature-extraction">extraer features</a>.</p>
+<p>Al igual que otros estimadores, estos están representados por clases con un método <em>fit</em>, que aprende los parámetros del modelo (p. ej., media y desviación estándar para la normalización) de un conjunto de entrenamiento, y un método <em>transform</em>  que aplica este modelo de transformación a datos no vistos. El método <em>fit_transform</em> puede ser más conveniente y eficiente para modelar y transformar los datos de entrenamiento simultáneamente.</p>
+<p>En Scikit Learn hay que distinguir entre los conceptos de transformadores y estimadores. De forma resumida, se pueden distinguir estas características utilizando el siguiente criterio:</p>
+<ul class="simple">
+<li><p>Un <strong>Transformador</strong> se refiere a un objeto con los métodos fit() y transform(), que permiten limpiar, reducir, expandir o generar nueva features. De esta manera, los transformadores ayudan a modificar los datos para que puedan ser pasados a un algoritmo de machine learning. Ejemplos de estos transformadores pueden ser <em>OneHotEncoder</em> y <em>MinMaxScaler</em>.</p></li>
+<li><p>Un <strong>Estimador</strong> hace referencia a un modelo de machine learning, y en este sentido será un objeto con los métodos <em>fit()</em> y <em>predict()</em>.</p></li>
+</ul>
+</section>
+<section id="construccion-y-uso-de-las-tuberias">
+<h2><span class="section-number">9.3. </span>Construcción y uso de las tuberías.<a class="headerlink" href="#construccion-y-uso-de-las-tuberias" title="Permalink to this headline">#</a></h2>
+<p>En este apartado, vamos a ver cómo se construyen estas tuberías desde Scikit Learn, y para ello es preciso tener en cuenta que en estas tuberías todos los estimadores, excepto el último, deben ser transformadores (es decir, deberán tener el método transform()), mientras que el último puede ser de cualquier tipo (transformador, clasificador, etc.).</p>
+<p>Estos objetos pipelines, se construyen utilizando una lista de pares del tipo (clave,valor), de tal manera que clave es una cadena que contiene el nombre específico que se quiere dar a este paso, y valor será el nombre del estimador utilizado.</p>
+<p>Para entender mejor este concepto veamos a continuación un pequeño ejemplo, en el que se hace primero un análisis de componentes principales y después se calcula un ajuste mediante regresión lineal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="n">estimadores</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;reduce_dim&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">()),</span> <span class="p">(</span><span class="s1">&#39;regresion&#39;</span><span class="p">,</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">())]</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">estimadores</span><span class="p">)</span>
+<span class="n">pipe</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[(&#x27;reduce_dim&#x27;, PCA()), (&#x27;regresion&#x27;, LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[(&#x27;reduce_dim&#x27;, PCA()), (&#x27;regresion&#x27;, LinearRegression())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">PCA</label><div class="sk-toggleable__content"><pre>PCA()</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label sk-toggleable__label-arrow">LinearRegression</label><div class="sk-toggleable__content"><pre>LinearRegression()</pre></div></div></div></div></div></div></div></div></div>
+</div>
+<p>Los transformadores utilizados en la canalización se pueden almacenar en caché usando el argumento <em>memory</em>.</p>
+<p>La lista de parámetros que se pueden utilizar con esta clase son los siguientes:</p>
+<ul class="simple">
+<li><p><strong>steps</strong> : Es una lista de tuplas que serán encadenadas en el orden en el que se han declarado en este parámetro.</p></li>
+<li><p><strong>memory</strong> : Se utiliza para poder almacenar en caché los transformadores utilizados en las tuberías.</p></li>
+<li><p><strong>verbose</strong> : Es un valor booleano, que por defecto tiene el valor de False. Si se le cambia a True, se va a mostrar el tiempo empleado en cada paso.</p></li>
+</ul>
+<p>Estos parámetros y atributos de la clase  <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html">se pueden ver en este enlace</a>.</p>
+<p id="index-3">Scikit Learn ofrece una función de utilidad denominada <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.make_pipeline.html"><em>make_pipeline</em></a> que permite también construir tuberías, de tal forma que esta función toma un número variable de estimadores para devolver una canalización, y los nombres los construye de forma automática. Veamos el ejemplo anterior, pero utilizando este formato abreviado.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="c1">#estimadores = [(&#39;reduce_dim&#39;, PCA()), (&#39;regresion&#39;, linear_model.LinearRegression())]</span>
+<span class="n">pipe2</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">PCA</span><span class="p">(),</span><span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">())</span>
+<span class="n">pipe2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {color: black;background-color: white;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[(&#x27;pca&#x27;, PCA()), (&#x27;linearregression&#x27;, LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label sk-toggleable__label-arrow">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[(&#x27;pca&#x27;, PCA()), (&#x27;linearregression&#x27;, LinearRegression())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" ><label for="sk-estimator-id-5" class="sk-toggleable__label sk-toggleable__label-arrow">PCA</label><div class="sk-toggleable__content"><pre>PCA()</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" ><label for="sk-estimator-id-6" class="sk-toggleable__label sk-toggleable__label-arrow">LinearRegression</label><div class="sk-toggleable__content"><pre>LinearRegression()</pre></div></div></div></div></div></div></div></div></div>
+</div>
+<p>Los estimadores que están en una canalización, se almacenan como una lista en el atributo <em>steps</em> y se puede acceder a ellos por el índice:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;reduce_dim&#39;, PCA())
+</pre></div>
+</div>
+</div>
+</div>
+<p>Y también se puede acceder mediante el nombre dado a la canalización:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe2</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">&quot;pca&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-3 {color: black;background-color: white;}#sk-container-id-3 pre{padding: 0;}#sk-container-id-3 div.sk-toggleable {background-color: white;}#sk-container-id-3 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-3 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-3 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-3 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-3 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-3 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-3 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-3 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-3 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-3 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-3 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-3 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-3 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-3 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-3 div.sk-item {position: relative;z-index: 1;}#sk-container-id-3 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-3 div.sk-item::before, #sk-container-id-3 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-3 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-3 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-3 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-3 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-3 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-3 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-3 div.sk-label-container {text-align: center;}#sk-container-id-3 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-3 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>PCA()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" checked><label for="sk-estimator-id-7" class="sk-toggleable__label sk-toggleable__label-arrow">PCA</label><div class="sk-toggleable__content"><pre>PCA()</pre></div></div></div></div></div></div></div>
+</div>
+<section id="definiendo-los-parametros-de-los-elementos-de-una-canalizacion">
+<h3><span class="section-number">9.3.1. </span>Definiendo los parámetros de los elementos de una canalización.<a class="headerlink" href="#definiendo-los-parametros-de-los-elementos-de-una-canalizacion" title="Permalink to this headline">#</a></h3>
+<p>Ya sabemos que las clases que nos ofrece Scikit Learn, tienen una serie de parámetros que permiten hacer ajustes de tal manera que se obtengan modelos los más ajustado posible a los datos con los que se tarabaja.</p>
+<p>Se pueden acceder a los parámetros de estos estimadores para su modificación en la canalización utilizando para ello la siguiente sintaxis: <estimador>__<parametro>.</p>
+<p>En el ejemplo anterior, se ha utilizado un análisis de componentes principales, pero se han utilizado para ello los parámetros que por defecto tienen la clase PCA(), y el número de componentes que se extraen es el que por defecto ofrece esa clase. Si quisiéramos modificar este parámetro, por ejemplo a dos componentes lo haríamos de la siguiente manera:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">reduce_dim__n_components</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-4 {color: black;background-color: white;}#sk-container-id-4 pre{padding: 0;}#sk-container-id-4 div.sk-toggleable {background-color: white;}#sk-container-id-4 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-4 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-4 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-4 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-4 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-4 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-4 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-4 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-4 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-4 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-4 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-4 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-4 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-4 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-4 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-4 div.sk-item {position: relative;z-index: 1;}#sk-container-id-4 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-4 div.sk-item::before, #sk-container-id-4 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-4 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-4 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-4 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-4 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-4 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-4 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-4 div.sk-label-container {text-align: center;}#sk-container-id-4 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-4 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-4" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[(&#x27;reduce_dim&#x27;, PCA(n_components=2)),
+                (&#x27;regresion&#x27;, LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" ><label for="sk-estimator-id-8" class="sk-toggleable__label sk-toggleable__label-arrow">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[(&#x27;reduce_dim&#x27;, PCA(n_components=2)),
+                (&#x27;regresion&#x27;, LinearRegression())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" ><label for="sk-estimator-id-9" class="sk-toggleable__label sk-toggleable__label-arrow">PCA</label><div class="sk-toggleable__content"><pre>PCA(n_components=2)</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox" ><label for="sk-estimator-id-10" class="sk-toggleable__label sk-toggleable__label-arrow">LinearRegression</label><div class="sk-toggleable__content"><pre>LinearRegression()</pre></div></div></div></div></div></div></div></div></div>
+</div>
+<p>Esta posibilidad de poder los valores de los parámetros es muy importante, sobre todo si queremos hacer ajustes del modelo mediante búsquedas de cuadrículas, mediante la clase GridSearchCV. Para este caso, se puede utilizar la línea marcada en el siguiente ejemplo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">reduce_dim__n_components</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                  <span class="n">regresion__fit_intercept</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+
+<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="utilizacion-de-la-cache">
+<h2><span class="section-number">9.4. </span>Utilización de la caché.<a class="headerlink" href="#utilizacion-de-la-cache" title="Permalink to this headline">#</a></h2>
+<p>La utilización de transformadores puede ser muy costosa en términos de cálculos que pueden hacer. Para intentar mejorar el tiempo de ejecución, la clase pipeline permite almacenar en la caché cada transformador después de llamar al método <em>fit</em>. Esta función es utilizada con la finalidad de evitar calcular los transformadores de ajuste dentro de una tubería siempre que los parámetros y los datos de entrada sean idénticos. Esto se puede conseguir gracias a la utilización de parámetro <em>memory</em>, el cual puede ser una cadena que contenga el directorio donde almacenar en cache la información de los transformadores o un objeto de tipo <em>joblib.Memory</em>. Veamos a continuación un ejemplo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">mkdtemp</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">estimators</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;reduce_dim&#39;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">()),</span> <span class="p">(</span><span class="s1">&#39;clf&#39;</span><span class="p">,</span> <span class="n">SVC</span><span class="p">())]</span>
+<span class="n">cachedir</span> <span class="o">=</span> <span class="n">mkdtemp</span><span class="p">()</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">estimators</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">cachedir</span><span class="p">)</span>
+<span class="n">pipe</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-5 {color: black;background-color: white;}#sk-container-id-5 pre{padding: 0;}#sk-container-id-5 div.sk-toggleable {background-color: white;}#sk-container-id-5 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-5 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-5 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-5 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-5 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-5 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-5 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-5 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-5 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-5 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-5 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-5 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-5 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-5 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-5 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-5 div.sk-item {position: relative;z-index: 1;}#sk-container-id-5 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-5 div.sk-item::before, #sk-container-id-5 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-5 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-5 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-5 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-5 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-5 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-5 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-5 div.sk-label-container {text-align: center;}#sk-container-id-5 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-5 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-5" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(memory=&#x27;C:\\Users\\FRANCI~1\\AppData\\Local\\Temp\\tmpwokhuj2y&#x27;,
+         steps=[(&#x27;reduce_dim&#x27;, PCA()), (&#x27;clf&#x27;, SVC())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox" ><label for="sk-estimator-id-11" class="sk-toggleable__label sk-toggleable__label-arrow">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(memory=&#x27;C:\\Users\\FRANCI~1\\AppData\\Local\\Temp\\tmpwokhuj2y&#x27;,
+         steps=[(&#x27;reduce_dim&#x27;, PCA()), (&#x27;clf&#x27;, SVC())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" ><label for="sk-estimator-id-12" class="sk-toggleable__label sk-toggleable__label-arrow">PCA</label><div class="sk-toggleable__content"><pre>PCA()</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox" ><label for="sk-estimator-id-13" class="sk-toggleable__label sk-toggleable__label-arrow">SVC</label><div class="sk-toggleable__content"><pre>SVC()</pre></div></div></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># borramos el directorio de caché para cuando ya no se necesita</span>
+<span class="n">rmtree</span><span class="p">(</span><span class="n">cachedir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Este tipo de tuberías, se apoyan en muchas ocasiones en dos clases que sirven para facilitar el trabajo de preparación de los datos en una determinada operación de machine learning. Estas clases son ColumnTranformer y FeatureUnion, que pasamos a verlas a continuación-</p>
+</section>
+<section id="la-clase-columntransformer">
+<h2><span class="section-number">9.5. </span>La clase ColumnTransformer .<a class="headerlink" href="#la-clase-columntransformer" title="Permalink to this headline">#</a></h2>
+<p id="index-4">Como su propio nombre indica, se utiliza esta clase para hacer una transformación previa de los datos que aparecen en las columnas del dataset (array o dataframe de pandas)sobre el que estamos trabajando.</p>
+<p>Gracias a esta clase, de una manera separada y mediante una sola instrucción se puede proceder a transformar en diferentes formatos las columnas de nuestro dataset. Además como esta transformación se hace de forma independiente para cada columna, se puede utilizar una programación en paralelo, con la finalidad de agilizar las transformación, lo cual es bastante interesante en los casos en los que trabajemos con ficheros muy voluminosos.</p>
+<p>Este procedimiento es muy útil para conjunto de datos que tienen columnas heterogéneas de tipos de datos, ya que de esta manera se integran en un sólo transformador diferentes mecanismos de extracción o transformación de información.</p>
+<p>Los parámetros más importantes de esta clase son los siguientes:</p>
+<ul class="simple">
+<li><p><strong>transformers</strong>. Es una lista de tuplas, de forma que cada tupla tiene el siguiente formato: (nombre, transformador, columnas). El significado de cada elemento de la tupla es el siguiente:</p>
+<ul>
+<li><p><strong>nombre</strong>. Es el nombre que asignamos a esta transformación en concreto. Nos servirá  para asignar determinados parámetros al transformador mediante la expresión <em>set_params</em>, de forma similar a como se hace con los pipelines ya vistos anteriormente.</p></li>
+<li><p><strong>transformador</strong>. Puede tomar los valores de ‘drop’, ‘passthrough’ o un determinado estimador. Este estimador debe admitir los parámetros <em>fit</em> y <em>transform</em>. Con la opción ‘drop’ se eliminará la columna, y con ‘passthrough’, se mantiene la columna tal y como está.</p></li>
+<li><p><strong>columnas</strong>. Hace referencia a la o las columnas sobre las que queremos hace la transformación. Esta referencia a esas columnas, se puede hacer mediante una lista de enteros indicando las posiciones de las columnas, o bien mediante una lista de literales que indican los nombre de las columnas a las que queremos hacer la transformación.</p></li>
+</ul>
+</li>
+<li><p>*<em>remainder</em>. Con este parámetro lo que se indica es qué hacer con las columnas sobre las que no se ha indicado ningún tipo de transformación, ya que por defecto lo que se hace es prescindir de ese tipo de columnas. El valor por defecto de este parámetro es ‘drop’, por ese motivo ocurre lo comentado anteriormente. Sin embargo si a este parámetro le asignamos el valor ‘passthrough’ todas las columnas no especificadas en el parámetro <em>transformers</em> se mantienen.</p></li>
+<li><p><strong>n_jobs</strong>. Es un parámetro muy indicado para cuando se esté trabajando con un conjunto de datos de mucho peso, ya que con él se está indicando el número de núcleos que se quieren utilizar de nuestro ordenador para hacer un procesamiento en paralelo.</p></li>
+</ul>
+<p id="index-5">Existe una clase denominada <em><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.compose.make_column_transformer.html#sklearn.compose.make_column_transformer">make_column_transformer</a></em>  que está indicada para realizar una función similar a ColumnTransformer pero de una forma más fácil para el usuario de la misma.</p>
+<p>A continuación pasamos a mostrar un ejemplo sobre la utilización de esta herramienta proporcionada por Scikit Learn.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="c1"># Cargamos el conjunto de datos de titanic</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Veamos un poco el contenido de este fichero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>ticket</th>
+      <th>fare</th>
+      <th>cabin</th>
+      <th>embarked</th>
+      <th>boat</th>
+      <th>body</th>
+      <th>home.dest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>female</td>
+      <td>29.0000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>St Louis, MO</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.9167</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>11</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>female</td>
+      <td>2.0000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>None</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>Allison, Mr. Hudson Joshua Creighton</td>
+      <td>male</td>
+      <td>30.0000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>None</td>
+      <td>135.0</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>female</td>
+      <td>25.0000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>None</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Como podemos observar este conjunto de datos presenta campos de muy diversa índole, y así por ejemplo tenemos variables de tipo categórico: pclass, sex, embarked. También hay variables de tipo numérico como age, ticket.</p>
+<p>Algunas características de estas variables, se pueden obtener de forma cómoda con el método <em>describe()</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1309.000000</td>
+      <td>1046.000000</td>
+      <td>1309.000000</td>
+      <td>1309.000000</td>
+      <td>1308.000000</td>
+      <td>121.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.294882</td>
+      <td>29.881135</td>
+      <td>0.498854</td>
+      <td>0.385027</td>
+      <td>33.295479</td>
+      <td>160.809917</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.837836</td>
+      <td>14.413500</td>
+      <td>1.041658</td>
+      <td>0.865560</td>
+      <td>51.758668</td>
+      <td>97.696922</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.166700</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.000000</td>
+      <td>21.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.895800</td>
+      <td>72.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.000000</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.454200</td>
+      <td>155.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.000000</td>
+      <td>39.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>31.275000</td>
+      <td>256.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>3.000000</td>
+      <td>80.000000</td>
+      <td>8.000000</td>
+      <td>9.000000</td>
+      <td>512.329200</td>
+      <td>328.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>También podemos obtener información del tipo de variable con el que estamos trabajando con la siguiente instrucción:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1309 entries, 0 to 1308
+Data columns (total 13 columns):
+ #   Column     Non-Null Count  Dtype   
+---  ------     --------------  -----   
+ 0   pclass     1309 non-null   float64 
+ 1   name       1309 non-null   object  
+ 2   sex        1309 non-null   category
+ 3   age        1046 non-null   float64 
+ 4   sibsp      1309 non-null   float64 
+ 5   parch      1309 non-null   float64 
+ 6   ticket     1309 non-null   object  
+ 7   fare       1308 non-null   float64 
+ 8   cabin      295 non-null    object  
+ 9   embarked   1307 non-null   category
+ 10  boat       486 non-null    object  
+ 11  body       121 non-null    float64 
+ 12  home.dest  745 non-null    object  
+dtypes: category(2), float64(6), object(5)
+memory usage: 115.4+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>De acuerdo con la información obtenida en los pasos anteriores, vamos a proceder a hacer lo siguiente con todas las variables que conforman nuestro conjunto de datos:</p>
+<ul class="simple">
+<li><p>name, cabin, boat, body, home.dest, se van a borrar de la base de datos.</p></li>
+<li><p>sex, embarked se van a recodificar</p></li>
+<li><p>age, sibsp, fare, se van a escalar.</p></li>
+</ul>
+<p id="index-6">Veamos inicialmente cómo poder hacer todas estas transformaciones de una forma secuencial. En primer lugar vamos a recodificar como variables de tipo dummies las indicadas anteriormente, para lo cual se empleará el método get_dummies() de pandas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;embarked&#39;</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>name</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>ticket</th>
+      <th>fare</th>
+      <th>cabin</th>
+      <th>boat</th>
+      <th>body</th>
+      <th>home.dest</th>
+      <th>sex_male</th>
+      <th>embarked_Q</th>
+      <th>embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>29.0000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>St Louis, MO</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>0.9167</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>11</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>2.0000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>None</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>Allison, Mr. Hudson Joshua Creighton</td>
+      <td>30.0000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>None</td>
+      <td>135.0</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>25.0000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>None</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>A continuación procedemos a escalar (es decir convertirlas en variables con media igual a cero y varianza igual a 1) las variables  age, sibsp,y fare, para lo cual empleamos la clase StandardScaler.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaled_X</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;sibsp&#39;</span><span class="p">,</span> <span class="s1">&#39;fare&#39;</span><span class="p">]])</span>
+
+<span class="n">X2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaled_X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;sibsp&#39;</span><span class="p">,</span> <span class="s1">&#39;fare&#39;</span><span class="p">])</span>
+<span class="n">X2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.061162</td>
+      <td>-0.479087</td>
+      <td>3.441165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-2.010496</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.935302</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.008251</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.338812</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Como puede verse, para realizar el paso anterior hemos tenido que seleccionar previamente las columnas que queremos estandarizar y al final obtenemos un conjunto de datos separado del inicial. Si no lo hacemos de esta manera y trabajamos son todo el conjunto de datos inicial, obtendríamos un error de python que nos diría por ejemplo que las variables de tipo alfanumérico no las puede estandarizar.</p>
+<p>Entonces para hacer este procedimiento de manera secuencial, lo que se puede hacer es dividir el conjunto de datos inicial en subconjuntos a los que se les aplica la transformación que queremos hacer y después unir todos ellos en un sólo conjunto de datos.</p>
+<p>Para una mayor claridad de este procedimiento, vamos a ir paso a paso haciendo esto con nuestro conjunto de datos con los que estamos trabajando.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargamos el conjunto de datos de titanic</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># separamos los datos</span>
+<span class="n">categoricas</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;embarked&#39;</span><span class="p">]]</span>
+<span class="n">numericas</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;sibsp&#39;</span><span class="p">,</span> <span class="s1">&#39;fare&#39;</span><span class="p">]]</span>
+<span class="n">borrar</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span>
+               <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">categoricas</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">numericas</span><span class="o">.</span><span class="n">columns</span><span class="p">)]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una vez tenemos separados los datos podemos hacer las transformaciones pertinente en cada uno de estos subconjuntos.</p>
+<p id="index-7">Comenzamos por aplicar la clase OneHotEncoder a las variables de tipo categórico.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+<span class="n">encoded_raw</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">categoricas</span><span class="p">)</span>
+
+<span class="n">categoricas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">encoded_raw</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="n">encoder</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">categoricas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex_male</th>
+      <th>embarked_Q</th>
+      <th>embarked_S</th>
+      <th>embarked_nan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Ahora procedemos a estanadarizar las variables numéricas elegidas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaled_raw</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">numericas</span><span class="p">)</span>
+
+<span class="n">numericas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">scaled_raw</span><span class="p">,</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="n">numericas</span><span class="o">.</span><span class="n">columns</span>
+<span class="p">)</span>
+<span class="n">numericas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.061162</td>
+      <td>-0.479087</td>
+      <td>3.441165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-2.010496</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.935302</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.008251</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.338812</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Y por último procederíamos a integrar estos subconjuntos en uno sólo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">categoricas</span><span class="p">,</span><span class="n">numericas</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+<span class="n">final</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex_male</th>
+      <th>embarked_Q</th>
+      <th>embarked_S</th>
+      <th>embarked_nan</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>-0.061162</td>
+      <td>-0.479087</td>
+      <td>3.441165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>-2.010496</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>-1.935302</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.008251</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>-0.338812</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Todos los procedimientos que se han realizado anteriormente son correctos, pero para hacerlos hemos necesitado hacer una serie de pasos previos que ralentiza el procedimiento. A continuación vamos a hacer lo anterior pro utilizando la clase <em>ColumnTransformer</em>, gracias a la cual podemos integrar todo lo anterior en pocas lineas de código, y además podremos contar con la ventaja de hacer una ejecución en paralelo, ya que las transformaciones que se hacen sobre cada una de las columnas son independientes. Veamos cómo hacer todo esto a continuación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transformaciones</span> <span class="o">=</span> <span class="p">[</span>
+<span class="p">(</span><span class="s1">&#39;codificacion&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="n">drop</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">),[</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;embarked&#39;</span><span class="p">]),</span> 
+<span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;sibsp&#39;</span><span class="p">,</span> <span class="s1">&#39;fare&#39;</span><span class="p">])</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+
+<span class="c1"># Cargamos de nuevo el conjunto de datos de titanic</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">column_transformer</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span><span class="n">transformaciones</span><span class="p">,</span>
+                                       <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="c1"># la opción por defecto</span>
+                                      <span class="n">n_jobs</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1">#para utilizar 4 cores en paralelo</span>
+                                      <span class="p">)</span>
+<span class="c1"># Aplicamos el modelo anterior a nuestros datos</span>
+<span class="n">X_transformados</span> <span class="o">=</span> <span class="n">column_transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Obtenemos el conjunto de datos final</span>
+<span class="n">X_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">X_transformados</span><span class="p">,</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">column_transformer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">X_final</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>codificacion__sex_male</th>
+      <th>codificacion__embarked_Q</th>
+      <th>codificacion__embarked_S</th>
+      <th>codificacion__embarked_nan</th>
+      <th>scale__age</th>
+      <th>scale__sibsp</th>
+      <th>scale__fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>-0.061162</td>
+      <td>-0.479087</td>
+      <td>3.441165</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>-2.010496</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>-1.935302</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.008251</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>-0.338812</td>
+      <td>0.481288</td>
+      <td>2.285603</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Como puede verse el resultado final es el mismo que el obtenido anteriormente, pero se cuenta con la ventaja de su sencillez y rapidez de cálculo (esto último no se aprecia en este ejemplo ya que son pocos los datos tratados, pero sin embargo sí sería un aspecto a tener en cuenta si trabajamos con datos muy voluminosos).</p>
+</section>
+<section id="la-clase-featureunion">
+<h2><span class="section-number">9.6. </span>La clase FeatureUnion.<a class="headerlink" href="#la-clase-featureunion" title="Permalink to this headline">#</a></h2>
+<p id="index-8">Esta clase es muy común utilizarla en las tuberías de Scikit Learn, por lo que se ha creído conveniente abrir un apartado en este momento para hacer una presentación de la misma.</p>
+<p>La clase <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html#sklearn.pipeline.FeatureUnion">FeatureUnion</a> permite combinar una lista de objetos transformadores en un nuevo transformador combinando las salidas de cada uno de ellos. Las transformaciones individuales se hacen de forma independiente y por lo tanto se pueden hacer en paralelo lo que permite aligerar considerablemente los tiempos de cálculo cuando estamos trabajando con conjunto de datos muy voluminosos.</p>
+<p>Veamos a continuación un sencillo ejemplo sobre el uso de esta clase para entender mejor su significado y ver cómo funciona.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargamos el conjunto de datos de titanic</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Me quedo sólo con algunas columnas de dataset X</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;pclass&#39;</span><span class="p">,</span><span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;sibsp&#39;</span><span class="p">,</span><span class="s1">&#39;parch&#39;</span><span class="p">,</span><span class="s1">&#39;fare&#39;</span><span class="p">,</span><span class="s1">&#39;body&#39;</span><span class="p">]]</span>
+
+
+<span class="c1"># Vemos cuantos valores nulos hay</span>
+<span class="n">X</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass       0
+age        263
+sibsp        0
+parch        0
+fare         1
+body      1188
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como la variable body tiene muchos datos sin valor la excluimos del análisis, y para el resto procedemos a imputar los valores faltantes, ya que de no hacerlo, el procedimiento nos generaría un error insalvable</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;pclass&#39;</span><span class="p">,</span><span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;sibsp&#39;</span><span class="p">,</span><span class="s1">&#39;parch&#39;</span><span class="p">,</span><span class="s1">&#39;fare&#39;</span><span class="p">]]</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="n">imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">imp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pclass&#39;</span><span class="p">,</span><span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;sibsp&#39;</span><span class="p">,</span><span class="s1">&#39;parch&#39;</span><span class="p">,</span><span class="s1">&#39;fare&#39;</span><span class="p">])</span>
+
+<span class="c1"># Veamos si se han eliminado los valores faltantes</span>
+<span class="n">X</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [22],</span> in <span class="ni">&lt;cell line: 3&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;pclass&#39;</span><span class="p">,</span><span class="s1">&#39;age&#39;</span><span class="p">,</span><span class="s1">&#39;sibsp&#39;</span><span class="p">,</span><span class="s1">&#39;parch&#39;</span><span class="p">,</span><span class="s1">&#39;fare&#39;</span><span class="p">]]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">imp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">X</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;np&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora que hemos imputados los datos faltantes, procedemos a utilizar la clase FeatureUnion</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">FeatureUnion</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span><span class="p">,</span> <span class="n">TruncatedSVD</span>
+
+<span class="c1"># definimos dos conjuntos de transformormadores</span>
+<span class="n">union</span> <span class="o">=</span> <span class="n">FeatureUnion</span><span class="p">([(</span><span class="s2">&quot;pca&quot;</span><span class="p">,</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)),</span>
+                      <span class="p">(</span><span class="s2">&quot;svd&quot;</span><span class="p">,</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">))])</span>
+
+
+
+<span class="c1"># Generamos ahora el nuevo conjunto de datos con las transformaciones indicadas antes</span>
+<span class="n">resul</span> <span class="o">=</span> <span class="n">union</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">resul</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[177.81781185,  -8.93258131, 208.80805104,  43.61182102],
+       [116.83084503, -34.30148369, 143.09624244,  49.9257843 ],
+       [116.8800193 , -33.2197368 , 143.4593509 ,  48.90779431],
+       ...,
+       [-26.2051042 ,  -2.19046457,  15.73903475, -22.67356489],
+       [-26.18240769,  -1.69118141,  15.90662843, -23.14342088],
+       [-25.44232616,   0.27641764,  17.18927457, -24.80469269]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resul</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1309, 4)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como podemos comprobar en la salida anterior, tenemos como resultado un objeto de tipo numpyarray, con el mismo número de filas que el conjunto original y cuatro columnas, de tal manera que las dos primeras columnas se corresponden a la salida de un procedimiento PCA, pues le hemos indicado que conserve las dos primeras componentes, y las otras dos columnas se corresponden a la salida de la clase TruncatedSVD a la que hemos indicado también que conserve 2 componentes.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./otros"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../nosupervisados/preliminares.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">8. </span>Conceptos preliminares.</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Regularizacion.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Regularización</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

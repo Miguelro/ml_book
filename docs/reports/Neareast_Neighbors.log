@@ -1,0 +1,90 @@
+Traceback (most recent call last):
+  File "D:\Python\libro\venv_py39\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\programas\Python\Python39\lib\asyncio\base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Python\libro\venv_py39\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.colors import ListedColormap
+from sklearn import neighbors, datasets
+
+n_neighbors = 15
+
+# import some data to play with
+iris = datasets.load_iris()
+
+# we only take the first two features. We could avoid this ugly
+# slicing by using a two-dim dataset
+X = iris.data[:, :2]
+y = iris.target
+
+h = 0.02  # step size in the mesh
+
+# Create color maps
+cmap_light = ListedColormap(["orange", "cyan", "cornflowerblue"])
+cmap_bold = ["darkorange", "c", "darkblue"]
+
+for weights in ["uniform", "distance"]:
+    # we create an instance of Neighbours Classifier and fit the data.
+    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
+    clf.fit(X, y)
+
+    # Plot the decision boundary. For that, we will assign a color to each
+    # point in the mesh [x_min, x_max]x[y_min, y_max].
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+
+    # Put the result into a color plot
+    Z = Z.reshape(xx.shape)
+    plt.figure(figsize=(8, 6))
+    plt.contourf(xx, yy, Z, cmap=cmap_light)
+
+    # Plot also the training points
+    sns.scatterplot(
+        x=X[:, 0],
+        y=X[:, 1],
+        hue=iris.target_names[y],
+        palette=cmap_bold,
+        alpha=1.0,
+        edgecolor="black",
+    )
+    plt.xlim(xx.min(), xx.max())
+    plt.ylim(yy.min(), yy.max())
+    plt.title(
+        "3-Class classification (k = %i, weights = '%s')" % (n_neighbors, weights)
+    )
+    plt.xlabel(iris.feature_names[0])
+    plt.ylabel(iris.feature_names[1])
+
+plt.show()
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn [7], line 3[0m
+[0;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[0;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[1;32m----> 3[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
+[0;32m      4[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcolors[39;00m [38;5;28;01mimport[39;00m ListedColormap
+[0;32m      5[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m [38;5;28;01mimport[39;00m neighbors, datasets
+
+[1;31mModuleNotFoundError[0m: No module named 'seaborn'
+ModuleNotFoundError: No module named 'seaborn'
+

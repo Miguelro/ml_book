@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>12. Medidas de Bondad Ajuste. &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="13. Índice" href="../genindex.html" />
+    <link rel="prev" title="11. Validación de modelos." href="ValidacionModelos.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ValidacionModelos.html">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/otros/MedidasBondadAjuste.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/otros/MedidasBondadAjuste.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   12.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#medidas-para-modelos-supervisados-de-clasificacion">
+   12.2. Medidas para modelos supervisados de clasificación.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluacion-de-problemas-binarios">
+     12.2.1. Evaluación de problemas binarios.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluacion-de-problemas-binarios-no-equilibrados">
+     12.2.2. Evaluación de problemas binarios no equilibrados.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#medidas-de-evaluacion-en-modelos-de-clasificacion">
+     12.2.3. Medidas de evaluación en modelos de clasificación.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#medidas-de-evaluacion-modelos-multiclase">
+     12.2.4. Medidas de evaluación modelos multiclase.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#la-curva-de-roc">
+     12.2.5. La curva de ROC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#medidas-para-modelos-supervisados-de-regresion">
+   12.3. Medidas para modelos supervisados de regresión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   12.4. Bibliografía.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Medidas de Bondad Ajuste.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   12.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#medidas-para-modelos-supervisados-de-clasificacion">
+   12.2. Medidas para modelos supervisados de clasificación.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluacion-de-problemas-binarios">
+     12.2.1. Evaluación de problemas binarios.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#evaluacion-de-problemas-binarios-no-equilibrados">
+     12.2.2. Evaluación de problemas binarios no equilibrados.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#medidas-de-evaluacion-en-modelos-de-clasificacion">
+     12.2.3. Medidas de evaluación en modelos de clasificación.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#medidas-de-evaluacion-modelos-multiclase">
+     12.2.4. Medidas de evaluación modelos multiclase.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#la-curva-de-roc">
+     12.2.5. La curva de ROC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#medidas-para-modelos-supervisados-de-regresion">
+   12.3. Medidas para modelos supervisados de regresión.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   12.4. Bibliografía.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="medidas-de-bondad-ajuste">
+<h1><span class="section-number">12. </span>Medidas de Bondad Ajuste.<a class="headerlink" href="#medidas-de-bondad-ajuste" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<span id="medidasbondadajuste"></span><h2><span class="section-number">12.1. </span>Introducción.<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p id="index-0">En el tema <a class="reference internal" href="ValidacionModelos.html#validacionmodelos"><span class="std std-ref">sobre la validación de modelos</span></a> hemos visto diferentes métodos para comprobar si el ajuste hecho con un modelo es correcto o no. Para conseguir eso, necesitábamos una serie de métricas que son las que vamos a desarrollar en este apartado.</p>
+<p>La evaluación de modelos es un proceso fundamental en machine learning. Se usa para comprobar en qué medida el modelo que hemos creado es capaz de resolver el problema planteado. Si no es el caso, deberemos tomar decisiones
+con el fin de obtener un nuevo modelo capaz de resolver de la mejor forma el problema en cuestión.</p>
+<p>Este apartado se ha divido en dos partes, correspondientes a dos tipos principales de problemas de machine learning: problemas supervisados de clasificación y problemas supervisados de regresión .</p>
+</section>
+<section id="medidas-para-modelos-supervisados-de-clasificacion">
+<h2><span class="section-number">12.2. </span>Medidas para modelos supervisados de clasificación.<a class="headerlink" href="#medidas-para-modelos-supervisados-de-clasificacion" title="Permalink to this headline">#</a></h2>
+<p>Imaginemos que nos han contratado para diseñar un algoritmo capaz de predecir si un cliente comprará o no un determinado producto. Para ello, necesitamos un conjunto amplio de muestras con los datos de los clientes y, además, para cada una de ellas, es necesario que un experto las etiquete con una de las dos posibilidades: comprará o no comprará el producto.</p>
+<p>En este caso, el experto etiqueta con +1 las muestras de los clientes que finalmente compraron el producto, y con –1 las muestras de los que no. Usando este conjunto de datos etiquetados, se creará un <em>modelo de clasificación supervisada</em>.</p>
+<p>Una vez que tengamos el modelo, y dados los datos de un nuevo cliente, podremos usar el modelo para predecir la etiqueta para ese cliente. Es decir, podremos predecir si el cliente comprará o no el producto.</p>
+<p>Para saber si el modelo que hemos creado funcionará bien o no, únicamente podemos usar los datos que tenemos etiquetados, ya que, de esta forma, podemos comparar las etiquetas predichas con las reales.</p>
+<section id="evaluacion-de-problemas-binarios">
+<h3><span class="section-number">12.2.1. </span>Evaluación de problemas binarios.<a class="headerlink" href="#evaluacion-de-problemas-binarios" title="Permalink to this headline">#</a></h3>
+<p>Un problema binario es aquel que tiene únicamente dos clases, como por ejemplo el problema planteado anteriormente, en el cual quiere predecirse si un cliente comprará o no un producto.</p>
+<p>Para comprobar la calidad del modelo desarrollado, debemos dividir el conjunto original de muestras (las muestras que tenemos etiquetadas) en dos conjuntos:entrenamiento y test.</p>
+<p>El conjunto de entrenamiento nos servirá para obtener un modelo preliminar que tendrá un comportamiento similar al que
+podríamos obtener usando todo el conjunto de datos original, pero no igual, puesto que tiene menos muestras. El conjunto de test se usará para validar el modelo preliminar entrenado. El valor que obtengamos será una estimación
+optimista del resultado que se obtendrá cuando se predigan las futuras muestras reales.</p>
+<p>Siguiendo con el ejemplo anterior, supongamos que tenemos una base de datos de 1,000 clientes, de los cuales 500 compraron el producto y 500 no lo compraron. Dividimos el conjunto en 800 muestras de entrenamiento y 200 de test. Es muy importante que el número de elementos de cada clase esté equilibrado en ambos conjuntos. Por ejemplo, un error importante sería que el conjunto de entrenamiento fuera de 500 clientes que compraron el producto y 300 clientes que no lo compraron; por lo tanto, el conjunto de test tendría únicamente muestras de clientes que no compraron el producto y ninguna de clientes que sí lo compraron. Lo correcto sería, en este caso, que el conjunto de entrenamiento tuviera 400 de cada tipo y, por lo tanto, el de test 100 de cada tipo.</p>
+<p>La medida más usada para evaluar la calidad de un modelo es la <em>exactitud o acuracidad</em>, que se define como el número de muestras para las que el modelo ha predicho bien su clase frente al número total de muestras. Además de esta medida de evaluación de los modelos existen otras que veremos posteriormente.</p>
+</section>
+<section id="evaluacion-de-problemas-binarios-no-equilibrados">
+<h3><span class="section-number">12.2.2. </span>Evaluación de problemas binarios no equilibrados.<a class="headerlink" href="#evaluacion-de-problemas-binarios-no-equilibrados" title="Permalink to this headline">#</a></h3>
+<p>Un problema binario no equilibrado es aquel en el que el número de muestras de una clase es muy superior al número de muestras de la otra. Supongamos, por ejemplo, que existe un sistema de aprendizaje automático capaz de detectar de forma temprana una enfermedad mortal. El sistema toma como entrada un conjunto de datos del paciente y devuelve 1 si el paciente tiene la enfermedad, y –1 en el caso contrario. En el caso de detectar la enfermedad, podrán tomarse las medidas oportunas para aumentar las probabilidades de superarla. Sin embargo, <strong>la medicación tiene unos efectos secundarios muy
+desagradables</strong>, por lo que no se recomienda que un paciente sano la tome.</p>
+<p>En este ejemplo, la clase objetivo es la clase positiva, es decir, detectar que el paciente tiene la enfermedad. La otra clase es la clase negativa.</p>
+<p>Con el fin de comprobar si el sistema desarrollado funciona correctamente, se han realizado 10,000 predicciones, de las cuales 9,500 eran de pacientes sanos y 500 de pacientes con la enfermedad. El sistema ha predicho como sanos a 9,450 de los pacientes sanos, y como enfermos a 300 pacientes con la enfermedad. Por lo tanto, el sistema ha acertado en 9,450 + 300 = 9,750 casos de los 10,000. Una posible medida de la calidad del proceso es, tal como se ha explicado en el apartado anterior, calcular la exactitud o acuracidad del sistema. En este caso es 9,750/10,000 = 0.975. Es decir, el sistema acierta en un 97.5 % de los casos.</p>
+<p>El valor obtenido para la exactitud podría llevarnos a confusión: aunque ciertamente es un valor muy alto, en la clase objetivo únicamente ha acertado el 60 % de los casos (300 de 500). En realidad, el resultado es muy malo, pues
+hay 200 pacientes (el 40 %) que tienen la enfermedad y el sistema no lo ha detectado. En este tipo de problemas, es crucial acertar la gran mayoría de los casos de la clase objetivo, aunque ello implique aumentar ligeramente los
+fallos en la clase negativa. En esta situación, resulta desagradable medicar a un paciente sano (errar en la clase negativa), pero puede resultar mortal no medicar a uno enfermo (errar en la clase positiva). En nuestro ejemplo, hay
+50 personas que sufrirían los efectos secundarios por error, pero 200 personas que podrían fallecer por no medicarse.</p>
+<p>En este apartado, se presentará una medida para evaluar este tipo de problemas llamada <em>F-measure, F-score o F1-score</em>, que tiene en cuenta lo bueno o malo que es el modelo a la hora de predecir correctamente la clase objetivo, pero previamente vamos a definir otra serie de conceptos.</p>
+</section>
+<section id="medidas-de-evaluacion-en-modelos-de-clasificacion">
+<h3><span class="section-number">12.2.3. </span>Medidas de evaluación en modelos de clasificación.<a class="headerlink" href="#medidas-de-evaluacion-en-modelos-de-clasificacion" title="Permalink to this headline">#</a></h3>
+<p>Para entender mejor las diversas medidas que se utilizan en los modelos supervisados de clasificación, es conveniente en primer lugar introducir el concepto de matriz de confusión, que no es más que una tabla de doble entrada, en la que en filas se colocan las clasificaciones correctas, y en columnas las clasificaciones previstas por el modelo. En este apartado nos vamos a centrar en las clasificaciones binarias. En estos casos una matriz de confusión tendría el siguiente formato (se ha mantenido el formato de salida de scikit learn).</p>
+<p><img alt="matriz Confusión" src="../_images/MatrizConfusion.svg" /></p>
+<p>En este gráfico vamos a denotar por 0 no tener la característica estudiada y por 1 tenerla. De acuerdo con esto es la casilla superior izquierdo anotamos los casos en los que realmente no se tienen la carcaterística y el algoritmo predice lo mismo, es decir los verdaderos negativos(TN o true negativos). En la casilla superior derecha estarán los casos en los que no se tiene realmente la característica, pero el algoritmo predice que sí, serían los falsos positivos (FP). En la parte inferior izquierda estarían los falsos negativos (FN), es decir serían positivos realmente pero el algoritmo los clasifica como negativos, y por último en la zona inferior derecha están los verdaderos positivos (TP) que son los individuos que realmente son positivos y el algoritmo los clasifica como tal.</p>
+<p id="index-1">De la clasificación anterior, se pueden obtener una serie de indicadores muy utilizados en métodos de clasificación. A continuación  se exponen estos indicadores.</p>
+<ul class="simple">
+<li><p><strong>La acuracidad</strong>. Mide el nivel de aciertos (tanto positivos como negativos) del algoritmo, y por lo tanto la expresión matemática que lo define es la suma de aciertos dividido por el total de observaciones, es decir:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Acuracidad = \frac{TP+TN}{TP+TN+FP+FN}\]</div>
+<ul class="simple">
+<li><p><strong>Precisión</strong>. Es la probabilidad de verdadero positivo condicionado a que el algoritmo prediga resultado positivo. La expresión matemática es la siguiente:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Precisión = \frac{TP}{TP+FP}\]</div>
+<ul class="simple">
+<li><p><strong>Recall o sensibilidad</strong>. Es la probabilidad de verdadero positivo condicionado a que realmente sea positivo. La expresión matemática es la siguiente.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ Recall \,o\, sensibilidad = \frac{TP}{TP+FN}\]</div>
+<p>En la siguiente figura se pueden ver representados estos conceptos</p>
+<p><img alt="Precisión Recall" src="../_images/PrecisionRecall.svg" /></p>
+<p>Otros indicadores, que son ampliamente utilizados en el mundo de la medicina son:</p>
+<ul class="simple" id="index-2">
+<li><p><strong>Sensibilidad</strong>. Es la probabilidad condicionada de ser positivo en el test, sabiendo que es positivo. La expresión matemática utilizada es la siguiente.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ Sensibilidad = \frac{TP}{TP+FN}\]</div>
+<ul class="simple" id="index-3">
+<li><p><strong>Especifidad</strong>. Es la probabilidad de ser negativo en el test, sabiendo que realmente es positivo. La expresión matemática es la siguiente:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[Especifidad = \frac{TN}{TN+FP} \]</div>
+<p>Por último los otros dos conceptos también bastante utilizados son los siguientes:</p>
+<ul class="simple">
+<li><p><strong>True positive rate (TPR)</strong>. Que es el porcentaje de aciertos positivos del test y por lo tanto la expresión matemática es la siguiente.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ TPR=\frac{TP}{TP+FN}\]</div>
+<ul class="simple">
+<li><p><strong>False positivo rate (FPR)</strong>. Que es el porcentaje de aciertos negativos del test y por lo tanto la expresión matemática es la siguiente (observar que este valor es igual a 1-especifidad).</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ FPR=\frac{FP}{TN+FP}=1\,-\,especifidad\]</div>
+<p id="index-4">Una medidad muy utilizada en el caso de que se tengan datos de clasificación desequilibrados es la F-score, que no es más que la media harmónica entre la sensibilidad y la especifidad, la expresión matemática es la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[F-score=2\frac{Precision \cdot Recall}{Precision+Recall}\]</div>
+<p>Aunque una medida aún más general que la anterior es el indicador <span class="math notranslate nohighlight">\(F_{\beta}\)</span> que tiene la siguiente expresión matemática.</p>
+<div class="math notranslate nohighlight">
+\[F_{\beta}=(1+\beta^{2})\cdot\frac{precisi\acute{o}n\cdot recall}{precision+recall}\]</div>
+<p>En scikip learn, se pueden encontrar estas medidas <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#the-scoring-parameter-defining-model-evaluation-rules" target="_blank">en el siguiente enlace</a>.</p>
+</section>
+<section id="medidas-de-evaluacion-modelos-multiclase">
+<span id="index-5"></span><h3><span class="section-number">12.2.4. </span>Medidas de evaluación modelos multiclase.<a class="headerlink" href="#medidas-de-evaluacion-modelos-multiclase" title="Permalink to this headline">#</a></h3>
+<p>En la sección anterior hemos visto diversas medidas de evaluación de los modelos de clasificación binaria. Estas medidas se extienden sin ninguna dificultad a los modelos multiclase en la forma que se explica en este apartado.</p>
+<p>En lo que respecta a la acuracidad del modelo no hay ningún problema pues se trata del cociente entre los casos bien clasificados (zona de la diagonal de la matriz de confusión), dividido entre el número total de casos.</p>
+<p>Por lo que respecta a la <strong>precisión</strong>, nos vamos a apoyar en la siguiente matriz de confusión para calcularla.</p>
+<p><img alt="Matriz Confusión 1" src="../_images/Mconfusion1.PNG" /></p>
+<p>Recordemos la fórmula de cálculo de la Precisión:</p>
+<div class="math notranslate nohighlight">
+\[Precisión = \frac{TP}{TP+FP}\]</div>
+<p>Como vemos la matriz de confusión en este caso tiene un tamaño de 10x10, en esta situación cual sería los TP (true positives) pues serían los que se clasifican en la misma clases de donde realmente son. Así por ejemplo para la clase 9, en total TP serían 947 casos. Los falsos positivos en este caso serían el resto de valores que el algoritmo ha clasificado como 9 pero no son de la clase 9. Por lo tanto la precisión para la clase 9 sería la siguiente:</p>
+<div class="math notranslate nohighlight">
+\[ 947/(947+1+38+40+2)=0.92\]</div>
+<p>Para el caso de la clase 2 ( marcado también con un rectángulo rojo en la figura anterior) sería:</p>
+<div class="math notranslate nohighlight">
+\[ 762/(762+18+4+16+72+105+9)=0.77 \]</div>
+<p>En relación al indicador <strong>Recall</strong> recordemos antes su fórmula:</p>
+<div class="math notranslate nohighlight">
+\[ Recall \,o\, sensibilidad = \frac{TP}{TP+FN}\]</div>
+<p>En este los FN serán los que son realmente positivos, pero el algoritmo los clasifica en otra categoría. Por ejemplo para la categoría 9 de la matriz de confusión anterior, los FN serán todos los casos que se encuentran en la fila 9 salvo los que están en la columna 9. En el siguiente gráfico, se destacan con un rectángulo rojo.</p>
+<p><img alt="Matriz Confusión 2" src="../_images/Mconfusion2.PNG" /></p>
+<p>En consecuencia el valor de Recall para la etiqueta 9 valdrá:</p>
+<div class="math notranslate nohighlight">
+\[ 947/(947+14+36+3) = 0.947 \]</div>
+<p>Para la etiqueta 2 este valor se obtiene de la siguiente manera:</p>
+<div class="math notranslate nohighlight">
+\[ 762/ (762+14+2+13+122+75+12)=0.762\]</div>
+<p>El valor de <em>F1 Score</em> se obtiene con la siguiente fórmula:</p>
+<div class="math notranslate nohighlight">
+\[F1-score=2\frac{Precision \cdot Recall}{Precision+Recall}\]</div>
+<p>En consecuencia el F1 score para 9 será: <span class="math notranslate nohighlight">\(2*0.92*0.947/(0.92+0.947)=0.933\)</span></p>
+<p>Y el valor de F1 Score para 2: <span class="math notranslate nohighlight">\(2*0.77*0.762/(0.77+0.762)=0.766\)</span></p>
+<p>Otros valores que obtenemos con scikit learn al utilizar el método <em>classification_report</em> (ver ejemplo más adelante) es <em>Macro average precision</em> y <em>weighted average precision</em> veamos lo que significan. Pero en primer lugar veamos los valores que se obtienen en cuanto a precision, recall y f1-score con los datos de la matriz de confusión mostrada anteriormente.</p>
+<p><img alt="Matriz Confusión 3" src="../_images/Mconfusion3.PNG" /></p>
+<p>Entonces por <em>Macro average precision</em>, que es la media aritmética simple de todos los valores de presuocisión obtenidos, es decir en este caso:</p>
+<div class="math notranslate nohighlight">
+\[ (0.80+0.95+0.77+0.88+0.75+0.95+0.68+0.90+0.93+0.92)/10=0.853 \]</div>
+<p>Para calcular <em>weighted average precision</em> es la misma media que la anterior pero ponderando por el número de elementos que hay en cada clase. En el ejemplo que seguimos, hay 760 casos de la clase 0, 900 de la clase 1, 535 de la clase 2, 843 de la clase 3, 801 de la clase 4, 779 de la clase 5, 640 de la clase 6, 791 de la clase 7, 921 de la clase 8 y 576 de la clase 9. en total por lo tanto hay 7546 observaciones y en consecuencia la media ponderada por las observaciones que hay en cada clase será el <em>weighted average precision</em>, que valdrá:</p>
+<div class="math notranslate nohighlight">
+\[(760*0.80+900*0.95+535*0.77+843*0.88+...+921*0.93+576*0.92)/7546 = 0.86 \]</div>
+</section>
+<section id="la-curva-de-roc">
+<h3><span class="section-number">12.2.5. </span>La curva de ROC<a class="headerlink" href="#la-curva-de-roc" title="Permalink to this headline">#</a></h3>
+<p>Las curvas ROC (receiver operating characteristic) son un método muy efectivo para validar el funcionamiento de un modelo de clasificación supervisada <em>en problemas binarios</em>. Imaginemos que estamos usando un clasificador supervisado
+que, en vez de obtener un +1 cuando predice que la muestra es positiva y –1 cuando es negativa, nos proporciona un número entre 0.0 y 1.0 que indica la probabilidad de que la muestra pertenezca a la clase positiva. Por ejemplo, si el resultado es 0.2, significará que hay una probabilidad pequeña de que la muestra sea positiva. Sin embargo, si el resultado es 0.8, significará que hay una probabilidad alta de que la muestra sea positiva. En realidad, la gran mayoría de algoritmos de clasificación supervisada funcionan de esta forma.</p>
+<p>Supongamos que, para un problema de clasificación supervisada binario, hemos entrenado tres algoritmos diferentes, y que para un conjunto de 20 muestras de test (10 de cada clase), hemos obtenido la probabilidad de que la muestra sea de la clase positiva. La figura que sigue muestra el resultado obtenido para los tres modelos entrenados. Los puntos rojos son las muestras negativas y los puntos azules son las muestras positivas. La figura de la izquierda muestra un mal resultado,
+puesto que resulta muy difícil encontrar una frontera entre las muestras de ambas clases. La figura del centro presenta un resultado intermedio y la figura de la derecha muestra el mejor resultado de los tres, ya que, en este caso, es más fácil establecer una frontera entre ambas clases.</p>
+<p><img alt="Curva ROC" src="../_images/ROC.PNG" /></p>
+<p>Las tablas que siguen muestran, respectivamente, los TP, TN, FP y FN para los tres modelos entrenados, para un conjunto de umbrales de 0.0 a 1.0. Estas tablas también muestran la sensibilidad y 1 menos la especificidad de cada modelo.</p>
+<p>La siguiente tabla corresponde al gráfico de la izquierda anterior</p>
+<p><img alt="Tabla 1" src="../_images/Tabla1.PNG" /></p>
+<p>La siguiente tabla se corresponde con el gráfico del centro anterior</p>
+<p><img alt="Tabla 2" src="../_images/Tabla2.PNG" /></p>
+<p>La siguiente tabla se corresponde con el gráfico de la derecha anterior</p>
+<p><img alt="Tabla 3" src="../_images/Tabla3.PNG" /></p>
+<p>La figura que sigue muestra las curvas ROC de los tres modelos. La curva ROC representa
+para cada umbral un punto donde la coordenada x es la sensibilidad (=TPR) y la coordenada y es 1 menos la especificidad (= FPR). Una medida de la calidad del modelo es el área que queda debajo de la curva. Como puede comprobarse, dicha área será mayor en el modelo representado por la curva verde (muestras de la figura de la derecha y tercera tabla) que en el modelo intermedio representado por la curva roja (muestras de la figura del centro y la tabla intermedia), y el peor modelo será el representado por la curva azul (muestras de la figura la izquierda y la tabla primera).</p>
+<p><img alt="Curvas de ROC" src="../_images/ROC2.PNG" /></p>
+<p>el área bajo la curva ROC (Receiver operating characteristic) representa la probabilidad de que un individuo enfermo elegido al azar tenga mayor probabilidad estimada de padecer la enfermedad que un individuo no enfermo elegido también al azar. En la práctica este área es el porcentaje de pares de individuos enfermos y no enfermos en los que el enfermo tiene mayor probabilidad estimada de padecer la enfermedad que el no enfermo.</p>
+<p>A continuación vemos un ejemplo de cómo poder obtener la curva de ROC con scikit learn</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1">#importamos el fichero de datos</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/Statology/Python-Guides/main/default.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1">#seleccionamos los campos que nos innteresan </span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;student&#39;</span><span class="p">,</span> <span class="s1">&#39;balance&#39;</span><span class="p">,</span> <span class="s1">&#39;income&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">]</span>
+
+<span class="c1"># dividimos en train y test</span>
+<span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+
+<span class="c1"># definimos el modelo</span>
+<span class="n">log_regression</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="c1">#ajustamos el modelo</span>
+<span class="n">log_regression</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1">#sacamos los posibles puntos de corte</span>
+<span class="n">y_pred_proba</span> <span class="o">=</span> <span class="n">log_regression</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[::,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred_proba</span><span class="p">)</span>
+
+<span class="c1">#generamos la curva de ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span><span class="n">tpr</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate (TPR)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate (FPR)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/MedidasBondadAjuste_1_0.png" src="../_images/MedidasBondadAjuste_1_0.png" />
+</div>
+</div>
+<p>Un resumen de las métricas más importantes lo podemos sacar de la siguiente manera:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+
+<span class="c1"># Obtenemos los valores predichos</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">log_regression</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_pred</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sacamos la matriz de confusión&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Obtenemos una serie de indicadores&quot;</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sacamos la matriz de confusión
+[[2870   17]
+ [  93   20]]
+Obtenemos una serie de indicadores
+              precision    recall  f1-score   support
+
+           0       0.97      0.99      0.98      2887
+           1       0.54      0.18      0.27       113
+
+    accuracy                           0.96      3000
+   macro avg       0.75      0.59      0.62      3000
+weighted avg       0.95      0.96      0.95      3000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="medidas-para-modelos-supervisados-de-regresion">
+<h2><span class="section-number">12.3. </span>Medidas para modelos supervisados de regresión.<a class="headerlink" href="#medidas-para-modelos-supervisados-de-regresion" title="Permalink to this headline">#</a></h2>
+<p id="index-6">Un problema supervisado de regresión se diferencia de un problema supervisado de clasificación en que lo que se predice es un valor continuo, y no una etiqueta entre un conjunto finito. Por ejemplo, un problema de regresión es predecir el valor de venta de una casa. El valor de la casa es un número  real positivo que es una cantidad continua. Si se discretiza este valor en varios segmentos, entonces transformaríamos el problema en uno de clasificación supervisada.</p>
+<p>Un concepto importante, a la hora de validar la calidad de un modelo de regresión, es el residuo o error de una muestra, que se define como la diferencia entre el valor real de la muestra <span class="math notranslate nohighlight">\(y_i\)</span> y el valor predicho por el modelo <span class="math notranslate nohighlight">\(\hat{y}_{i}\)</span>. A partir del residuo, pueden definirse las dos medidas más comunes que suelen usarse: <em>el error cuadrático medio</em> (ECM o RMS, eninglés) y la <em>raíz del error cuadrático medio</em> (RECM o RMSE, en inglés);se definen como se muestra a continuación:</p>
+<div class="math notranslate nohighlight">
+\[ ECM=\frac{1}{N}\sum_{i=1}^{N}(y_{i}-\hat{y}_{i})^{2}\]</div>
+<div class="math notranslate nohighlight">
+\[RECM=\sqrt{ECM} \]</div>
+<p id="index-7">Otro indicador muy utiliza es el denominado mean absolute error (MAE)</p>
+<p><span class="math notranslate nohighlight">\(MAE=\frac{1}{N}\sum_{i=1}^{N}\left|y_{i}-\hat{y}_{i}\right|\)</span></p>
+<p>Para realizar correctamente la validación del modelo de regresión, puede usarse la validación cruzada. En este caso, también es muy importante distribuir correctamente las muestras entre las diferentes carpetas. Supongamos que nuestra base de datos tiene 800 muestras de casas con precios entre 100,000 y 500,000 euros.</p>
+<p>Para distribuir correctamente las muestras, podemos crear arbitrariamente tres grupos diferentes según el precio de las casas. Por ejemplo, el primer grupo estaría compuesto por las casas entre 100,000 y 200,000 euros; el segundo grupo, entre 200,000 y 300,000 euros, y el último grupo, con las de más de 300,000. El siguiente paso sería contar el número de muestras de cada grupo. Por ejemplo, supongamos que tenemos 400, 300 y 100 muestras en cada grupo. El siguiente paso es distribuir las muestras de cada grupo en las diferentes carpetas intentando que el número de muestras de cada grupo en cada carpeta sea similar. Siguiendo con el ejemplo y asumiendo que usamos 10 carpetas, pondríamos 40, 30 y 10 muestras de cada grupo en cada carpeta.</p>
+<p>La métricas de regresión que se pueden encontrar en scikit learn, se pueden ver <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics" target="_blank">en este enlace</a>.</p>
+</section>
+<section id="bibliografia">
+<h2><span class="section-number">12.4. </span>Bibliografía.<a class="headerlink" href="#bibliografia" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://interactivechaos.com/es/manual/tutorial-de-machine-learning/la-curva-roc">https://interactivechaos.com/es/manual/tutorial-de-machine-learning/la-curva-roc</a></p></li>
+<li><p><a class="reference external" href="https://aprendeia.com/curvas-roc-y-area-bajo-la-curva-auc-machine-learning/">https://aprendeia.com/curvas-roc-y-area-bajo-la-curva-auc-machine-learning/</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html">https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./otros"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="ValidacionModelos.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">11. </span>Validación de modelos.</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../genindex.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">13. </span>Índice</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

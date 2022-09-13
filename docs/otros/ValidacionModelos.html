@@ -1,0 +1,1112 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>11. Validación de modelos. &#8212; Trabajando con scikit learn</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="12. Medidas de Bondad Ajuste." href="MedidasBondadAjuste.html" />
+    <link rel="prev" title="10. Regularización" href="Regularizacion.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Trabajando con scikit learn</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduccion.html">
+                    Introducción
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Neareast_Neighbors.html">
+   1. Método Neareast Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/supportVectorMachine.html">
+   2. Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/RegresionLogistica/RegresionLogisticaEjemplo.html">
+   3. Regresión Logística
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/Softmax.html">
+   4. Regresión Softmax
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/decisiontree/decisiontree.html">
+   5. Árboles de decisión (Decision tree)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/multiclass.html">
+   6. Predicción con multiclases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../supervisados/ensembles.html">
+   7. Métodos ensembles
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Apredizaje NO supervisado
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nosupervisados/preliminares.html">
+   8. Conceptos preliminares
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Otras herramientas
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pipelines.html">
+   9. Pipelines o canalizaciones
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Regularizacion.html">
+   10. Regularización de datos
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   11. Validación de modelos
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="MedidasBondadAjuste.html">
+   12. Medias de Bonda del Ajuste
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Índice de términos
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../genindex.html">
+   13. Índice de términos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliografía
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliografia.html">
+   14. Bibliografia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/otros/ValidacionModelos.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/otros/ValidacionModelos.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   11.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validacion-cruzada">
+   11.2. Validación cruzada
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#corss-val-score">
+     11.2.1. corss_val_score
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-validate">
+     11.2.2. cross_validate
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estrategias-de-particion-de-datos">
+   11.3. Estrategias de partición de datos.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-igualmente-distribuidos">
+     11.3.1. Datos igualmente distribuidos.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#k-fold">
+       11.3.1.1. K-Fold
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#repated-k-fold">
+       11.3.1.2. Repated K-Fold.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#leave-one-out-loo">
+       11.3.1.3. Leave One Out (LOO).
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#leave-p-out-lpo">
+       11.3.1.4. Leave P Out (LPO).
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#permutaciones-aleatorias-o-shuffle-split">
+       11.3.1.5. Permutaciones aleatorias o Shuffle &amp; Split.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-con-clases-no-equilibradas">
+     11.3.2. Datos con clases no equilibradas.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#k-fold-estratificado">
+       11.3.2.1. K-fold estratificado.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#division-aleatoria-estratificada">
+       11.3.2.2. División aleatoria estratificada.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-agrupados">
+     11.3.3. Datos agrupados.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#group-k-fold">
+       11.3.3.1. Group k_Fold.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stratifiedgroupkfold">
+       11.3.3.2. StratifiedGroupKFold
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#leaveonegroupout">
+       11.3.3.3. LeaveOneGroupOut
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#dejar-p-grupos-fuera-leavepgroupsout">
+       11.3.3.4. Dejar p grupos fuera (LeavePGroupsOut)
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#division-aleatoria-grupal">
+       11.3.3.5. División aleatoria grupal.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#valiacion-cruzada-para-las-series-temporales">
+   11.4. Valiación cruzada para las series temporales.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   11.5. Bibliografia.
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Validación de modelos.</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduccion">
+   11.1. Introducción.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validacion-cruzada">
+   11.2. Validación cruzada
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#corss-val-score">
+     11.2.1. corss_val_score
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cross-validate">
+     11.2.2. cross_validate
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#estrategias-de-particion-de-datos">
+   11.3. Estrategias de partición de datos.
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-igualmente-distribuidos">
+     11.3.1. Datos igualmente distribuidos.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#k-fold">
+       11.3.1.1. K-Fold
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#repated-k-fold">
+       11.3.1.2. Repated K-Fold.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#leave-one-out-loo">
+       11.3.1.3. Leave One Out (LOO).
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#leave-p-out-lpo">
+       11.3.1.4. Leave P Out (LPO).
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#permutaciones-aleatorias-o-shuffle-split">
+       11.3.1.5. Permutaciones aleatorias o Shuffle &amp; Split.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-con-clases-no-equilibradas">
+     11.3.2. Datos con clases no equilibradas.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#k-fold-estratificado">
+       11.3.2.1. K-fold estratificado.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#division-aleatoria-estratificada">
+       11.3.2.2. División aleatoria estratificada.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#datos-agrupados">
+     11.3.3. Datos agrupados.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#group-k-fold">
+       11.3.3.1. Group k_Fold.
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stratifiedgroupkfold">
+       11.3.3.2. StratifiedGroupKFold
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#leaveonegroupout">
+       11.3.3.3. LeaveOneGroupOut
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#dejar-p-grupos-fuera-leavepgroupsout">
+       11.3.3.4. Dejar p grupos fuera (LeavePGroupsOut)
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#division-aleatoria-grupal">
+       11.3.3.5. División aleatoria grupal.
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#valiacion-cruzada-para-las-series-temporales">
+   11.4. Valiación cruzada para las series temporales.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliografia">
+   11.5. Bibliografia.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="validacion-de-modelos">
+<h1><span class="section-number">11. </span>Validación de modelos.<a class="headerlink" href="#validacion-de-modelos" title="Permalink to this headline">#</a></h1>
+<section id="introduccion">
+<span id="validacionmodelos"></span><span id="index-0"></span><h2><span class="section-number">11.1. </span>Introducción.<a class="headerlink" href="#introduccion" title="Permalink to this headline">#</a></h2>
+<p>Una vez se tenga implementado un modelo en scikit learn, con los hiperparámetros correspondientes, es necesario proceder a ver y estudiar qué calidad tiene ese modelo, incluso si se quieren comparar resultados obtenidos mediante cambios en los hiperparámetros del modelo, habría que comparar los resultados obtenidos y ver cual es el modelo que mejor se ajusta a los datos. Para hacer todo esto scikit learn nos ofrece una serie de herramientas muy interesantes para facilitarnos estas tareas.</p>
+<p>Otro de los aspectos importantes a tener en cuenta cuando queremos desarrollar un modelo de machine learning, es cómo probar nuestro modelo, es decir comprobar que el mismo también se ajusta bien a unos datos de prueba que no han intervenido para el entrenamiento del modelo.En este sentido hay que tener en cuenta que ajustar los parámetros de una función de predicción y además probarla con los mismos datos es un gran error, ya que este tipo de modelo tendría una validación de los datos casi perfecta, pero no nos aseguraríamos que el modelo es lo suficiente general como para poder hacer la predicción de otro tipo de datos. Un modelo que no se generaliza de forma adecuada a otros datos, diremos que está <strong>sobreajustado</strong> y no serviría para conseguir que propósito que nosotros queremos.</p>
+<p>Para evitar lo anterior lo que normalmente se hace es dividir el conjunto de datos en dos grupos, uno servirá para entrenar el modelo ( train en inglés) y otros que normalmente de denomina test y que servirá para testear si el modelo se puede generalizar o no a cualquier conjunto de datos, es decir sería el <strong>conjunto de prueba</strong> para comprobar la fiabilidad del modelo.</p>
+<p id="index-1">Este método de dividir todos los datos en dos subconjunto (train y test), se puede hacer fácilmente en scikit learn por medio de la función auxiliar <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html" target="_blank">train_test_split</a>. Veamos un ejemplo indicativo de cómo poder conseguir esto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((150, 4), (150,))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vamos a quedarnos con un 40 por ciento de los datos para poder evaluar el modelo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span>
+
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acuracidad datos entrenamiento: &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acuracidad datos de test (prueba): &quot;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acuracidad datos entrenamiento:  0.9888888888888889
+Acuracidad datos de test (prueba):  0.9666666666666667
+</pre></div>
+</div>
+</div>
+</div>
+<p>No obstante y para asegurar la generalización del modelo, otro procedimiento que se sigue en ocasiones para conseguir esto es  dividir el conjunto de datos en tres grupos de observaciones (no en dos como se ha comentado antes):</p>
+<ul class="simple">
+<li><p>Grupo train ( de entrenamiento)</p></li>
+<li><p>Grupo de validación (el nuevo grupo)</p></li>
+<li><p>Grupo de test (el de chequeo final de los datos)</p></li>
+</ul>
+<p>Con estos tres grupos de datos el procedimiento que se sigue es el siguiente: se entrena el modelo con el grupo train, después de realiza la evaluación con el grupo de evaluación y por último y cuando el experimento parece tener éxito se hace la evaluación final con el grupo de test.</p>
+<p>Como puede entenderse, el procedimiento descrito anteriormente es muy difícil de implementar cuando el conjunto de datos no es lo suficientemente amplio como para poder elegir de forma aleatoria y representativa los tres conjuntos de datos, de tal forma que en estos casos los resultados pueden depender de una elección aleatoria particular para el par de conjuntos (entrenamiento, validación).</p>
+</section>
+<section id="validacion-cruzada">
+<span id="index-2"></span><h2><span class="section-number">11.2. </span>Validación cruzada<a class="headerlink" href="#validacion-cruzada" title="Permalink to this headline">#</a></h2>
+<p>Debido al inconveniente anterior, existe también otro procedimiento para validar de una forma más adecuada un modelo. Se trata del procedimiento denominado <em>validación cruzada</em> (de forma abreviada CV). Con este procedimiento se elimina el grupo de validación y se sigue manteniendo el conjunto de test. El procedimiento, denominado k-fold CV, que se sigue con este método es el se describe a continuación.</p>
+<p>El conjunto de datos se divide en k subconjuntos disjuntos, y entonces <strong>para cada uno de estos grupos o folds</strong>, se hace lo siguiente:</p>
+<ul class="simple">
+<li><p>El  modelo se entrena usando k-1 grupos.</p></li>
+<li><p>El modelo resultantes se valida o testea con el grupo que no se ha utilizado en el entrenamiento del modelo.</p></li>
+</ul>
+<p>De esta manera se obtienen k scores (uno por cada modelo obtenido con este procedimiento), y entonces la validación del modelo se realiza con la media de los k escores obtenidos, medida a la que se suele añadir la desviación típica de los esos datos. Este enfoque puede ser computacionalmente costos, pero no desperdicia demasiados datos.</p>
+<p>Una explicación gráfica de este procedimiento se puede ver en el siguiente gráfico.</p>
+<p><img alt="k_fold" src="../_images/k-fold.PNG" /></p>
+<section id="corss-val-score">
+<span id="index-3"></span><h3><span class="section-number">11.2.1. </span>corss_val_score<a class="headerlink" href="#corss-val-score" title="Permalink to this headline">#</a></h3>
+<p>Uno de los procedimientos más sencillos y cómodos para usar la validación cruzada en scikip learn es utilizando la función auxiliar <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score" target="_blank">cross_val_score </a>en el estimador y el conjunto de datos.</p>
+<p>Para ver un ejemplo de cómo poder utilizar esta función, a continuación se utiliza el conjunto de datos iris cargado anteriormente y se comprueba el ajuste del modelo mediante un una validación cruzada de un total de 4 grupos de datos o folds</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># cv=4 se toman 4 folds</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Los escores obtenidos son los siguientes&quot;</span><span class="p">)</span>
+<span class="n">scores</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Los escores obtenidos son los siguientes
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.        , 0.97368421, 0.97297297, 0.97297297])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Una vez obtenidos esos valores, lo que se suele hacer es calcular la puntuación media y su desviación estándar, como se muestra a continuación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.2f</span><span class="s2"> acuracidad del modelo con una desviación estándar de </span><span class="si">%0.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.98 acuracidad del modelo con una desviación estándar de 0.01
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como puede observarse, de forma predeterminada, <em>corss_val_score</em> utiliza como métrica de cálculo el método <em>score</em> del modelo. Este comportamiento predeterminado se puede cambiar sin más que utilizar el parámetro <em>scoring</em> y darle como valor una regla de evaluación del modelo de las que se utilizan en scikit learn y cuya relación se puede ver en <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter" target="_blank">este enlace</a>. Igualmente, en el tema <a class="reference internal" href="MedidasBondadAjuste.html#medidasbondadajuste"><span class="std std-ref">medidas de la Bondad del Ajuste</span></a>, se puede var de forma pormenorizada muchas de las métricas que se utilizan para comprobar el ajuste realizado.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span> <span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;f1_macro&#39;</span><span class="p">)</span>
+<span class="n">scores</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.        , 0.97316157, 0.97333333, 0.97316157])
+</pre></div>
+</div>
+</div>
+</div>
+<p>En los ejemplos anteriores se ha proporcionado al parámetro cv un valor entero, por lo que en estos casos se utilizan las estrategias de partición de datos (<a class="reference internal" href="#estrategiasvalidacion"><span class="std std-ref">más adelante se explican este tipo de estrategias</span></a> ) denominadas KFold o StratifiedKFold. Si el estimador es un clasificador y el valor de y es una clasificación binaria o multiclase, se utiliza StratifiedKFold, en otro caso se usa KFold.</p>
+<p>Pero este comportamiento se puede modificar y utilizar otro tipo de estrategias de validación cruzada, debiendo pasar para ello al parámetro <em>cv</em> un <a class="reference internal" href="#estrategiasvalidacion"><span class="std std-ref">iterador de validación cruzada</span></a>, como puede verse en el siguiente ejemplo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">ShuffleSplit</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># Definimos la estrategia de partición de los datos</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.97777778, 0.97777778, 1.        , 0.95555556])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se pueden también definir funciones a medida para pasar su nombre al parámetro <em>cv</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_cv_2folds</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">idx</span><span class="p">,</span> <span class="n">idx</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">custom_cv</span> <span class="o">=</span> <span class="n">custom_cv_2folds</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">custom_cv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.        , 0.97333333])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cross-validate">
+<h3><span class="section-number">11.2.2. </span>cross_validate<a class="headerlink" href="#cross-validate" title="Permalink to this headline">#</a></h3>
+<p id="index-4">la función <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html#sklearn.model_selection.cross_validate" target="_blank"> cross_validate </a> hace las mismas funciones de <em>cross_val_score</em> pero puede devolver más información.</p>
+<ul class="simple">
+<li><p>Permite especificar múltiples métricas para la evaluación del modelo.</p></li>
+<li><p>Devuelve un diccionario que contiene tiempos de ajustes, tiempos de puntuación y opcionalmente puntuaciones de entrenamiento así como de estimadores ajustados, además de la puntuación  de prueba.</p></li>
+</ul>
+<p>Para la evaluación de múltiples métricas, el valor devuelto es un diccionario con las siguientes claves: [‘test_&lt;scorer1_name&gt;’, ‘test_&lt;scorer2_name&gt;’, ‘test_&lt;scorer…&gt;’, ‘fit_time’, ‘score_time’].</p>
+<p>El parámetro <em>return_train_score</em> por defecto tiene un valor de False con la finalidad de ahorrar tiempo de cálculo, entonces para evaluar también las puntuaciones en el conjunto de entrenamiento, debe establecerse a un valor de  True.</p>
+<p>Las métricas múltiples se pueden especificar como una lista, una tupla o un conjunto de nombres de marcador predefinidos:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">recall_score</span>
+<span class="n">scoring</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;precision_macro&#39;</span><span class="p">,</span> <span class="s1">&#39;recall_macro&#39;</span><span class="p">]</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">)</span>
+<span class="nb">sorted</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="n">scores</span><span class="p">[</span><span class="s1">&#39;test_recall_macro&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.96666667, 1.        , 0.96666667, 0.96666667, 1.        ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>También se pueden definir como un nombre de anotador de asignación en un diccionario a una función de puntuación predefinida o personalizada:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">make_scorer</span>
+<span class="n">scoring</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;prec_macro&#39;</span><span class="p">:</span> <span class="s1">&#39;precision_macro&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;rec_macro&#39;</span><span class="p">:</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">recall_score</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)}</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">,</span>
+                        <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">sorted</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+
+<span class="n">scores</span><span class="p">[</span><span class="s1">&#39;train_rec_macro&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.975     , 0.975     , 0.99166667, 0.98333333, 0.98333333])
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación se muestra un ejemplo de <em>cross_validate</em> con una sola métrica.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                        <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;precision_macro&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                        <span class="n">return_estimator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">sorted</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;estimator&#39;, &#39;fit_time&#39;, &#39;score_time&#39;, &#39;test_score&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="estrategias-de-particion-de-datos">
+<span id="estrategiasvalidacion"></span><h2><span class="section-number">11.3. </span>Estrategias de partición de datos.<a class="headerlink" href="#estrategias-de-particion-de-datos" title="Permalink to this headline">#</a></h2>
+<p id="index-5">Este tipo de estrategias también asumen la denominación de Iteradores de Validación cruzada (Cross validation iterators) y dependiendo del conjunto de datos con los que se esté trabajando, se pueden asumir diferentes estrategias:</p>
+<section id="datos-igualmente-distribuidos">
+<h3><span class="section-number">11.3.1. </span>Datos igualmente distribuidos.<a class="headerlink" href="#datos-igualmente-distribuidos" title="Permalink to this headline">#</a></h3>
+<section id="k-fold">
+<h4><span class="section-number">11.3.1.1. </span>K-Fold<a class="headerlink" href="#k-fold" title="Permalink to this headline">#</a></h4>
+<p>Con <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" target="_blank">esta estrategia</a> se divide todo el conjunto de datos en k grupos de igual tamaño, llamados también flods (si k=n entonces esta estrategia es igual que la denominada <em>Leave One Out</em> que se verá posteriormente ). En este caso la función de predicción aprende de los k-1 folds y el folds restante se utiliza como prueba de test.</p>
+</section>
+<section id="repated-k-fold">
+<h4><span class="section-number">11.3.1.2. </span>Repated K-Fold.<a class="headerlink" href="#repated-k-fold" title="Permalink to this headline">#</a></h4>
+<p>Con <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RepeatedKFold.html#sklearn.model_selection.RepeatedKFold" target="_blank">esta estrategia</a>, lo que se hace es repetir el procedimiento anterior de división en k grupos de igual tamaño, n veces.</p>
+</section>
+<section id="leave-one-out-loo">
+<h4><span class="section-number">11.3.1.3. </span>Leave One Out (LOO).<a class="headerlink" href="#leave-one-out-loo" title="Permalink to this headline">#</a></h4>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneOut.html#sklearn.model_selection.LeaveOneOut" target="_blank">En este caso </a>generamos una validación cruzada, pero de tal manera que en cada iteración se deja un elemento fuera  que servirá de test del modelo, el resto de datos servirá para entrenar el modelo.</p>
+</section>
+<section id="leave-p-out-lpo">
+<h4><span class="section-number">11.3.1.4. </span>Leave P Out (LPO).<a class="headerlink" href="#leave-p-out-lpo" title="Permalink to this headline">#</a></h4>
+<p>Con <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeavePOut.html#sklearn.model_selection.LeavePOut" target="_blank">este modelo de selección de muestras</a>, se eliminan cada vez p datos del conjunto original que servirán para hacer el test y el resto de datos se utilizan para entrenar el modelo. Por lo tanto es un método muy similar a LOO visto antes, y en total el número de muestras de entrenamiento será igual a  <span class="math notranslate nohighlight">\(\binom{n}{p}\)</span>.</p>
+</section>
+<section id="permutaciones-aleatorias-o-shuffle-split">
+<h4><span class="section-number">11.3.1.5. </span>Permutaciones aleatorias o Shuffle &amp; Split.<a class="headerlink" href="#permutaciones-aleatorias-o-shuffle-split" title="Permalink to this headline">#</a></h4>
+<p>El iterador <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html#sklearn.model_selection.ShuffleSplit" target="_blank">ShuffleSplit</a> genera un número de divisiones del conjunto de datos definido por el usuario de forma totalmente independiente en generación de los datos. En este caso las muestras se “barajan” y después se dividen en conjunto de train y de test.</p>
+<p>A continuación se muestra esto con un ejemplo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">ShuffleSplit</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ss</span> <span class="o">=</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[14  4  2 13 10  7 11  3  0  5 12] [1 6 8 9]
+[11  0 10  9  5 14  8 12  7  6  1] [ 2  4  3 13]
+[13  6 10 14 11  1  8  3  2  0  5] [ 4 12  7  9]
+[ 5 14  9 12 11  2  3  7  4 10  0] [13  6  1  8]
+[ 5 14  7 11 13  9 12  1  4  8  6] [ 0 10  2  3]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Podemos observar que como el 25 por ciento de n=15 es 3.75, las muestras de test están formadas por un total de cuatro elementos. Con el parámetro n_split=5 se indica que queremos obtener un total de 5 pares de muestras train-test.</p>
+</section>
+</section>
+<section id="datos-con-clases-no-equilibradas">
+<h3><span class="section-number">11.3.2. </span>Datos con clases no equilibradas.<a class="headerlink" href="#datos-con-clases-no-equilibradas" title="Permalink to this headline">#</a></h3>
+<p>Algunos problemas de clasificación pueden exhibir un gran desequilibrio en la distribución de las clases objetivo: por ejemplo, podría haber varias veces más muestras negativas que muestras positivas.</p>
+<p>En tales casos, se recomienda utilizar el muestreo estratificado implementado en StratifiedKFold y StratifiedShuffleSplit para garantizar que las frecuencias de clase relativas se conserven aproximadamente en cada conjunto de pares train-test</p>
+<section id="k-fold-estratificado">
+<h4><span class="section-number">11.3.2.1. </span>K-fold estratificado.<a class="headerlink" href="#k-fold-estratificado" title="Permalink to this headline">#</a></h4>
+<p>Este método de partición de la muestra, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html#sklearn.model_selection.StratifiedKFold">StratifiedKFoldy</a>, conserva las proporciones de clase, tanto en el conjunto de datos para entrenamiento como en el de test. Similar a K-Fold visto antes pero manteniendo las proporciones de la clase que hay en el conjunto de datos.</p>
+</section>
+<section id="division-aleatoria-estratificada">
+<h4><span class="section-number">11.3.2.2. </span>División aleatoria estratificada.<a class="headerlink" href="#division-aleatoria-estratificada" title="Permalink to this headline">#</a></h4>
+<p>El método <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html#sklearn.model_selection.StratifiedShuffleSplit" target="_blank"> StratifiedShuffleSplit</a> es una variación de ShuffleSplit visto antes, pero teniendo en cuenta  que mantiene las proporciones de la clase de clasificación tanto en el conjunto de prueba como en el de test.</p>
+</section>
+</section>
+<section id="datos-agrupados">
+<h3><span class="section-number">11.3.3. </span>Datos agrupados.<a class="headerlink" href="#datos-agrupados" title="Permalink to this headline">#</a></h3>
+<p>Estaremos en esta situación cuando tengamos un conjunto de datos de tal forma que una serie de datos tengan el mismo identificador. Un ejemplo de esta situación se puede dar por ejemplo si tenemos datos médicos de determinados pacientes, en este caso cada paciente tendrá un identificador único y este dato sería el identificador del grupo.</p>
+<p>En este caso, nos gustaría saber si un modelo entrenado en un conjunto particular de grupos se generaliza bien a los grupos no vistos y que estarían en el grupo de test. Para medir esto, debemos asegurarnos de que todas las muestras en el pliegue de validación provengan de grupos que no están representados en absoluto en el pliegue de entrenamiento emparejado.</p>
+<p>Scikit learn nos proporciona las siguientes herramientas para poder conseguir esto. El identificador de agrupación de datos se indica mediante el parámetros <em>groups</em>.</p>
+<section id="group-k-fold">
+<h4><span class="section-number">11.3.3.1. </span>Group k_Fold.<a class="headerlink" href="#group-k-fold" title="Permalink to this headline">#</a></h4>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupKFold.html#sklearn.model_selection.GroupKFold" target="_blank">GroupKFold </a> es una variación de K-fold visto anteriormente pero teniendo en cuenta el grupo de pertenencia, de esta manera se garantiza que un mismo grupo no esté tanto en el entrenamiento como en el test.</p>
+<p>Por ejemplo, supongamos que tenemos cuatro pacientes cuya identificación es 1,2,3 y 4 entonces se puede implementar esta estrategia de la siguiente manera.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GroupKFold</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">4.55</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mf">8.8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="s2">&quot;e&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">gkf</span> <span class="o">=</span> <span class="n">GroupKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">gkf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 0  1  2  3  4  5 10 11 12] [6 7 8 9]
+[3 4 5 6 7 8 9] [ 0  1  2 10 11 12]
+[ 0  1  2  6  7  8  9 10 11 12] [3 4 5]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Como puede verse en la salida anterior, una misma persona no está al mismo tiempo en el grupo de entrenamiento y de test, y así de esta manera tenemos perfectamente separados los grupos.</p>
+</section>
+<section id="stratifiedgroupkfold">
+<h4><span class="section-number">11.3.3.2. </span>StratifiedGroupKFold<a class="headerlink" href="#stratifiedgroupkfold" title="Permalink to this headline">#</a></h4>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedGroupKFold.html#sklearn.model_selection.StratifiedGroupKFold" target="blank">StratifiedGroupKFold </a> es similar a GroupKFold, lo único que mantiene las proporciones de clase de la muestra total en los conjuntos de train y de test.</p>
+</section>
+<section id="leaveonegroupout">
+<h4><span class="section-number">11.3.3.3. </span>LeaveOneGroupOut<a class="headerlink" href="#leaveonegroupout" title="Permalink to this headline">#</a></h4>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeaveOneGroupOut.html#sklearn.model_selection.LeaveOneGroupOut" target="_blank">LeaveOneGroupOut </a> similar LOO visto anteriormente, pero teniendo en cuenta el grupo de pertenencia.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">LeaveOneGroupOut</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">4.55</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mf">8.8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="s2">&quot;e&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">logo</span> <span class="o">=</span> <span class="n">LeaveOneGroupOut</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">logo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 3  4  5  6  7  8  9 10 11 12] [0 1 2]
+[ 0  1  2  6  7  8  9 10 11 12] [3 4 5]
+[ 0  1  2  3  4  5 10 11 12] [6 7 8 9]
+[0 1 2 3 4 5 6 7 8 9] [10 11 12]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dejar-p-grupos-fuera-leavepgroupsout">
+<h4><span class="section-number">11.3.3.4. </span>Dejar p grupos fuera (LeavePGroupsOut)<a class="headerlink" href="#dejar-p-grupos-fuera-leavepgroupsout" title="Permalink to this headline">#</a></h4>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.LeavePGroupsOut.html#sklearn.model_selection.LeavePGroupsOut" target="_blank">LeavePGroupsOut </a> es similar a LPO, pero teniendo en cuenta que un grupo no puede estar al mismo tiempo en el grupo de train y de test.</p>
+</section>
+<section id="division-aleatoria-grupal">
+<h4><span class="section-number">11.3.3.5. </span>División aleatoria grupal.<a class="headerlink" href="#division-aleatoria-grupal" title="Permalink to this headline">#</a></h4>
+<p>El iterador <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GroupShuffleSplit.html#sklearn.model_selection.GroupShuffleSplit" target ="_blank">GroupShuffleSplit</a>  se comporta como una combinación de ShuffleSplity LeavePGroupsOut.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GroupShuffleSplit</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mf">4.55</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">]</span>
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">gss</span> <span class="o">=</span> <span class="n">GroupShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">gss</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 1 2 3] [4 5 6 7]
+[2 3 6 7] [0 1 4 5]
+[2 3 4 5] [0 1 6 7]
+[4 5 6 7] [0 1 2 3]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="valiacion-cruzada-para-las-series-temporales">
+<h2><span class="section-number">11.4. </span>Valiación cruzada para las series temporales.<a class="headerlink" href="#valiacion-cruzada-para-las-series-temporales" title="Permalink to this headline">#</a></h2>
+<p>Los datos de series temporales se caracterizan por la correlación entre observaciones cercanas en el tiempo ( autocorrelación ). Sin embargo, las técnicas clásicas de validación cruzada, como KFoldy ShuffleSplitsuponen que las muestras son independientes y están distribuidas de manera idéntica, y darían como resultado una correlación irrazonable entre las instancias de entrenamiento y prueba (lo que produce estimaciones deficientes del error de generalización) en los datos de series temporales. Por lo tanto, es muy importante evaluar nuestro modelo para datos de series temporales sobre las observaciones “futuras” menos parecidas a las que se utilizan para entrenar el modelo. Para lograr esto, una solución es proporcionada por <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html#sklearn.model_selection.TimeSeriesSplit" target="_blank">TimeSeriesSplit</a>.</p>
+</section>
+<section id="bibliografia">
+<h2><span class="section-number">11.5. </span>Bibliografia.<a class="headerlink" href="#bibliografia" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://es.wikipedia.org/wiki/Validaci%C3%B3n_cruzada">https://es.wikipedia.org/wiki/Validación_cruzada</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./otros"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Regularizacion.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">10. </span>Regularización</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="MedidasBondadAjuste.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Medidas de Bondad Ajuste.</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Miguel Rodríguez<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
