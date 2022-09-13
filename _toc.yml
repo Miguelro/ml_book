@@ -1,0 +1,46 @@
+format: jb-book
+root: introduccion
+parts:
+- caption: Apredizaje supervisado
+  numbered: true
+  chapters:
+  - file: supervisados/Neareast_Neighbors
+    title: "M\xE9todo Neareast Neighbors"
+  - file: supervisados/supportVectorMachine
+    title: Support Vector Machines
+  - file: supervisados/RegresionLogistica/RegresionLogisticaEjemplo
+    title: "Regresi\xF3n Log\xEDstica"
+  - file: supervisados/Softmax
+    title: "Regresi\xF3n Softmax"
+  - file: supervisados/decisiontree/decisiontree
+    title: "\xC1rboles de decisi\xF3n (Decision tree)"
+  - file: supervisados/multiclass
+    title: "Predicci\xF3n con multiclases"
+  - file: supervisados/ensembles
+    title: "M\xE9todos ensembles"
+- caption: Apredizaje NO supervisado
+  numbered: true
+  chapters:
+  - file: nosupervisados/preliminares
+    title: "Conceptos preliminares"      
+- caption: Otras herramientas
+  numbered: true
+  chapters:
+  - file: otros/pipelines
+    title: Pipelines o canalizaciones
+  - file: otros/Regularizacion
+    title: "Regularizaci\xF3n de datos"
+  - file: otros/ValidacionModelos
+    title: "Validaci\xF3n de modelos"
+  - file: otros/MedidasBondadAjuste
+    title: "Medias de Bonda del Ajuste"   
+- caption: "\xCDndice de t\xE9rminos"
+  numbered: true
+  chapters:
+  - file: genindex
+    title: "\xCDndice de t\xE9rminos"
+- caption: "Bibliograf\xEDa"
+  numbered: true
+  chapters:
+  - file: otros/bibliografia
+    title: Bibliografia
